@@ -4,7 +4,7 @@
 - Tải htdocs.zip về rồi giải nén
 - Dán file htdocs vào đường dẫn đang chạy xampp
   - Vào phpmyadmin chạy lệnh này :
-    (lệnh)[https://raw.githubusercontent.com/NhinQuanhLanCuoi9999/forum/refs/heads/main/db.sql] 
+    [lệnh](https://raw.githubusercontent.com/NhinQuanhLanCuoi9999/forum/refs/heads/main/db.sql) 
   ### Cách chạy
   - http://localhost(:port [nếu có] )
   - http://"dảy ip lan của bạn"(:port [nếu có] )
