@@ -17,3 +17,5 @@ Demo : http://forum-vn.000.pe/
 - Bạn cần thay đổi API key trong phần network-config để khớp với API key của ipinfo.io.
 
 - Nếu bạn có ý định đưa website lên internet, hãy đảm bảo rằng bạn đã cập nhật tệp config.php để phù hợp với thông tin MySQL của hosting mà bạn đang sử dụng.
+
+- Nếu bạn có tài khoản "admin" , sau khi đăng nhập thì bạn có thể vào trang admin.php để quản lý website 
