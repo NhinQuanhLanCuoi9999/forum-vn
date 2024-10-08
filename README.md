@@ -13,6 +13,7 @@
 # Website
 Demo : http://forum-vn.000.pe/
 # Lưu ý
-- Bạn cần thay đổi api key của phần network-config sau cho đúng với api key của ipinfo.io
 
-- Nếu bạn có ý định đăng website lên internet , hãy chắc chắn rằng bạn đã thay đổi phần config.php sau cho giống thông tin mysql của hosting bạn đang sử dụng
+- Bạn cần thay đổi API key trong phần network-config để khớp với API key của ipinfo.io.
+
+- Nếu bạn có ý định đưa website lên internet, hãy đảm bảo rằng bạn đã cập nhật tệp config.php để phù hợp với thông tin MySQL của hosting mà bạn đang sử dụng.
