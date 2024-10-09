@@ -31,3 +31,14 @@ CREATE TABLE IF NOT EXISTS comments (
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
     FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
 );
+
+-- Bảng bans
+CREATE TABLE IF NOT EXISTS bans (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) DEFAULT NULL,
+    ip_address VARCHAR(45) NOT NULL,
+    reason TEXT NOT NULL,
+    ban_start DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ban_end DATETIME DEFAULT NULL,
+    permanent TINYINT(1) DEFAULT 0
+);
