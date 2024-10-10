@@ -1,4 +1,3 @@
-# forum
 ## Cách cài
 - Chạy xampp , start hết.
 - Tải htdocs.zip về rồi giải nén
@@ -19,3 +18,5 @@ Demo : http://forum-vn.000.pe/
 - Nếu bạn có ý định đưa website lên internet, hãy đảm bảo rằng bạn đã cập nhật tệp config.php để phù hợp với thông tin MySQL của hosting mà bạn đang sử dụng.
 
 - Nếu bạn có tài khoản "admin" , sau khi đăng nhập thì bạn có thể vào trang admin.php để quản lý website 
+
+**- Nếu host website này lên internet, hãy chắc chắn bạn đã fix bug vì còn nhiều lỗi tiềm ẩn trong source code này. Nếu chạy web này lên internet thì có lỗi phát sinh ở phần admin.php**
