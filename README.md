@@ -19,4 +19,4 @@ Demo : http://forum-vn.000.pe/
 
 - Nếu bạn có tài khoản "admin" , sau khi đăng nhập thì bạn có thể vào trang admin.php để quản lý website 
 
-**- Nếu host website này lên internet, hãy chắc chắn bạn đã fix bug vì còn nhiều lỗi tiềm ẩn trong source code này. Nếu chạy web này lên internet thì có lỗi phát sinh ở phần admin.php**
+- Hãy đảm bảo trong htdocs bạn đã tạo 2 folder là uploads và logs
