@@ -1,0 +1,259 @@
+  body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(90deg, lavender, lightcyan); /* Gradient từ lavender sang lightcyan */
+        margin: 0;
+        padding: 0;
+    }
+
+    h1, h2 {
+        color: #333;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Thêm bóng cho tiêu đề */
+        text-transform: uppercase; /* Chuyển thành chữ in hoa */
+    }
+
+    .container {
+        width: 95%;
+        margin: auto;
+        overflow: hidden;
+        border: 2px solid #ddd; /* Thêm viền cho container */
+        padding: 20px; /* Thêm padding */
+        background: rgba(255, 255, 255, 0.9); /* Nền trắng mờ */
+        border-radius: 15px; /* Bo góc */
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+    }
+
+    form {
+        background: #fff;
+        padding: 30px;
+        margin: 30px 0;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    input[type="text"],
+    input[type="password"],
+    textarea {
+        width: 100%;
+        padding: 15px;
+        margin: 15px 0;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        font-size: 16px;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1); /* Đổ bóng vào bên trong */
+    }
+
+    button {
+        background: #5cb85c;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s; /* Thêm hiệu ứng chuyển màu và phóng to */
+    }
+
+    button:hover {
+        background: #4cae4c;
+        transform: scale(1.05); /* Phóng to khi hover */
+    }
+
+    .error {
+        color: red;
+        font-weight: bold;
+        margin: 15px 0;
+        text-transform: uppercase; /* Chuyển thành chữ in hoa */
+    }
+
+    .success {
+        color: green;
+        margin: 15px 0;
+        font-size: 18px;
+        font-style: italic; /* In nghiêng */
+    }
+
+    .spoil {
+        background-color: #333;
+        color: #333;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: color 0.5s ease, opacity 0.5s ease;
+        opacity: 1;
+        font-weight: bold; /* In đậm */
+    }
+
+    .spoil.open {
+        color: #fff;
+        opacity: 0.3;
+    }
+
+    .post {
+        background: linear-gradient(to bottom right, #e0f7fa, #b2ebf2); /* Gradient từ màu xanh biển rất nhạt */
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .comment {
+        background: linear-gradient(to bottom right, #fffde7, #fff9c4); /* Gradient từ màu vàng nhạt */
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+    }
+
+
+.admin-button {
+    background-color: #FFD700;
+    color: black; /* Màu chữ */
+    font-family: 'Poppins', sans-serif;
+    padding: 15px 25px; /* Padding lớn hơn */
+    font-size: 18px; /* Kích thước chữ lớn hơn */
+    margin: 10px; /* Margin */
+    cursor: pointer; /* Con trỏ chuột */
+    border: none; /* Không viền */
+    border-radius: 20px; /* Bo góc nhiều hơn */
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Thêm hiệu ứng chuyển đổi cho box-shadow và transform */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng */
+    display: flex; /* Sử dụng flexbox */
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-button:hover {
+    background-color: #45a049; /* Màu khi hover */
+    transform: scale(1.1); /* Tăng kích thước khi hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Bóng đổ đậm hơn khi hover */
+}
+
+    .alert {
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 2px solid transparent;
+        border-radius: 10px;
+        background-color: rgba(255, 0, 0, 0.8); /* Nền đỏ mờ */
+        color: white;
+        font-size: 18px;
+    }
+
+    .delete-button {
+        background-color: darkred;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .delete-button:hover {
+        background-color: red;
+        transform: scale(1.05);
+    }
+
+    .comments-container {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+    }
+
+    .comments-container.open {
+        max-height: 500px;
+    }
+#mobile-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white; /* Nền đỏ hoàn toàn */
+  z-index: 3000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#mobile-warning .content {
+  position: relative;
+  background-color: transparent;
+  color: white; /* Màu chữ */
+  z-index: 3001; /* Đảm bảo chữ hiển thị trên nền */
+}
+  /* Thêm hiệu ứng chuyển màu */
+    #registerBtn {
+        transition: background-color 0.3s ease, opacity 0.3s ease;
+        opacity: 0.7; /* Mờ dần khi không thể bấm */
+    }
+    
+    #registerBtn:enabled {
+        opacity: 1; /* Đậm lên khi bật */
+    }
+        /* Định dạng cho menu */
+        #optionsMenu {
+            display: block;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            opacity: 0;
+            pointer-events: none; /* Vô hiệu hóa sự kiện nhấp chuột khi menu ẩn */
+            transition: opacity 0.5s ease, max-height 0.5s ease;
+            max-height: 0;
+        }
+
+        /* Định dạng cho từng tùy chọn */
+        #optionsMenu a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        #optionsMenu a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Định dạng cho nút */
+        #optionsBtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #optionsBtn:hover {
+            background-color: #3e8e41;
+        }
+        .pagination {
+    display: flex;
+    justify-content: center; /* Căn giữa các nút phân trang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    margin: 20px 0; /* Khoảng cách trên và dưới */
+}
+
+.pagination a {
+    text-decoration: none; /* Bỏ gạch chân */
+    color: #007bff; /* Màu chữ cho các liên kết */
+    padding: 10px 15px; /* Khoảng cách cho các nút */
+    margin: 0 5px; /* Khoảng cách giữa các nút */
+    border: 1px solid #007bff; /* Đường viền cho các nút */
+    border-radius: 5px; /* Bo tròn góc */
+    transition: background-color 0.3s, color 0.3s; /* Hiệu ứng chuyển tiếp */
+}
+
+.pagination a:hover {
+    background-color: #007bff; /* Màu nền khi hover */
+    color: white; /* Màu chữ khi hover */
+}
+
+.pagination strong {
+    background-color: #007bff; /* Màu nền cho section hiện tại */
+    color: white; /* Màu chữ cho section hiện tại */
+    padding: 10px 15px; /* Khoảng cách cho nút hiện tại */
+    border-radius: 5px; /* Bo tròn góc */
+}
