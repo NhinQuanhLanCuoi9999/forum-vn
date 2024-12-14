@@ -1,0 +1,10 @@
+Xóa bình luận ID: 11 bởi người dùng: 111111
+Xóa bình luận ID: 10 bởi người dùng: 111111
+Thêm bình luận vào bài viết ID: 2 bởi người dùng: 111111
+Thêm bình luận vào bài viết ID: 2 bởi người dùng: 111111
+Thêm bình luận vào bài viết ID: 2 bởi người dùng: 111111
+Xóa bình luận ID: 16 bởi người dùng: 111111
+Xóa bình luận ID: 14 bởi người dùng: 111111
+Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+Thêm bình luận vào bài viết ID: 3 bởi người dùng: admin
+Xóa bình luận ID: 18 bởi người dùng: admin
