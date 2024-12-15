@@ -1,2 +1,5 @@
 [2024-12-15 11:13:18] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 9 bởi người dùng: admin
 [2024-12-15 14:44:10] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng bài mới của người dùng: admin
+[2024-12-15 16:47:33] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng bài mới của người dùng: admin
+[2024-12-15 17:08:44] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 6 bởi người dùng: admin
+[2024-12-15 17:10:19] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng bài mới của người dùng: admin

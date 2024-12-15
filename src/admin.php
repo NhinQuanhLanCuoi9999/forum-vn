@@ -33,6 +33,7 @@ include('../app/admin/php.php');
             <li>
                 <span style="cursor: pointer;" onclick="changeSection('info')"><i class="fas fa-info-circle"></i> Thông tin</span>
             </li>
+           
             <li>
                 <span style="cursor: pointer;" onclick="changeSection('posts')"><i class="fas fa-file-alt"></i> Quản lý bài viết</span>
             </li>
@@ -40,8 +41,12 @@ include('../app/admin/php.php');
                 <span style="cursor: pointer;" onclick="changeSection('users')"><i class="fas fa-users"></i> Quản lý người dùng</span>
             </li>
             <li>
+                <span style="cursor: pointer;" onclick="changeSection('api')"><i class="fas fa-cogs"></i> API</span>
+            </li>
+            <li>
                 <span style="cursor: pointer;" onclick="window.location.href='ban.php'"><i class="fas fa-user-slash"></i> Cấm User</span>
             </li>
+     
             <li>
                 <span style="cursor: pointer;" onclick="window.location.href='index.php?logout=true'"><i class="fas fa-sign-out-alt"></i> Đăng xuất</span>
             </li>
@@ -155,6 +160,27 @@ include('../app/admin/php.php');
                 <p><strong>Tổng người dùng:</strong> <br> <?php echo $total_users; ?></p>
                 <p><strong>Tổng người dùng / IP đang bị cấm :</strong> <br> <?php echo $total_bans; ?></p>
             </div>
+            <?php elseif (isset($_GET['section']) && $_GET['section'] === 'api'): ?>
+                <div class="in4">   <h2>Thông tin về API</h2> </div>
+                <div class="info-section">
+                <p><strong>Các bài viết:</strong> <br> <a href=/api/Post.php>/api/Post.php</a></p>
+                <p><strong>Các bình luận:</strong> <br> <a href=/api/Comment.php>/api/Comment.php</a></p>
+                <p><strong>Các người dùng:</strong> <br> <a href=/api/User.php>/api/User.php</a> </p>
+                <p><strong>Các người dùng / IP đang bị cấm :</strong> <br> <a href=/api/Bans.php>/api/Bans.php</a></p>
+
+</div>
+
+<script>
+    // Lấy domain hiện tại
+    const domain = window.location.origin;
+
+    // Cập nhật các URL API động
+    document.getElementById('post-api').href = domain + '/api/Post.php';
+    document.getElementById('bans-api').href = domain + '/api/Bans.php';
+    document.getElementById('comments-api').href = domain + '/api/Comments.php';
+    document.getElementById('user-api').href = domain + '/api/User.php';
+</script>
+
         <?php endif; ?>
     </div>
 </div>
