@@ -1,4 +1,5 @@
 <?php
+include '../app/view/LogicPHP/Auth2.php';
 // Kiểm tra nếu có id trong URL
 if (isset($_GET['id'])) {
     $postId = $_GET['id'];

@@ -1,25 +1,23 @@
 body {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+  font-family: 'Poppins', sans-serif;
   background: linear-gradient(135deg, #f0f0f5, #e6e6e6);
   color: #444;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 0 20px; /* Added side padding for responsiveness */
+  padding: 0 20px;
 }
 
 .container {
-  max-width: 1200px;  /* Increased max width */
+  max-width: 1200px;
   margin: 20px auto;
   background-color: #fff;
-  padding: 40px;  /* Increased padding for more space */
+  padding: 40px;
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
-  width: 100%;  /* Ensures it takes full width up to 1200px */
+  width: 100%;
 }
 
 .container:hover {
@@ -31,13 +29,13 @@ h1, h2 {
   text-align: center;
   font-weight: 600;
   letter-spacing: 1px;
-  margin-bottom: 30px;  /* Added more spacing below headings */
+  margin-bottom: 30px;
 }
 
 .post {
   background-color: #f9f9f9;
-  padding: 25px;  /* Increased padding */
-  margin-bottom: 30px;  /* Increased margin between posts */
+  padding: 25px;
+  margin-bottom: 30px;
   border-radius: 10px;
   border-left: 5px solid #4CAF50;
   transition: background-color 0.3s ease;
@@ -49,8 +47,8 @@ h1, h2 {
 
 textarea {
   width: 100%;
-  padding: 15px;  /* Increased padding */
-  margin-top: 20px;  /* Increased top margin */
+  padding: 15px;
+  margin-top: 20px;
   border-radius: 8px;
   border: 1px solid #ddd;
   resize: vertical;
@@ -66,7 +64,7 @@ textarea:focus {
 button {
   background-color: #4CAF50;
   color: white;
-  padding: 15px 20px;  /* Increased padding */
+  padding: 15px 20px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -84,13 +82,13 @@ button:active {
 }
 
 .comments {
-  margin-top: 40px;  /* Increased margin for more space between comments */
+  margin-top: 40px;
 }
 
 .comment {
   background-color: #fafafa;
-  padding: 20px;  /* Increased padding for comment cards */
-  margin-bottom: 25px;  /* Increased margin between comments */
+  padding: 20px;
+  margin-bottom: 25px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   font-size: 14px;
@@ -104,7 +102,7 @@ button:active {
 .btn-delete {
   background-color: #f44336;
   color: white;
-  padding: 8px 15px;  /* Increased padding */
+  padding: 8px 15px;
   border-radius: 6px;
   text-decoration: none;
   cursor: pointer;
@@ -119,6 +117,6 @@ button:active {
 .error {
   color: #f44336;
   font-weight: bold;
-  margin-top: 20px;  /* Increased margin for error messages */
+  margin-top: 20px;
   font-size: 14px;
 }

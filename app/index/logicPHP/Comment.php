@@ -1,4 +1,5 @@
 <?php
+require_once 'Log.php';
 // Thêm bình luận
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['comment'])) {
     $post_id = $_POST['post_id'];

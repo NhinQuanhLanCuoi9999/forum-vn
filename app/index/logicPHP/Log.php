@@ -7,7 +7,7 @@ function logAction($action) {
     $log_entry = "[$timestamp] - IP: $ip - Người dùng: $username - Hành động: $action\n";
 
     // Đường dẫn tới file log
-    $log_dir = 'logs';
+    $log_dir = '../htdocs/logs';
     $log_file = $log_dir . '/logs.txt';
 
     // Kiểm tra xem thư mục logs có tồn tại không, nếu không thì tạo mới
