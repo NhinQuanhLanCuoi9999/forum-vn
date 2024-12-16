@@ -43,3 +43,11 @@ CREATE TABLE IF NOT EXISTS bans (
     ban_end DATETIME DEFAULT NULL,
     permanent TINYINT(1) DEFAULT 0
 );
+-- Bảng APIs
+CREATE TABLE api_keys (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    api_key VARCHAR(255) NOT NULL UNIQUE,
+    is_active TINYINT(1) NOT NULL DEFAULT 1, -- 1: active, 0: inactive
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+

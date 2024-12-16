@@ -163,10 +163,11 @@ include('../app/admin/php.php');
             <?php elseif (isset($_GET['section']) && $_GET['section'] === 'api'): ?>
                 <div class="in4">   <h2>Thông tin về API</h2> </div>
                 <div class="info-section">
-                <p><strong>Các bài viết:</strong> <br> <a href=/api/Post.php>/api/Post.php</a></p>
-                <p><strong>Các bình luận:</strong> <br> <a href=/api/Comment.php>/api/Comment.php</a></p>
-                <p><strong>Các người dùng:</strong> <br> <a href=/api/User.php>/api/User.php</a> </p>
-                <p><strong>Các người dùng / IP đang bị cấm :</strong> <br> <a href=/api/Bans.php>/api/Bans.php</a></p>
+                <p><strong>Các bài viết:</strong> <br> <a href=/api/Post.php>/api/Post.php?api=[api key]</a></p>
+                <p><strong>Các bình luận:</strong> <br> <a href=/api/Comment.php>/api/Comment.php?api=[api key]</a></p>
+                <p><strong>Các người dùng:</strong> <br> <a href=/api/User.php>/api/User.php?api=[api key]</a> </p>
+                <p><strong>Các người dùng / IP đang bị cấm :</strong> <br> <a href=/api/Bans.php>/api/Bans.php?api=[api key]</a></p>
+                <h2>Bạn có thể tạo API Keys <a href="src/api.php">tại đây</a></h2>
 
 </div>
 
