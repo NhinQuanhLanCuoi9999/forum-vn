@@ -1,0 +1,45 @@
+  body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+        }
+        .container {
+            padding: 20px;
+        }
+        .ip-info {
+            background-color: #1E3F66;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .extra-info {
+            margin-top: 10px;
+            display: none;
+            border-top: 1px solid #aaa;
+            padding-top: 10px;
+            transition: max-height 0.5s ease;
+            overflow: hidden;
+            max-height: 0;
+        }
+        #map {
+            height: 300px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .show-more {
+            color: #00ffff;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        #timer {
+            font-size: 20px;
+            color: red;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
