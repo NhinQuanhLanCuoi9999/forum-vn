@@ -25,17 +25,66 @@ if ($result->num_rows === 0) {
     exit;
 }
 
-// Lấy dữ liệu từ bảng `users`
-$sql = "SELECT id,username,`desc`,created_at FROM users";
-$result = $conn->query($sql);
+// Tham số URL
+$username = isset($_GET['username']) ? $_GET['username'] : null;
+$desc = isset($_GET['desc']) ? $_GET['desc'] : null;
+$sort = isset($_GET['sort']) ? $_GET['sort'] : null;
+$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 50; // Mặc định là 50 bản ghi
 
-$comment = [];
+// Bắt đầu query
+$sql = "SELECT id, username, `desc`, created_at FROM users WHERE 1=1";
+
+// Lọc theo username
+if ($username) {
+    $sql .= " AND username = ?";
+}
+
+// Lọc theo desc
+if ($desc) {
+    $sql .= " AND `desc` LIKE ?";
+}
+
+// Sắp xếp
+if ($sort) {
+    $allowed_sort_columns = ['id', 'username', 'created_at'];
+    $sort_parts = explode(':', $sort);
+    $sort_column = in_array($sort_parts[0], $allowed_sort_columns) ? $sort_parts[0] : 'created_at';
+    $sort_order = isset($sort_parts[1]) && strtolower($sort_parts[1]) === 'desc' ? 'DESC' : 'ASC';
+    $sql .= " ORDER BY $sort_column $sort_order";
+}
+
+// Giới hạn số lượng
+$sql .= " LIMIT ?";
+
+$stmt = $conn->prepare($sql);
+
+// Gắn tham số vào câu lệnh SQL
+$params = [];
+$param_types = '';
+if ($username) {
+    $param_types .= 's';
+    $params[] = &$username;
+}
+if ($desc) {
+    $param_types .= 's';
+    $like_desc = '%' . $desc . '%';
+    $params[] = &$like_desc;
+}
+$param_types .= 'i';
+$params[] = &$limit;
+
+call_user_func_array([$stmt, 'bind_param'], array_merge([$param_types], $params));
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+$users = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $comment[] = $row;
+        $users[] = $row;
     }
 }
 
 $conn->close();
-echo json_encode($comment);
+echo json_encode($users);
 ?>

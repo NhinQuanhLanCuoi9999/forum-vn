@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tài liệu API</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .header {
+      background-color: #007bff;
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+    }
+    .section-title {
+      margin-top: 30px;
+      font-size: 1.5em;
+      color: #333;
+    }
+    .code-block {
+      background-color: #343a40;
+      color: #ffffff;
+      padding: 7px;
+      border-radius: 5px;
+      font-family: monospace;
+      word-wrap: break-word;
+      max-width: 70%; /* Giảm chiều rộng */
+      overflow-x: auto;
+      margin: 0 auto; /* Căn giữa */
+    }
+    .example {
+      margin-top: 10px;
+      font-size: 1.1em;
+    }
+    .card-body {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .alert-info {
+      font-size: 1.2em;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <div class="header">
+    <h1>Tài liệu API</h1>
+    <p>Hướng dẫn chi tiết về cách sử dụng API</p>
+  </div>
+
+  <!-- Thông báo chỉ có ADMIN sử dụng -->
+  <div class="alert alert-info text-center" role="alert">
+    Chỉ có <strong>ADMIN</strong> mới có quyền sử dụng API, nếu bạn muốn sử dụng vui lòng liên hệ <strong>ADMIN</strong> để cấp API Key.
+  </div>
+
+  <!-- Phần Users -->
+  <div class="container">
+    <div class="section-title">API Users</div>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Endpoint</h5>
+        <p class="card-text"><span class="code-block">GET /api/Post.php</span></p>
+
+        <h5 class="card-title">Các tham số</h5>
+        <ul>
+          <li><strong>api</strong> (Bắt buộc): API key để xác thực. <br> Ví dụ: <span class="code-block">?api=your_api_key</span></li>
+          <li><strong>username</strong> (Tùy chọn): Lọc theo tên người dùng. <br> Ví dụ: <span class="code-block">&username=johndoe</span></li>
+          <li><strong>desc</strong> (Tùy chọn): Lọc theo mô tả người dùng. <br> Ví dụ: <span class="code-block">&desc=developer</span></li>
+          <li><strong>sort</strong> (Tùy chọn): Sắp xếp kết quả theo cột và thứ tự (asc hoặc desc). <br> Ví dụ: <span class="code-block">&sort=username:asc</span> hoặc <span class="code-block">&sort=created_at:desc</span></li>
+          <li><strong>limit</strong> (Tùy chọn): Giới hạn số lượng kết quả trả về. <br> Ví dụ: <span class="code-block">&limit=20</span></li>
+        </ul>
+
+        <h5 class="card-title">Ví dụ sử dụng đầy đủ</h5>
+        <p class="example"><span class="code-block">https://example.com/api/Post.php?api=your_api_key&username=johndoe&desc=developer&sort=username:asc&limit=20</span></p>
+      </div>
+    </div>
+
+    <!-- Phần Bans -->
+    <div class="section-title">API Bans</div>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Endpoint</h5>
+        <p class="card-text"><span class="code-block">GET /api/Bans.php</span></p>
+
+        <h5 class="card-title">Các tham số</h5>
+        <ul>
+          <li><strong>api</strong> (Bắt buộc): API key để xác thực. <br> Ví dụ: <span class="code-block">?api=your_api_key</span></li>
+          <li><strong>username</strong> (Tùy chọn): Lọc theo tên người dùng. <br> Ví dụ: <span class="code-block">&username=johndoe</span></li>
+          <li><strong>ip</strong> (Tùy chọn): Lọc theo địa chỉ IP. <br> Ví dụ: <span class="code-block">&ip=192.168.1.1</span></li>
+          <li><strong>sort</strong> (Tùy chọn): Sắp xếp kết quả theo cột và thứ tự (asc hoặc desc). <br> Ví dụ: <span class="code-block">&sort=ban_start:desc</span></li>
+          <li><strong>limit</strong> (Tùy chọn): Giới hạn số lượng kết quả trả về (mặc định là 100). <br> Ví dụ: <span class="code-block">&limit=20</span></li>
+        </ul>
+
+        <h5 class="card-title">Ví dụ sử dụng đầy đủ</h5>
+        <p class="example"><span class="code-block">https://example.com/api/Bans.php?api=your_api_key&username=johndoe&ip=192.168.1.1&sort=ban_start:desc&limit=50</span></p>
+      </div>
+    </div>
+
+    <!-- Phần Comment -->
+    <div class="section-title">API Comment</div>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Endpoint</h5>
+        <p class="card-text"><span class="code-block">GET /api/Comment.php</span></p>
+
+        <h5 class="card-title">Các tham số</h5>
+        <ul>
+          <li><strong>api</strong> (Bắt buộc): API key để xác thực. <br> Ví dụ: <span class="code-block">?api=your_api_key</span></li>
+          <li><strong>username</strong> (Tùy chọn): Lọc theo tên người dùng. <br> Ví dụ: <span class="code-block">&username=johndoe</span></li>
+          <li><strong>sort</strong> (Tùy chọn): Sắp xếp kết quả theo cột và thứ tự (asc hoặc desc). <br> Ví dụ: <span class="code-block">&sort=created_at:desc</span></li>
+          <li><strong>limit</strong> (Tùy chọn): Giới hạn số lượng kết quả trả về (mặc định là 50). <br> Ví dụ: <span class="code-block">&limit=20</span></li>
+        </ul>
+
+        <h5 class="card-title">Ví dụ sử dụng đầy đủ</h5>
+        <p class="example"><span class="code-block">https://example.com/api/Comment.php?api=your_api_key&username=johndoe&sort=created_at:desc&limit=20</span></p>
+      </div>
+    </div>
+
+    <!-- Phần Post -->
+    <div class="section-title">API Post</div>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Endpoint</h5>
+        <p class="card-text"><span class="code-block">GET /api/Post.php</span></p>
+
+        <h5 class="card-title">Các tham số</h5>
+        <ul>
+          <li><strong>api</strong> (Bắt buộc): API key để xác thực. <br> Ví dụ: <span class="code-block">?api=your_api_key</span></li>
+          <li><strong>username</strong> (Tùy chọn): Lọc theo tên người dùng. <br> Ví dụ: <span class="code-block">&username=johndoe</span></li>
+          <li><strong>description</strong> (Tùy chọn): Lọc bài viết theo mô tả. <br> Ví dụ: <span class="code-block">&description=error</span></li>
+          <li><strong>sort</strong> (Tùy chọn): Sắp xếp kết quả theo cột và thứ tự (asc hoặc desc). <br> Ví dụ: <span class="code-block">&sort=created_at:desc</span></li>
+          <li><strong>limit</strong> (Tùy chọn): Giới hạn số lượng bài viết trả về (mặc định là 50). <br> Ví dụ: <span class="code-block">&limit=20</span></li>
+        </ul>
+
+        <h5 class="card-title">Ví dụ sử dụng đầy đủ</h5>
+        <p class="example"><span class="code-block">https://example.com/api/Post.php?api=your_api_key&username=johndoe&description=error&sort=created_at:desc&limit=20</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS và phụ thuộc -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

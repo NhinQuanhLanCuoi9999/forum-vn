@@ -25,17 +25,66 @@ if ($result->num_rows === 0) {
     exit;
 }
 
-// Lấy dữ liệu từ bảng `posts`
-$sql = "SELECT * FROM posts";
-$result = $conn->query($sql);
+// Tham số URL
+$username = isset($_GET['username']) ? $_GET['username'] : null;
+$description = isset($_GET['description']) ? $_GET['description'] : null;
+$sort = isset($_GET['sort']) ? $_GET['sort'] : null;
+$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 50; // Mặc định trả về tối đa 50 bài viết
 
-$comment = [];
+// Bắt đầu query
+$sql = "SELECT id, username, content, description, created_at FROM posts WHERE 1=1";
+
+// Lọc theo username
+if ($username) {
+    $sql .= " AND username = ?";
+}
+
+// Lọc theo description
+if ($description) {
+    $sql .= " AND description LIKE ?";
+}
+
+// Sắp xếp
+if ($sort) {
+    $allowed_sort_columns = ['created_at', 'username', 'id'];
+    $sort_parts = explode(':', $sort);
+    $sort_column = in_array($sort_parts[0], $allowed_sort_columns) ? $sort_parts[0] : 'created_at';
+    $sort_order = isset($sort_parts[1]) && strtolower($sort_parts[1]) === 'desc' ? 'DESC' : 'ASC';
+    $sql .= " ORDER BY $sort_column $sort_order";
+}
+
+// Giới hạn kết quả
+$sql .= " LIMIT ?";
+
+$stmt = $conn->prepare($sql);
+
+// Gắn tham số vào câu lệnh SQL
+$params = [];
+$param_types = '';
+if ($username) {
+    $param_types .= 's';
+    $params[] = &$username;
+}
+if ($description) {
+    $param_types .= 's';
+    $like_description = '%' . $description . '%';
+    $params[] = &$like_description;
+}
+$param_types .= 'i';
+$params[] = &$limit;
+
+call_user_func_array([$stmt, 'bind_param'], array_merge([$param_types], $params));
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+$posts = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $comment[] = $row;
+        $posts[] = $row;
     }
 }
 
 $conn->close();
-echo json_encode($comment);
+echo json_encode($posts);
 ?>
