@@ -11,3 +11,41 @@
 [2024-12-19 16:48:04] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng bài mới của người dùng: admin
 [2024-12-19 16:52:14] - IP: 127.0.0.1 - Người dùng: Khách - Hành động: Đăng xuất: 
 [2024-12-19 16:52:28] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng nhập thành công: admin
+[2024-12-19 17:48:39] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:48:45] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:48:51] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:48:52] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 8 bởi người dùng: admin
+[2024-12-19 17:48:54] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 7 bởi người dùng: admin
+[2024-12-19 17:50:44] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:50:46] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 9 bởi người dùng: admin
+[2024-12-19 17:50:51] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:51:00] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 10 bởi người dùng: admin
+[2024-12-19 17:51:09] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:51:10] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 11 bởi người dùng: admin
+[2024-12-19 17:51:15] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:51:17] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 12 bởi người dùng: admin
+[2024-12-19 17:51:38] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:51:39] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 13 bởi người dùng: admin
+[2024-12-19 17:51:48] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:51:49] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 14 bởi người dùng: admin
+[2024-12-19 17:52:03] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:52:06] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 15 bởi người dùng: admin
+[2024-12-19 17:53:21] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:53:23] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 16 bởi người dùng: admin
+[2024-12-19 17:53:27] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:53:28] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 17 bởi người dùng: admin
+[2024-12-19 17:53:54] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:53:55] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 18 bởi người dùng: admin
+[2024-12-19 17:54:29] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:54:30] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 19 bởi người dùng: admin
+[2024-12-19 17:54:35] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng bài mới của người dùng: admin
+[2024-12-19 17:54:39] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bài viết với ID: 4 bởi người dùng: admin
+[2024-12-19 17:55:03] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:55:04] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 20 bởi người dùng: admin
+[2024-12-19 17:55:21] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:55:22] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 21 bởi người dùng: admin
+[2024-12-19 17:56:10] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 2 bởi người dùng: admin
+[2024-12-19 17:56:12] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 22 bởi người dùng: admin
+[2024-12-20 18:11:50] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng bài mới của người dùng: admin
+[2024-12-20 18:11:54] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bài viết với ID: 5 bởi người dùng: admin
+[2024-12-20 18:22:52] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng bài mới của người dùng: admin
