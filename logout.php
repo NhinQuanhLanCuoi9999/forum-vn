@@ -21,7 +21,21 @@ if ($username) {
         exit(); // Dừng mọi mã PHP còn lại
     }
 }
+
+// Hủy session
 session_unset();
 session_destroy();
+
+// Xóa cookie liên quan đến đăng nhập (ví dụ: username hoặc session token)
+if (isset($_COOKIE['captcha_verified'])) {
+    setcookie('captcha_verified', '', time() - 3600, '/'); // Xóa cookie captcha_verified
+}
+
+if (isset($_COOKIE['username'])) {
+    setcookie('username', '', time() - 3600, '/'); // Xóa cookie username (nếu có)
+}
+
+// Chuyển hướng về trang index
 header("Location: index.php");
 exit();
+?>

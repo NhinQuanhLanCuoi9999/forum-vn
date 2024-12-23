@@ -49,3 +49,23 @@
 [2024-12-20 18:11:50] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng bài mới của người dùng: admin
 [2024-12-20 18:11:54] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bài viết với ID: 5 bởi người dùng: admin
 [2024-12-20 18:22:52] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng bài mới của người dùng: admin
+[2024-12-23 09:16:14] - IP: ::1 - Người dùng: admin - Hành động: Xóa bài viết với ID: 6 bởi người dùng: admin
+[2024-12-23 09:26:01] - IP: 127.0.0.1 - Người dùng: Khách - Hành động: Đăng xuất: 
+[2024-12-23 09:26:15] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng nhập thành công: admin
+[2024-12-23 19:54:29] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng bài mới của người dùng: admin
+[2024-12-23 19:54:33] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bài viết với ID: 8 bởi người dùng: admin
+[2024-12-23 19:54:36] - IP: 127.0.0.1 - Người dùng: Khách - Hành động: Đăng xuất: 
+[2024-12-23 19:55:07] - IP: 127.0.0.1 - Người dùng: 111111 - Hành động: Đăng nhập thành công: 111111
+[2024-12-23 19:59:05] - IP: 127.0.0.1 - Người dùng: Khách - Hành động: Đăng xuất: 
+[2024-12-23 20:01:23] - IP: 127.0.0.1 - Người dùng: Khách - Hành động: Đăng xuất: 
+[2024-12-23 20:01:27] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng nhập thành công: admin
+[2024-12-23 20:03:23] - IP: 127.0.0.1 - Người dùng: Khách - Hành động: Đăng xuất: 
+[2024-12-23 20:04:17] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng nhập thành công: admin
+[2024-12-23 20:04:19] - IP: 127.0.0.1 - Người dùng: Khách - Hành động: Đăng xuất: 
+[2024-12-23 20:05:40] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng nhập thành công: admin
+[2024-12-23 20:05:42] - IP: 127.0.0.1 - Người dùng: Khách - Hành động: Đăng xuất: 
+[2024-12-23 20:06:10] - IP: 127.0.0.1 - Người dùng: 111111 - Hành động: Đăng nhập thành công: 111111
+[2024-12-23 20:06:52] - IP: 127.0.0.1 - Người dùng: Khách - Hành động: Đăng xuất: 
+[2024-12-23 20:07:55] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng nhập thành công: admin
+[2024-12-23 20:07:58] - IP: 127.0.0.1 - Người dùng: Khách - Hành động: Đăng xuất: 
+[2024-12-23 20:08:02] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng nhập thành công: admin

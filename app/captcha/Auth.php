@@ -39,10 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Kiểm tra nếu xác thực thành công
         if ($result_data->success) {
-            // Lưu cookie đã xác thực, tồn tại trong 30 phút
-            setcookie('captcha_verified', 'true', time() + 300000, "/");
-            
-            $successMessage = "Xác minh thành công."; // Thông báo thành công
+            // Tạo hash ngẫu nhiên và lưu vào cookie
+            $captcha_hash = bin2hex(random_bytes(32)); // Tạo hash ngẫu nhiên 64 ký tự
+
+            // Lưu cookie với hash trong 30 phút
+            setcookie('captcha_verified', $captcha_hash, time() + 300000, "/", "", true, true);
+
+            // Thông báo thành công
+            $successMessage = "Xác minh thành công."; 
             header("refresh:3;url=index.php"); // Chuyển hướng sau 3 giây
         } else {
             $error = "Xác thực hCaptcha thất bại. Vui lòng thử lại.";
