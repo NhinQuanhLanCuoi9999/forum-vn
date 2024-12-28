@@ -81,7 +81,7 @@ include('app/index/php.php');
         <?php endif; ?>
     <?php else: ?>
         <!-- Hiển thị form đăng bài nếu đã đăng nhập -->
-   <form action="index.php" method="POST" enctype="multipart/form-data">
+        <form action="index.php" method="POST" enctype="multipart/form-data">
     <h2>Đăng bài viết</h2>
     <?php if (isset($_SESSION['error_message'])): ?>
         <div class="error"><?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?></div>
@@ -89,11 +89,19 @@ include('app/index/php.php');
     <?php if (isset($_SESSION['error'])): ?>
         <div style="color: red;"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
     <?php endif; ?>
+    <?php if (isset($_SESSION['success'])): ?>
+        <div style="color: green;"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
+    <?php endif; ?>
     <textarea name="content" placeholder="Nội dung bài viết" required maxlength="200"></textarea>
     <input type="text" name="description" placeholder="Mô tả ngắn" required maxlength="500">
     
+    <!-- Trường tải lên tệp -->
+    <label for="file">Chọn tệp để tải lên:</label>
+    <input type="file" name="file" id="file">
+
     <button type="submit" name="post">Đăng bài</button>
 </form>
+
 </head>
 <body>
 

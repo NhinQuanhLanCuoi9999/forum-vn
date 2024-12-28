@@ -24,6 +24,10 @@ include '../app/view/php.php';
         <p><strong>Mô tả:</strong> <?php echo $post['description']; ?></p>
         <p><strong>Tác giả:</strong> <?php echo $post['username']; ?></p>
         <p><strong>Ngày tạo:</strong> <?php echo $post['created_at']; ?></p>
+        <!-- Hiển thị liên kết tải xuống nếu có tệp tin -->
+<?php if ($post['file']): ?>
+    <p><strong>Tệp đính kèm: </strong><a href="../uploads/<?php echo htmlspecialchars($post['file']); ?>" download><?php echo htmlspecialchars($post['file']); ?></a></p>
+<?php endif; ?>
         <?php if ($isOwner): ?>
             <a href="view.php?id=<?php echo $postId; ?>&delete_post=1" class="btn btn-danger btn-delete">Xóa bài viết</a>
         <?php endif; ?>
