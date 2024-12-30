@@ -22,10 +22,4 @@ if ($result->num_rows > 0) {
     exit();
 }
 
-// Kiểm tra captcha
-if (!isset($_COOKIE['captcha_verified']) || $_COOKIE['captcha_verified'] != 'true') {
-    header("Location: ../src/captcha_verification.php");
-    exit();
-}
-
 ?>

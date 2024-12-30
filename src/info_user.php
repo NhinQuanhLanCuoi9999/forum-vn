@@ -43,7 +43,10 @@ include('../app/info/php.php');
         <div class="line"></div>
         <p><span>Ngày tạo:</span> <strong><?php echo htmlspecialchars(date('d-m-Y H:i:s', strtotime($createdAt))); ?></strong></p>
         <div class="line"></div>
-
+        <p><span>IP:</span><strong><?php $ip = $_SERVER['REMOTE_ADDR']; echo $ip;?></strong></p>
+        <div class="line"></div>
+        <p><span>User Agent:</span><strong><?php $agent = $_SERVER['HTTP_USER_AGENT']; echo $agent;?></strong></p>
+        <div class="line"></div>
         <!-- Hiển thị mô tả bản thân và nút sửa mô tả bên cạnh -->
         <div class="desc-container">
             <p><span>Mô tả bản thân:</span> <strong><?php echo htmlspecialchars($userDesc ?: 'Chưa có mô tả.'); ?></strong></p>

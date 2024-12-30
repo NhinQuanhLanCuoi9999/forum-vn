@@ -1,73 +1,21 @@
-       /* Thiết lập font chữ và reset mặc định */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+*{margin:0;padding:0;box-sizing:border-box}
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f7fc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+body{font-family:'Poppins',sans-serif;background-color:#f4f7fc;display:flex;justify-content:center;align-items:center;height:100vh}
 
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
+.container{display:flex;justify-content:center;align-items:center;height:100%}
 
-        .captcha-box {
-            background-color: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-        }
+.captcha-box{background-color:white;padding:40px;border-radius:12px;box-shadow:0 10px 20px rgba(0,0,0,.1);text-align:center;width:100%;max-width:400px}
 
-        h2 {
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            color: #333;
-        }
+h2{font-size:1.8em;margin-bottom:20px;color:#333}
 
-        p {
-            font-size: 1.1em;
-            color: #666;
-            margin-bottom: 30px;
-        }
+p{font-size:1.1em;color:#666;margin-bottom:30px}
 
-        .error-message {
-            color: red; /* Màu đỏ cho thông báo lỗi */
-            margin-bottom: 15px;
-        }
+.error-message{color:red;margin-bottom:15px}
 
-        .success-message {
-            color: green; /* Màu xanh cho thông báo thành công */
-            margin-bottom: 15px;
-        }
+.success-message{color:green;margin-bottom:15px}
 
-        .captcha-container {
-            margin-bottom: 20px;
-        }
+.captcha-container{margin-bottom:20px}
 
-        .btn-submit {
-            background-color: #007bff;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+.btn-submit{background-color:#007bff;color:white;padding:12px 20px;border:none;border-radius:8px;font-size:1em;cursor:pointer;transition:background-color .3s ease}
 
-        .btn-submit:hover {
-            background-color: #0056b3;
-        }
+.btn-submit:hover{background-color:#0056b3}

@@ -14,3 +14,6 @@ RewriteRule ^badwords\.txt$ /404.php [L]
 RewriteCond %{REQUEST_URI} ^/([^/]+)/\1/(.*)$
 RewriteRule ^ /%1/%2 [L,R=301]
 
+# Chặn truy cập vào thư mục logs và chuyển hướng đến trang lỗi 404
+RewriteCond %{REQUEST_URI} ^/logs/
+RewriteRule ^.*$ /404.php [L]
