@@ -152,62 +152,72 @@ echo "</div>";
 ?>
         <h2>Các bài viết</h2>
         <?php if ($posts->num_rows > 0): ?>
-            <?php while ($post = $posts->fetch_assoc()): ?>
-      <div class="post">
-      <h3><?php echo formatText($post['content']); ?></h3> <!-- Sử dụng formatText để định dạng nội dung -->
-<p><?php echo htmlspecialchars($post['description']); ?></p>
-<!-- Hiển thị liên kết tải xuống nếu có tệp tin -->
-<?php if ($post['file']): ?>
-    <p>Tệp đính kèm: <a href="uploads/<?php echo htmlspecialchars($post['file']); ?>" download><?php echo htmlspecialchars($post['file']); ?></a></p>
-<?php endif; ?>
-<?php
-    // Định dạng ngày tháng
-    $createdAt = DateTime::createFromFormat('Y-m-d H:i:s', $post['created_at']);
-    if ($createdAt) {
-        $formattedDate = $createdAt->format('d/n/Y | H:i:s');
-    } else {
-        $formattedDate = 'Ngày không hợp lệ'; // hoặc một giá trị mặc định khác
-    }
-?>
-<small>Đăng bởi: <a href="src/profile.php?username=<?php echo urlencode($post['username']); ?>" target="_blank"><?php echo htmlspecialchars($post['username']); ?></a> vào <?php echo $formattedDate; ?></small>
+    <?php while ($post = $posts->fetch_assoc()): ?>
+        <div class="post">
+            <h3><?php echo htmlspecialchars(formatText($post['content'])); ?></h3>
+            <p><?php echo htmlspecialchars($post['description']); ?></p>
+            
+            <!-- Hiển thị liên kết tải xuống nếu có tệp tin -->
+            <?php if (!empty($post['file'])): ?>
+                <p>Tệp đính kèm: 
+                    <a href="uploads/<?php echo rawurlencode(basename($post['file'])); ?>" download>
+                        <?php echo htmlspecialchars(basename($post['file'])); ?>
+                    </a>
+                </p>
+            <?php endif; ?>
 
-<!-- Thêm dòng chữ "Xem thêm" với liên kết tới view.php -->
-<small><a href="src/view.php?id=<?php echo $post['id']; ?>" class="read-more">Xem thêm</a></small>
+            <?php
+                // Định dạng ngày tháng
+                $createdAt = DateTime::createFromFormat('Y-m-d H:i:s', $post['created_at']);
+                $formattedDate = $createdAt ? $createdAt->format('d/n/Y | H:i:s') : 'Ngày không hợp lệ';
+            ?>
+            <small>
+                Đăng bởi: 
+                <a href="src/profile.php?username=<?php echo urlencode($post['username']); ?>" target="_blank">
+                    <?php echo htmlspecialchars($post['username']); ?>
+                </a> vào <?php echo htmlspecialchars($formattedDate); ?>
+            </small>
 
-<?php if ($post['username'] == $_SESSION['username']): ?>
-    <form method="get" action="index.php" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">
-        <input type="hidden" name="delete" value="<?php echo $post['id']; ?>">
-        <button type="submit" class="delete-button">Xóa bài viết</button>
-    </form>
+            <!-- Thêm dòng chữ "Xem thêm" với liên kết tới view.php -->
+            <small>
+                <a href="src/view.php?id=<?php echo intval($post['id']); ?>" class="read-more">Xem thêm</a>
+            </small>
+
+            <?php if ($post['username'] == $_SESSION['username']): ?>
+                <form method="get" action="index.php" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">
+                    <input type="hidden" name="delete" value="<?php echo intval($post['id']); ?>">
+                    <button type="submit" class="delete-button">Xóa bài viết</button>
+                </form>
+
 <?php endif; ?>
 
     
     <!-- Nút hiện/ẩn bình luận -->
-    <button class="toggle-comments" data-post-id="<?php echo $post['id']; ?>">Hiện bình luận</button>
-    <div class="comments" id="comments-<?php echo $post['id']; ?>" style="display: none;">
-        <h4>Bình luận:</h4>
-        <form method="post" action="index.php" class="comment-form">
-            <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
-            <textarea name="content" placeholder="Nhập bình luận" required></textarea>
-            <button type="submit" name="comment">Gửi bình luận</button>
-        </form>
-        <?php
-        $post_id = $post['id'];
-        $comments = $conn->query("SELECT * FROM comments WHERE post_id = $post_id ORDER BY created_at DESC");
-        if ($comments->num_rows > 0):
-            while ($comment = $comments->fetch_assoc()): ?>
-                <div class="comment">
+<button class="toggle-comments" data-post-id="<?php echo htmlspecialchars($post['id']); ?>">Hiện bình luận</button>
+<div class="comments" id="comments-<?php echo htmlspecialchars($post['id']); ?>" style="display: none;">
+    <h4>Bình luận:</h4>
+    <form method="post" action="index.php" class="comment-form">
+        <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['id']); ?>">
+        <textarea name="content" placeholder="Nhập bình luận" required></textarea>
+        <button type="submit" name="comment">Gửi bình luận</button>
+    </form>
+    <?php
+    $post_id = $post['id'];
+    $comments = $conn->query("SELECT * FROM comments WHERE post_id = $post_id ORDER BY created_at DESC");
+    if ($comments->num_rows > 0):
+        while ($comment = $comments->fetch_assoc()): ?>
+            <div class="comment">
                 <strong><a href="src/profile.php?username=<?php echo htmlspecialchars($comment['username']); ?>" target="_blank"><?php echo htmlspecialchars($comment['username']); ?></a></strong>:
-                    <span><?php echo $comment['content']; ?></span> 
-                    <?php if ($comment['username'] == $_SESSION['username']): ?>
-                        <a href="index.php?delete_comment=<?php echo $comment['id']; ?>">Xóa bình luận</a>
-                    <?php endif; ?>
-                </div>
-        <?php endwhile; ?>
-        <?php else: ?>
-            <p class="no-posts">Chưa có bình luận nào.</p>
-        <?php endif; ?>
-    </div>
+                <span><?php echo htmlspecialchars($comment['content']); ?></span> 
+                <?php if ($comment['username'] == $_SESSION['username']): ?>
+                    <a href="index.php?delete_comment=<?php echo htmlspecialchars($comment['id']); ?>">Xóa bình luận</a>
+                <?php endif; ?>
+            </div>
+    <?php endwhile; ?>
+    <?php else: ?>
+        <p class="no-posts">Chưa có bình luận nào.</p>
+    <?php endif; ?>
+</div>
 </div>
             <?php endwhile; ?>
         <?php else: ?>
