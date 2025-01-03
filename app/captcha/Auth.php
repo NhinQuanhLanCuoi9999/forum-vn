@@ -1,8 +1,9 @@
 <?php
+// Khởi tạo session
 session_start();
 
-// Kiểm tra nếu người dùng đã xác thực captcha bằng cookie
-if (isset($_COOKIE['captcha_verified'])) {
+// Kiểm tra nếu người dùng đã xác thực captcha bằng session
+if (isset($_SESSION['captcha_verified'])) {
     header("Location: index.php"); // Nếu đã xác thực, chuyển hướng về trang chính
     exit();
 }
@@ -39,11 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Kiểm tra nếu xác thực thành công
         if ($result_data->success) {
-            // Tạo hash ngẫu nhiên và lưu vào cookie
-            $captcha_hash = bin2hex(random_bytes(32)); // Tạo hash ngẫu nhiên 64 ký tự
-
-            // Lưu cookie với hash trong 30 phút
-            setcookie('captcha_verified', $captcha_hash, time() + 300000, "/", "", true, true);
+            // Tạo hash ngẫu nhiên và lưu vào session
+            $_SESSION['captcha_verified'] = bin2hex(random_bytes(32)); // Lưu hash vào session
 
             // Thông báo thành công
             $successMessage = "Xác minh thành công."; 

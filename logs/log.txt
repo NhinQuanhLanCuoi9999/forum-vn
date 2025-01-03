@@ -8,3 +8,5 @@ Thêm bình luận vào bài viết ID: 31 bởi người dùng: admin
 Xóa bình luận ID: 36 bởi người dùng: admin
 Thêm bình luận vào bài viết ID: 35 bởi người dùng: sv044
 Xóa bình luận ID: 45 bởi người dùng: admin
+Thêm bình luận vào bài viết ID: 48 bởi người dùng: admin
+Xóa bình luận ID: 53 bởi người dùng: admin

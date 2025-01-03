@@ -144,3 +144,11 @@
 [2024-12-31 14:23:37] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 38 bởi người dùng: admin
 [2024-12-31 14:29:41] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng nhập thành công: admin
 [2024-12-31 14:29:52] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng bài mới của người dùng: admin
+[2025-01-02 18:07:51] - IP: 192.168.1.13 - Người dùng: admin - Hành động: Đăng nhập thành công: admin
+[2025-01-02 18:08:23] - IP: 192.168.1.13 - Người dùng: admin - Hành động: Đăng bài mới của người dùng: admin
+[2025-01-02 18:30:16] - IP: 192.168.1.13 - Người dùng: admin - Hành động: Đăng nhập thành công: admin
+[2025-01-02 19:11:00] - IP: 192.168.1.13 - Người dùng: admin - Hành động: Đăng nhập thành công: admin
+[2025-01-03 10:51:49] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng nhập thành công: admin
+[2025-01-03 10:53:49] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng bài mới của người dùng: admin
+[2025-01-03 10:54:49] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Thêm bình luận vào bài viết ID: 48 bởi người dùng: admin
+[2025-01-03 10:54:50] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Xóa bình luận ID: 54 bởi người dùng: admin
