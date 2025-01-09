@@ -4,11 +4,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Thiết lập thời gian sống của session
-  ini_set('session.gc_maxlifetime', 30 * 24 * 60 * 60);  // Dữ liệu session sẽ sống trong 30 ngày
-
-    session_start();  // Bắt đầu phiên làm việc
-
     // Kết nối tới cơ sở dữ liệu và truy vấn
     $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
