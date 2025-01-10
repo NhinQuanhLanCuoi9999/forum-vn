@@ -43,7 +43,9 @@ include('../app/info/php.php');
         <div class="line"></div>
         <p><span>Ngày tạo:</span> <strong><?php echo htmlspecialchars(date('d-m-Y H:i:s', strtotime($createdAt))); ?></strong></p>
         <div class="line"></div>
-        <p><span>IP:</span><strong><?php $ip = $_SERVER['REMOTE_ADDR']; echo $ip;?></strong></p>
+        <p><span>IPv4:</span><strong><?php $ip = $_SERVER['REMOTE_ADDR']; echo $ip;?></strong></p>
+        <div class="line"></div>
+        <p><span>IPv6:</span><strong><?php echo $ipv6?></strong></p>
         <div class="line"></div>
         <p><span>User Agent:</span><strong><?php $agent = $_SERVER['HTTP_USER_AGENT']; echo $agent;?></strong></p>
         <div class="line"></div>
