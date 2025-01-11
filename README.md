@@ -22,6 +22,143 @@ Demo : http://forum-vn.000.pe/
 - Hãy đảm bảo trong htdocs bạn đã tạo 2 folder là uploads và logs
 
 
+# Sơ đồ 
+
+
+```C:\xampp\htdocs\
+├── .htaccess
+├── 404.php
+├── api\
+│   ├── Bans.php
+│   ├── Comment.php
+│   ├── Post.php
+│   └── User.php
+├── api_docs.html
+├── app\
+│   ├── admin\
+│   │   ├── logicPHP\
+│   │   │   ├── Api.php
+│   │   │   ├── Auth.php
+│   │   │   ├── Comment.php
+│   │   │   ├── Info.php
+│   │   │   ├── List.php
+│   │   │   ├── Log.php
+│   │   │   ├── Logout.php
+│   │   │   ├── Post.php
+│   │   │   └── Users.php
+│   │   ├── php.php
+│   │   ├── styles.css
+│   │   └── taskbar.js
+│   ├── api\
+│   │   ├── LogicPHP\
+│   │   │   ├── Auth.php
+│   │   │   └── CreateAPI.php
+│   │   ├── php.php
+│   │   ├── styles.css
+│   │   └── LogicPHP\
+│   ├── ban\
+│   │   ├── LogicPHP\
+│   │   │   ├── Auth.php
+│   │   │   ├── Handle.php
+│   │   │   └── unBan.php
+│   │   ├── php.php
+│   │   ├── style.css
+│   │   └── banOption.js
+│   ├── captcha\
+│   │   ├── Auth.php
+│   │   └── styles.css
+│   ├── changePass\
+│   │   ├── LogicPHP\
+│   │   │   ├── Auth.php
+│   │   │   └── Handle.php
+│   │   ├── php.php
+│   │   └── styles.css
+│   ├── index\
+│   │   ├── logicPHP\
+│   │   │   ├── badWords.php
+│   │   │   ├── Captcha.php
+│   │   │   ├── checkBan.php
+│   │   │   ├── checkConfig.php
+│   │   │   ├── Comment.php
+│   │   │   ├── CookieandAdmin.php
+│   │   │   ├── deletePost.php
+│   │   │   ├── Format.php
+│   │   │   ├── Log.php
+│   │   │   ├── Login.php
+│   │   │   ├── Logout.php
+│   │   │   ├── Pagination.php
+│   │   │   ├── Post.php
+│   │   │   ├── Register.php
+│   │   ├── php.php
+│   │   ├── checkBox.js
+│   │   ├── Refersh.js
+│   │   ├── Size.js
+│   │   ├── Spoil.js
+│   │   ├── styles.css
+│   │   ├── t.js
+│   │   ├── taskBar.js
+│   │   ├── Toogle.js
+│   ├── info\
+│   │   ├── LogicPHP\
+│   │   │   ├── Auth.php
+│   │   │   └── Info.php
+│   │   ├── php.php
+│   │   └── styles.css
+│   ├── logs\
+│   │   ├── LogicPHP\
+│   │   │   ├── Output.php
+│   │   │   └── Read.php
+│   │   └── styles.css
+│   ├── network\
+│   │   ├── LogicPHP\
+│   │   │   ├── checkTime.php
+│   │   │   └── checkTime2.php
+│   │   ├── php.php
+│   │   └── styles.css
+│   ├── profile\
+│   │   └── styles.css
+│   ├── rule\
+│   │   └── styles.css
+│   ├── tos\
+│   │   └── styles.css
+│   ├── view\
+│   │   ├── LogicPHP\
+│   │   │   ├── Auth.php
+│   │   │   ├── Auth2.php
+│   │   │   ├── badWord.php
+│   │   │   ├── Captcha.php
+│   │   │   ├── Handle.php
+│   │   │   ├── Logs.php
+│   │   ├── php.php
+│   │   └── styles.css
+│   └── warning\
+│       └── styles.css
+├── db.sql
+├── delete_post.php
+├── index.php
+├── info_user.php
+├── LICENSE
+├── logout.php
+├── logs\
+├── README.md
+├── rules.html
+├── setup.php
+├── src\
+│   ├── admin.php
+│   ├── api.php
+│   ├── ban.php
+│   ├── captcha_verification.php
+│   ├── change_password.php
+│   ├── index.php
+│   ├── info_user.php
+│   ├── logs.php
+│   ├── network-config.php
+│   ├── profile.php
+│   ├── view.php
+│   └── warning.php
+└── uploads
+```
+
 
 
 
