@@ -171,7 +171,7 @@ include('../app/admin/php.php');
                 <p><strong>Các người dùng:</strong> <br> <a href=/api/User.php>/api/User.php?api=[api key]</a> </p>
                 <p><strong>Các người dùng / IP đang bị cấm :</strong> <br> <a href=/api/Bans.php>/api/Bans.php?api=[api key]</a></p>
                 <h2>Bạn có thể tạo API Keys <a href="src/api.php">tại đây</a></h2>
-                <h3>Hướng dẫn chi tiết : <strong><a href="/api_docs.html">Tại đây.</a></strong></h3>
+                <h3>Hướng dẫn chi tiết : <strong><a href="/docs/api_docs.html">Tại đây.</a></strong></h3>
 
 </div>
 

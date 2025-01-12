@@ -54,7 +54,7 @@ include('app/index/php.php');
     <!-- Checkbox và liên kết -->
     <label>
         <input type="checkbox" id="agreeCheckbox"> 
-        Bằng cách nhấn vào nút này, bạn đồng ý <a href="tos.html" target="_blank"><strong>Điều khoản dịch vụ</strong><b>.</b></a> <br>
+        Bằng cách nhấn vào nút này, bạn đồng ý <a href="/docs/tos.html" target="_blank"><strong>Điều khoản dịch vụ</strong><b>.</b></a> <br>
     </label>
     
     <!-- Nút đăng ký mặc định xám và có hiệu ứng chuyển màu -->
@@ -110,7 +110,7 @@ include('app/index/php.php');
 <div id="optionsMenu" class="dropdown-content">
     <a href="src/info_user.php"><i class="fas fa-user"></i> Thông Tin</a>
     <a href="src/network-config.php"><i class="fas fa-network-wired"></i> Cấu Hình IP</a>
-    <a href="tos.html"><i class="fas fa-file-contract"></i> Điều khoản dịch vụ</a>
+    <a href="/docs/tos.html"><i class="fas fa-file-contract"></i> Điều khoản dịch vụ</a>
     <a href="index.php?logout=true"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
 </div>
 <script src = app/index/taskBar.js></script>
