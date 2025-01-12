@@ -2,7 +2,7 @@
 // Hàm kiểm tra từ cấm
 function containsBadWords($content) {
     // Đọc các từ cấm từ file badwords.txt
-    $badWords = file('../badwords.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $badWords = file('badwords.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($badWords as $word) {
         // Tạo pattern cho phép chỉ nhận diện từ cấm mà không bị dính với dấu cách hay dấu câu
         // Sử dụng \W để xác định ký tự không phải là chữ cái hoặc số
