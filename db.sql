@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
     `desc` TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 -- Bảng posts
 CREATE TABLE IF NOT EXISTS posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -18,7 +19,7 @@ CREATE TABLE IF NOT EXISTS posts (
     description TEXT, -- Thêm mô tả
     file VARCHAR(255), -- Sửa cột hình ảnh thành cột file
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
+    FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Bảng comments
@@ -28,8 +29,8 @@ CREATE TABLE IF NOT EXISTS comments (
     content TEXT NOT NULL,
     username VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
-    FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Bảng bans
@@ -40,8 +41,10 @@ CREATE TABLE IF NOT EXISTS bans (
     reason TEXT NOT NULL,
     ban_start DATETIME DEFAULT CURRENT_TIMESTAMP,
     ban_end DATETIME DEFAULT NULL,
-    permanent TINYINT(1) DEFAULT 0
+    permanent TINYINT(1) DEFAULT 0,
+    FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 -- Bảng APIs
 CREATE TABLE IF NOT EXISTS api_keys (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -49,4 +52,3 @@ CREATE TABLE IF NOT EXISTS api_keys (
     is_active TINYINT(1) NOT NULL DEFAULT 1, -- 1: active, 0: inactive
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-

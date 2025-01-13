@@ -15,7 +15,7 @@ include('../app/warning/Auth.php');
     <div class="container">
         <h1>Cấm Truy Cập</h1>
         <div class="warning">
-            <p>Bạn đã bị cấm truy cập vào trang web này vì vi phạm <a href="/rules.html">Tiêu chuẩn cộng đồng</a>.</p>
+            <p>Bạn đã bị cấm truy cập vào trang web này vì vi phạm <a href="/docs/rules.html">Tiêu chuẩn cộng đồng</a>.</p>
             <p><strong>Lý do cấm:</strong> <?php echo htmlspecialchars($reason); ?></p>
             <p><strong>Thời gian cấm đến:</strong> <?php echo $ban_end_display; ?></p>
         </div>
@@ -23,7 +23,7 @@ include('../app/warning/Auth.php');
         <?php if ($ban_expired): ?>
             <div class="checkbox-container">
                 <label>
-                    <input type="checkbox" id="agree_terms"> Bằng cách bấm vào nút này, bạn đồng ý với <strong> <a href="tos.html">Điều khoản dịch vụ </a> </strong> và chúng tôi sẽ cho bạn tái hòa nhập.
+                    <input type="checkbox" id="agree_terms"> Bằng cách bấm vào nút này, bạn đồng ý với <strong> <a href="/dosc/tos.html">Điều khoản dịch vụ </a> </strong> và chúng tôi sẽ cho bạn tái hòa nhập.
                 </label>
             </div>
             <form method="POST" action="">

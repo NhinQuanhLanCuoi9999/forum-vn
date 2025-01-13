@@ -47,7 +47,6 @@ if (isset($_GET['confirm_delete_user'])) {
     header("Location: src/admin.php?section=users");
     exit();
 }
-
 // Chỉnh sửa tên người dùng
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_user'])) {
     $user_id = $_POST['user_id'];
@@ -85,6 +84,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_user'])) {
                     
                     if ($stmt->execute()) {
                         if ($stmt->affected_rows > 0) {
+                            // Cập nhật username trong các bảng posts, comments và bans
+                            $stmt = $conn->prepare("UPDATE posts SET username = ? WHERE username = ?");
+                            $stmt->bind_param("ss", $new_username, $user['username']);
+                            $stmt->execute();
+
+                            $stmt = $conn->prepare("UPDATE comments SET username = ? WHERE username = ?");
+                            $stmt->bind_param("ss", $new_username, $user['username']);
+                            $stmt->execute();
+
+                            $stmt = $conn->prepare("UPDATE bans SET username = ? WHERE username = ?");
+                            $stmt->bind_param("ss", $new_username, $user['username']);
+                            $stmt->execute();
+
                             $_SESSION['message'] = '<div class="alert alert-success">Đổi tên thành công.</div>';
                         } else {
                             $_SESSION['message'] = '<div class="alert alert-warning">Không có thay đổi nào được thực hiện.</div>';
@@ -106,4 +118,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_user'])) {
     header("Location: src/admin.php?section=users");
     exit();
 }
+
 ?>
