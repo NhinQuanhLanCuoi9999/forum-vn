@@ -25,18 +25,17 @@ Demo : http://forum-vn.000.pe/
 # Sơ đồ 
 
 
-```C:\xampp\htdocs\
+```C:\xampp\htdocs
 ├── .htaccess
 ├── 404.php
-├── api\
+├── api
 │   ├── Bans.php
 │   ├── Comment.php
 │   ├── Post.php
 │   └── User.php
-├── api_docs.html
-├── app\
-│   ├── admin\
-│   │   ├── logicPHP\
+├── app
+│   ├── admin
+│   │   ├── logicPHP
 │   │   │   ├── Api.php
 │   │   │   ├── Auth.php
 │   │   │   ├── Comment.php
@@ -45,36 +44,39 @@ Demo : http://forum-vn.000.pe/
 │   │   │   ├── Log.php
 │   │   │   ├── Logout.php
 │   │   │   ├── Post.php
+│   │   │   ├── Search.php
 │   │   │   └── Users.php
+│   │   ├── Pagination.css
 │   │   ├── php.php
 │   │   ├── styles.css
-│   │   └── taskbar.js
-│   ├── api\
-│   │   ├── LogicPHP\
+│   │   ├── taskbar.js
+│   ├── api
+│   │   ├── LogicPHP
 │   │   │   ├── Auth.php
-│   │   │   └── CreateAPI.php
+│   │   │   ├── CreateAPI.php
 │   │   ├── php.php
 │   │   ├── styles.css
-│   │   └── LogicPHP\
-│   ├── ban\
-│   │   ├── LogicPHP\
+│   ├── api_docs
+│   │   └── styles.css
+│   ├── ban
+│   │   ├── banOption.js
+│   │   ├── LogicPHP
 │   │   │   ├── Auth.php
 │   │   │   ├── Handle.php
 │   │   │   └── unBan.php
 │   │   ├── php.php
 │   │   ├── style.css
-│   │   └── banOption.js
-│   ├── captcha\
-│   │   ├── Auth.php
+│   ├── captcha
 │   │   └── styles.css
-│   ├── changePass\
-│   │   ├── LogicPHP\
+│   ├── changePass
+│   │   ├── LogicPHP
 │   │   │   ├── Auth.php
 │   │   │   └── Handle.php
 │   │   ├── php.php
 │   │   └── styles.css
-│   ├── index\
-│   │   ├── logicPHP\
+│   ├── index
+│   │   ├── checkBox.js
+│   │   ├── logicPHP
 │   │   │   ├── badWords.php
 │   │   │   ├── Captcha.php
 │   │   │   ├── checkBan.php
@@ -89,7 +91,6 @@ Demo : http://forum-vn.000.pe/
 │   │   │   ├── Pagination.php
 │   │   │   ├── Post.php
 │   │   │   ├── Register.php
-│   │   ├── php.php
 │   │   ├── checkBox.js
 │   │   ├── Refersh.js
 │   │   ├── Size.js
@@ -98,52 +99,55 @@ Demo : http://forum-vn.000.pe/
 │   │   ├── t.js
 │   │   ├── taskBar.js
 │   │   ├── Toogle.js
-│   ├── info\
-│   │   ├── LogicPHP\
+│   ├── info
+│   │   ├── LogicPHP
 │   │   │   ├── Auth.php
-│   │   │   └── Info.php
+│   │   │   ├── Info.php
+│   │   │   ├── IPv6.php
 │   │   ├── php.php
-│   │   └── styles.css
-│   ├── logs\
-│   │   ├── LogicPHP\
-│   │   │   ├── Output.php
-│   │   │   └── Read.php
-│   │   └── styles.css
-│   ├── network\
-│   │   ├── LogicPHP\
+│   │   ├── styles.css
+│   ├── logs
+│   │   └── LogicPHP
+│   │       ├── Output.php
+│   │       └── Read.php
+│   ├── network
+│   │   ├── Handle.js
+│   │   ├── LogicPHP
 │   │   │   ├── checkTime.php
 │   │   │   └── checkTime2.php
 │   │   ├── php.php
 │   │   └── styles.css
-│   ├── profile\
+│   ├── profile
 │   │   └── styles.css
-│   ├── rule\
+│   ├── rule
 │   │   └── styles.css
-│   ├── tos\
+│   ├── tos
 │   │   └── styles.css
-│   ├── view\
-│   │   ├── LogicPHP\
+│   ├── view
+│   │   ├── LogicPHP
 │   │   │   ├── Auth.php
 │   │   │   ├── Auth2.php
 │   │   │   ├── badWord.php
 │   │   │   ├── Captcha.php
 │   │   │   ├── Handle.php
-│   │   │   ├── Logs.php
+│   │   │   └── Logs.php
 │   │   ├── php.php
 │   │   └── styles.css
-│   └── warning\
+│   └── warning
 │       └── styles.css
+├── badwords.txt
 ├── db.sql
-├── delete_post.php
+├── docs
+│   ├── api_docs.html
+│   ├── rules.html
+│   └── tos.html
 ├── index.php
-├── info_user.php
 ├── LICENSE
-├── logout.php
-├── logs\
+├── logs
+│   └── .readme.bat
 ├── README.md
-├── rules.html
 ├── setup.php
-├── src\
+├── src
 │   ├── admin.php
 │   ├── api.php
 │   ├── ban.php
@@ -157,6 +161,7 @@ Demo : http://forum-vn.000.pe/
 │   ├── view.php
 │   └── warning.php
 └── uploads
+    └── .readme.bat
 ```
 
 
