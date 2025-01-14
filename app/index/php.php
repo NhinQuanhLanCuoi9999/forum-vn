@@ -12,5 +12,6 @@ include('logicPHP/Post.php');
 include('logicPHP/deletePost.php');
 include('logicPHP/Comment.php');
 include('logicPHP/Pagination.php');
+include('logicPHP/PaginationBtn.php');
 include('logicPHP/Logout.php');
 ?>

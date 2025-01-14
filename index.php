@@ -114,42 +114,7 @@ include('app/index/php.php');
     <a href="index.php?logout=true"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
 </div>
 <script src = app/index/taskBar.js></script>
-<?php
-echo "<div class='pagination'>";
 
-// Liên kết đến section đầu tiên
-if ($current_section > 1) {
-    echo "<a href='index.php?section=1'>&lt;&lt;</a> ";
-}
-
-// Liên kết đến section trước
-if ($current_section > 1) {
-    echo "<a href='index.php?section=" . ($current_section - 1) . "'>&lt;</a> ";
-}
-
-// Hiển thị các liên kết section gần với section hiện tại
-$range = 7; // Số section hiển thị xung quanh section hiện tại
-for ($i = max(1, $current_section - $range); $i <= min($total_sections, $current_section + $range); $i++) {
-    if ($i == $current_section) {
-        echo "<strong>$i</strong> "; // Đánh dấu section hiện tại
-    } else {
-        echo "<a href='index.php?section=$i'>$i</a> ";
-    }
-}
-
-// Liên kết đến section tiếp theo
-if ($current_section < $total_sections) {
-    echo "<a href='index.php?section=" . ($current_section + 1) . "'>&gt;</a> ";
-}
-
-// Liên kết đến section cuối cùng
-if ($current_section < $total_sections) {
-    echo "<a href='index.php?section=$total_sections'>&gt;&gt;</a>";
-}
-
-echo "</div>";
- 
-?>
         <h2>Các bài viết</h2>
         <?php if ($posts->num_rows > 0): ?>
     <?php while ($post = $posts->fetch_assoc()): ?>

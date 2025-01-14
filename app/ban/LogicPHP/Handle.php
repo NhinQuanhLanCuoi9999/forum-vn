@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ban'])) {
             $error_message = 'Người dùng hoặc IP đã bị cấm trước đó!';
         } else {
             if (!empty($username) || !empty($ip_address)) {
+                // Nếu có username
                 if (!empty($username)) {
                     $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
                     $stmt->bind_param("s", $username);
@@ -43,11 +44,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ban'])) {
                     } else {
                         $error_message = 'Không tìm thấy người dùng!';
                     }
-                } elseif (!empty($ip_address)) {
-                    $stmt = $conn->prepare("INSERT INTO bans (username, ip_address, reason, ban_start, ban_end, permanent) VALUES (?, ?, ?, NOW(), ?, ?)");
-                    $username = 'IP_Censored';
+                } 
+                // Nếu không có username (chỉ cấm theo IP)
+                elseif (!empty($ip_address)) {
+                    // Cấm theo IP mà không cần tham chiếu tới bảng users
+                    // Chỉ thêm IP vào trường ip_address mà không phải là username
+                    $stmt = $conn->prepare("INSERT INTO bans (username, ip_address, reason, ban_start, ban_end, permanent) VALUES (NULL, ?, ?, NOW(), ?, ?)");
                     $ban_end_formatted = $ban_end_date->format('Y-m-d H:i:s');  // Gán kết quả của format vào một biến
-                    $stmt->bind_param("ssssi", $username, $ip_address, $reason, $ban_end_formatted, $permanent);                    
+                    $stmt->bind_param("sssi", $ip_address, $reason, $ban_end_formatted, $permanent);                    
                     $stmt->execute();
 
                     $success_message = "Đã cấm IP $ip_address thành công.";

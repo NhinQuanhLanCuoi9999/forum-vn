@@ -13,4 +13,6 @@ $start_index = ($current_section - 1) * $posts_per_section;
 
 // Lấy danh sách bài viết cho section hiện tại
 $posts = $conn->query("SELECT * FROM posts ORDER BY created_at DESC LIMIT $start_index, $posts_per_section");
+
+
 ?>

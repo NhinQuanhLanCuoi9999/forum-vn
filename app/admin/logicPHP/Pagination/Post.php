@@ -1,5 +1,5 @@
 <?php
-$limit = 6; // Số bài viết trên mỗi trang
+$limit = 5; // Số bài viết trên mỗi trang
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Số trang hiện tại
 $offset = ($page - 1) * $limit; // Tính toán offset cho câu truy vấn SQL
 

@@ -197,12 +197,7 @@ include('../app/admin/php.php');
     <?php endif; ?>
 </div>
 
-
-
-
-
-
-        <?php elseif (isset($_GET['section']) && $_GET['section'] === 'info'): ?>
+     <?php elseif (isset($_GET['section']) && $_GET['section'] === 'info'): ?>
             <div class="in4">   <h2>Thông tin</h2> </div>
             <div class="info-section">
                 <p><strong>Tổng bài viết:</strong> <br> <?php echo $total_posts; ?></p>

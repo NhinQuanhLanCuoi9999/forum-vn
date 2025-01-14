@@ -2,7 +2,6 @@
 session_start();
 include '../config.php';  // Đảm bảo cấu hình kết nối DB
 include '../app/api/php.php';  // Đảm bảo hàm writeLog() và các hàm cần thiết
-
 ?>
 
 <!DOCTYPE html>
@@ -12,6 +11,8 @@ include '../app/api/php.php';  // Đảm bảo hàm writeLog() và các hàm c�
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý API</title>
     <link rel="stylesheet" type="text/css" href="/app/api/styles.css">
+    <link rel="stylesheet" type="text/css" href="/app/api/Pagination.css">
+  
 </head>
 <body>
     <h1>Quản lý API Keys</h1>
@@ -51,5 +52,20 @@ include '../app/api/php.php';  // Đảm bảo hàm writeLog() và các hàm c�
             <?php endforeach; ?>
         </tbody>
     </table>
+
+    <!-- Phân trang -->
+    <div class="pagination">
+        <a href="?page=1" class="page-link <?= $page == 1 ? 'disabled' : ''; ?>"><<</a>
+        <a href="?page=<?= $page - 1; ?>" class="page-link <?= $page == 1 ? 'disabled' : ''; ?>">‹</a>
+
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <?php if ($i > $page - 5 && $i < $page + 5): ?>
+                <a href="?page=<?= $i; ?>" class="page-link <?= $i == $page ? 'active' : ''; ?>"><?= $i; ?></a>
+            <?php endif; ?>
+        <?php endfor; ?>
+
+        <a href="?page=<?= $page + 1; ?>" class="page-link <?= $page == $totalPages ? 'disabled' : ''; ?>">›</a>
+        <a href="?page=<?= $totalPages; ?>" class="page-link <?= $page == $totalPages ? 'disabled' : ''; ?>">>></a>
+    </div>
 </body>
 </html>

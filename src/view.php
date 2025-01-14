@@ -2,6 +2,7 @@
 session_start();
 include '../config.php'; // Kết nối database từ file config
 include '../app/view/php.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -24,16 +25,66 @@ include '../app/view/php.php';
         <p><strong>Mô tả:</strong> <?php echo htmlspecialchars($post['description'], ENT_QUOTES, 'UTF-8'); ?></p>
         <p><strong>Tác giả:</strong> <?php echo htmlspecialchars($post['username'], ENT_QUOTES, 'UTF-8'); ?></p>
         <p><strong>Ngày tạo:</strong> <?php echo htmlspecialchars($post['created_at'], ENT_QUOTES, 'UTF-8'); ?></p>
-        <!-- Hiển thị liên kết tải xuống nếu có tệp tin -->
-<?php if ($post['file']): ?>
-    <p><strong>Tệp đính kèm: </strong><a href="../uploads/<?php echo htmlspecialchars($post['file'], ENT_QUOTES, 'UTF-8'); ?>" download><?php echo htmlspecialchars($post['file'], ENT_QUOTES, 'UTF-8'); ?></a></p>
-<?php endif; ?>
+        <?php if ($post['file']): ?>
+            <p><strong>Tệp đính kèm: </strong><a href="../uploads/<?php echo htmlspecialchars($post['file'], ENT_QUOTES, 'UTF-8'); ?>" download><?php echo htmlspecialchars($post['file'], ENT_QUOTES, 'UTF-8'); ?></a></p>
+        <?php endif; ?>
         <?php if ($isOwner): ?>
             <a href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&delete_post=1" class="btn btn-danger btn-delete">Xóa bài viết</a>
         <?php endif; ?>
     </div>
 
-    <h2>Bình luận</h2>
+      <!-- Liên kết phân trang -->
+      <nav>
+    <ul class="pagination">
+        <!-- Nút đến trang đầu tiên -->
+        <?php if ($page > 1): ?>
+        <li class="page-item">
+            <a class="page-link" href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&page=1">&laquo; Đầu</a>
+        </li>
+        <?php endif; ?>
+
+        <?php 
+        // Hiển thị trang đầu tiên nếu không phải trang đầu tiên
+        if ($page > 4) echo '<li class="page-item"><a class="page-link" href="view.php?id=' . urlencode($postId) . '&page=1">1</a></li>';
+        
+        // Hiển thị dấu "..." nếu có trang ở giữa
+        if ($page > 4) echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+        
+        // Các trang trước trang hiện tại (hiển thị 3 trang trước đó)
+        for ($i = max(1, $page - 3); $i < $page; $i++): ?>
+        <li class="page-item">
+            <a class="page-link" href="view.php?id=<?php echo urlencode($postId); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+        </li>
+        <?php endfor; ?>
+
+        <!-- Trang hiện tại -->
+        <li class="page-item active">
+            <a class="page-link" href="#"><?php echo $page; ?></a>
+        </li>
+
+        <!-- Các trang sau trang hiện tại (hiển thị 3 trang tiếp theo) -->
+        <?php for ($i = $page + 1; $i <= min($totalPages, $page + 3); $i++): ?>
+        <li class="page-item">
+            <a class="page-link" href="view.php?id=<?php echo urlencode($postId); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+        </li>
+        <?php endfor; ?>
+
+        <?php 
+        // Hiển thị dấu "..." nếu có trang ở giữa
+        if ($page < $totalPages - 3) echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+
+        // Hiển thị trang cuối cùng nếu không phải trang cuối cùng
+        if ($page < $totalPages - 3) echo '<li class="page-item"><a class="page-link" href="view.php?id=' . urlencode($postId) . '&page=' . $totalPages . '">' . $totalPages . '</a></li>';
+        ?>
+
+        <!-- Nút đến trang cuối cùng -->
+        <?php if ($page < $totalPages): ?>
+        <li class="page-item">
+            <a class="page-link" href="view.php?id=<?php echo urlencode($postId); ?>&page=<?php echo $totalPages; ?>">Cuối &raquo;</a>
+        </li>
+        <?php endif; ?>
+    </ul>
+</nav>
     <?php if (isset($_SESSION['error'])): ?>
         <p class="error"><?php echo htmlspecialchars($_SESSION['error'], ENT_QUOTES, 'UTF-8'); unset($_SESSION['error']); ?></p>
     <?php elseif (isset($_SESSION['success'])): ?>
@@ -48,7 +99,7 @@ include '../app/view/php.php';
     <?php endif; ?>
 
     <div class="comments">
-        <?php while ($comment = $comments->fetch_assoc()): ?>
+        <?php while ($comment = $commentsQuery->fetch_assoc()): ?>
             <div class="comment">
                 <p><strong><?php echo htmlspecialchars($comment['username'], ENT_QUOTES, 'UTF-8'); ?></strong> (<?php echo htmlspecialchars($comment['created_at'], ENT_QUOTES, 'UTF-8'); ?>)</p>
                 <p><?php echo preg_replace_callback('/https?:\/\/[^\s]+/', function ($matches) {
@@ -70,6 +121,12 @@ include '../app/view/php.php';
             <?php endif; ?>
         <?php endwhile; ?>
     </div>
+
+
+
+
+
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

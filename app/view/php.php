@@ -5,4 +5,5 @@ include_once 'LogicPHP/badWord.php';
 include 'LogicPHP/Logs.php';
 include 'LogicPHP/Handle.php';
 include_once 'LogicPHP/Auth2.php';
+include 'LogicPHP/Pagination.php';
 ?>

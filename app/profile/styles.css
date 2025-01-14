@@ -1,7 +1,8 @@
 @keyframes gradient-animation{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 html,body{height:100%;margin:0;user-select:none}body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#ffafbd,#ffc3a0);background-size:300% 300%;animation:gradient-animation 5s ease infinite;display:flex;align-items:center;justify-content:center}
-.container{max-width:800px;width:90%;margin:auto;padding:40px;background:white;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1);position:relative;z-index:1;overflow:hidden}
-.container::before{content:'';position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;background:linear-gradient(135deg,azure,lightblue);border-radius:8px;z-index:-1}h1{font-size:28px;margin-bottom:20px;text-align:left;background:linear-gradient(270deg,#ff0080,#ff8c00,#80ff00,#00ff8c,#008cff,#8000ff,#ff0080);background-size:400% 400%;animation:gradientFade 3s ease infinite;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.container{max-width:2000px;width:90%;margin:auto;padding:40px;background:white;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1);position:relative;z-index:1;overflow:hidden}
+.container::before{content:'';position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;background:linear-gradient(135deg,azure,lightblue);border-radius:8px;z-index:-1}
+h1{font-size:28px;margin-bottom:20px;text-align:left;background:linear-gradient(270deg,#ff0080,#ff8c00,#80ff00,#00ff8c,#008cff,#8000ff,#ff0080);background-size:400% 400%;animation:gradientFade 3s ease infinite;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .user-info{margin-top:20px;font-size:18px;line-height:1.6;color:#555}.user-info p{margin:10px 0;display:flex;justify-content:space-between;align-items:center}
 .user-info span{width:50%}
 .user-info strong{color:#007bff;text-align:right;width:50%}

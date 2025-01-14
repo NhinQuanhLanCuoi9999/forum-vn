@@ -76,7 +76,7 @@ if (isset($_GET['id'])) {
     }
 
 } else {
-    echo "Không có bài viết nào.";
+    header('Location: ../index.php');
     exit;
 }
 
