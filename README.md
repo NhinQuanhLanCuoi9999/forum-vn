@@ -25,17 +25,18 @@ Demo : http://forum-vn.000.pe/
 # Sơ đồ 
 
 
-```C:\xampp\htdocs
+```c:\xampp\htdocs\
 ├── .htaccess
 ├── 404.php
-├── api
+├── api\
 │   ├── Bans.php
 │   ├── Comment.php
 │   ├── Post.php
 │   └── User.php
-├── app
-│   ├── admin
-│   │   ├── logicPHP
+├── app\
+│   ├── admin\
+│   │   ├── configsys.css
+│   │   ├── logicPHP\
 │   │   │   ├── Api.php
 │   │   │   ├── Auth.php
 │   │   │   ├── Comment.php
@@ -43,40 +44,46 @@ Demo : http://forum-vn.000.pe/
 │   │   │   ├── List.php
 │   │   │   ├── Log.php
 │   │   │   ├── Logout.php
+│   │   │   ├── Pagination\
+│   │   │   │   ├── Post.php
+│   │   │   │   └── Users.php
 │   │   │   ├── Post.php
 │   │   │   ├── Search.php
-│   │   │   └── Users.php
+│   │   │   ├── SearchUser.php
+│   │   │   ├── SystemConfig.php
+│   │   │   ├── Users.php
 │   │   ├── Pagination.css
 │   │   ├── php.php
 │   │   ├── styles.css
 │   │   ├── taskbar.js
-│   ├── api
-│   │   ├── LogicPHP
+│   ├── api\
+│   │   ├── LogicPHP\
 │   │   │   ├── Auth.php
 │   │   │   ├── CreateAPI.php
+│   │   │   ├── Pagination.php
+│   │   ├── Pagination.css
 │   │   ├── php.php
 │   │   ├── styles.css
-│   ├── api_docs
-│   │   └── styles.css
-│   ├── ban
+│   ├── ban\
 │   │   ├── banOption.js
-│   │   ├── LogicPHP
+│   │   ├── LogicPHP\
 │   │   │   ├── Auth.php
 │   │   │   ├── Handle.php
-│   │   │   └── unBan.php
+│   │   │   ├── unBan.php
 │   │   ├── php.php
 │   │   ├── style.css
-│   ├── captcha
-│   │   └── styles.css
-│   ├── changePass
-│   │   ├── LogicPHP
+│   ├── captcha\
+│   │   ├── Auth.php
+│   │   ├── styles.css
+│   ├── changePass\
+│   │   ├── LogicPHP\
 │   │   │   ├── Auth.php
-│   │   │   └── Handle.php
+│   │   │   ├── Handle.php
 │   │   ├── php.php
-│   │   └── styles.css
-│   ├── index
+│   │   ├── styles.css
+│   ├── index\
 │   │   ├── checkBox.js
-│   │   ├── logicPHP
+│   │   ├── logicPHP\
 │   │   │   ├── badWords.php
 │   │   │   ├── Captcha.php
 │   │   │   ├── checkBan.php
@@ -89,9 +96,10 @@ Demo : http://forum-vn.000.pe/
 │   │   │   ├── Login.php
 │   │   │   ├── Logout.php
 │   │   │   ├── Pagination.php
+│   │   │   ├── PaginationBtn.php
 │   │   │   ├── Post.php
 │   │   │   ├── Register.php
-│   │   ├── checkBox.js
+│   │   │   ├── TitleName.php
 │   │   ├── Refersh.js
 │   │   ├── Size.js
 │   │   ├── Spoil.js
@@ -99,55 +107,55 @@ Demo : http://forum-vn.000.pe/
 │   │   ├── t.js
 │   │   ├── taskBar.js
 │   │   ├── Toogle.js
-│   ├── info
-│   │   ├── LogicPHP
+│   ├── info\
+│   │   ├── LogicPHP\
 │   │   │   ├── Auth.php
 │   │   │   ├── Info.php
 │   │   │   ├── IPv6.php
 │   │   ├── php.php
 │   │   ├── styles.css
-│   ├── logs
-│   │   └── LogicPHP
-│   │       ├── Output.php
-│   │       └── Read.php
-│   ├── network
+│   ├── logs\
+│   │   ├── LogicPHP\
+│   │   │   ├── Output.php
+│   │   │   ├── Read.php
+│   │   ├── styles.css
+│   ├── network\
+│   │   ├── Auth.php
 │   │   ├── Handle.js
-│   │   ├── LogicPHP
-│   │   │   ├── checkTime.php
-│   │   │   └── checkTime2.php
-│   │   ├── php.php
-│   │   └── styles.css
-│   ├── profile
-│   │   └── styles.css
-│   ├── rule
-│   │   └── styles.css
-│   ├── tos
-│   │   └── styles.css
-│   ├── view
-│   │   ├── LogicPHP
+│   │   ├── styles.css
+│   ├── profile\
+│   │   ├── Handle.php
+│   │   ├── Pagination.php
+│   │   ├── styles.css
+│   ├── rule\
+│   │   ├── styles.css
+│   ├── tos\
+│   │   ├── styles.css
+│   ├── view\
+│   │   ├── LogicPHP\
 │   │   │   ├── Auth.php
 │   │   │   ├── Auth2.php
 │   │   │   ├── badWord.php
 │   │   │   ├── Captcha.php
 │   │   │   ├── Handle.php
-│   │   │   └── Logs.php
+│   │   │   ├── Logs.php
+│   │   │   ├── Pagination.php
+│   │   │   ├── PaginationBtn.php
 │   │   ├── php.php
-│   │   └── styles.css
-│   └── warning
-│       └── styles.css
+│   │   ├── styles.css
 ├── badwords.txt
 ├── db.sql
-├── docs
+├── docs\
 │   ├── api_docs.html
 │   ├── rules.html
 │   └── tos.html
 ├── index.php
 ├── LICENSE
-├── logs
+├── logs\
 │   └── .readme.bat
 ├── README.md
 ├── setup.php
-├── src
+├── src\
 │   ├── admin.php
 │   ├── api.php
 │   ├── ban.php
@@ -160,8 +168,9 @@ Demo : http://forum-vn.000.pe/
 │   ├── profile.php
 │   ├── view.php
 │   └── warning.php
-└── uploads
-    └── .readme.bat
+├── uploads\
+│   └── .readme.bat
+
 ```
 
 

@@ -13,4 +13,7 @@ if (isset($_SESSION['last_access_time'])) {
         exit();
     }
 }
+
+// Cập nhật thời gian truy cập hiện tại
+$_SESSION['last_access_time'] = time();
 ?>

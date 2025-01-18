@@ -15,6 +15,7 @@ include('../app/admin/php.php');
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="/app/admin/Pagination.css">
+    <link rel="stylesheet" type="text/css" href="/app/admin/configsys.css">
 
 </head>
 <body>
@@ -31,31 +32,34 @@ include('../app/admin/php.php');
             <h2>Dashboard</h2>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="index.php"><i class="fas fa-home"></i> Trang chính</a></li>
-            <li>
-                <span style="cursor: pointer;" onclick="changeSection('info')"><i class="fas fa-info-circle"></i> Thông tin</span>
-            </li>
-           
-            <li>
-                <span style="cursor: pointer;" onclick="changeSection('posts')"><i class="fas fa-file-alt"></i> Quản lý bài viết</span>
-            </li>
-            <li>
-                <span style="cursor: pointer;" onclick="changeSection('users')"><i class="fas fa-users"></i> Quản lý người dùng</span>
-            </li>
-            <li>
-                <span style="cursor: pointer;" onclick="changeSection('api')"><i class="fas fa-cogs"></i> API</span>
-            </li>
-            <li>
-                <span style="cursor: pointer;" onclick="window.location.href='logs.php'"><i class="fas fa-book"></i> Logs</span>
-            </li>
-            <li>
-                <span style="cursor: pointer;" onclick="window.location.href='ban.php'"><i class="fas fa-user-slash"></i> Cấm User</span>
-            </li>
-     
-            <li>
-                <span style="cursor: pointer;" onclick="window.location.href='index.php?logout=true'"><i class="fas fa-sign-out-alt"></i> Đăng xuất</span>
-            </li>
-        </ul>
+    <li><a href="index.php"><i class="fas fa-home"></i> Trang chính</a></li>
+    <li>
+        <span style="cursor: pointer;" onclick="changeSection('info')"><i class="fas fa-info-circle"></i> Thông tin</span>
+    </li>
+    <li>
+        <span style="cursor: pointer;" onclick="changeSection('system_config')"><i class="fas fa-sliders-h"></i> Cấu hình hệ thống</span>
+    </li>
+    <li>
+        <span style="cursor: pointer;" onclick="changeSection('posts')"><i class="fas fa-file-alt"></i> Quản lý bài viết</span>
+    </li>
+    <li>
+        <span style="cursor: pointer;" onclick="changeSection('users')"><i class="fas fa-users"></i> Quản lý người dùng</span>
+    </li>
+    <li>
+        <span style="cursor: pointer;" onclick="changeSection('api')"><i class="fas fa-cogs"></i> API</span>
+    </li>
+
+    <li>
+        <span style="cursor: pointer;" onclick="window.location.href='logs.php'"><i class="fas fa-book"></i> Logs</span>
+    </li>
+    <li>
+        <span style="cursor: pointer;" onclick="window.location.href='ban.php'"><i class="fas fa-user-slash"></i> Cấm User</span>
+    </li>
+    <li>
+        <span style="cursor: pointer;" onclick="window.location.href='index.php?logout=true'"><i class="fas fa-sign-out-alt"></i> Đăng xuất</span>
+    </li>
+</ul>
+
         <form method="GET" class="search-form" action="src/admin.php">
             <input type="hidden" name="section" value="<?php echo isset($_GET['section']) ? $_GET['section'] : 'posts'; ?>">
             <input type="text" name="search" class="search-input" placeholder="<?php echo (isset($_GET['section']) && $_GET['section'] === 'users') ? 'Tìm người dùng' : 'Tìm bài viết'; ?>">
@@ -135,7 +139,33 @@ include('../app/admin/php.php');
     <?php endif; ?>
 </div>
 
+<?php elseif (isset($_GET['section']) && $_GET['section'] === 'system_config'): ?>
+    <h2>Cấu hình hệ thống</h2>
 
+
+    <form method="POST" action="admin.php?section=system_config">
+        <div class="form-table">
+            <div class="form-row">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($system_config['title']); ?>" required>
+            </div>
+            <div class="form-row">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($system_config['name']); ?>" required>
+            </div>
+            <div class="form-row">
+                <label for="hcaptcha_api_key">hCaptcha API Key:</label>
+                <input type="text" id="hcaptcha_api_key" name="hcaptcha_api_key" value="<?php echo htmlspecialchars($system_config['hcaptcha_api_key']); ?>" required>
+            </div>
+            <div class="form-row">
+                <label for="ipinfo_api_key">IPInfo API Key:</label>
+                <input type="text" id="ipinfo_api_key" name="ipinfo_api_key" value="<?php echo htmlspecialchars($system_config['ipinfo_api_key']); ?>" required>
+            </div>
+            <div class="form-row">
+                <button type="submit">Lưu thay đổi</button>
+            </div>
+        </div>
+    </form>
 
 <?php elseif (isset($_GET['section']) && $_GET['section'] === 'posts'): ?>
     <h2>Quản lý bài viết</h2>

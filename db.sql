@@ -52,3 +52,13 @@ CREATE TABLE IF NOT EXISTS api_keys (
     is_active TINYINT(1) NOT NULL DEFAULT 1, -- 1: active, 0: inactive
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+-- Bảng misc
+CREATE TABLE IF NOT EXISTS misc (
+    id INT NOT NULL DEFAULT 1 PRIMARY KEY,  -- id chỉ có thể là 1, không có giá trị khác
+    title VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    hcaptcha_api_key VARCHAR(255) NOT NULL,
+    ipinfo_api_key VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (id)  -- id duy nhất (không có bản ghi khác ngoài id=1)
+);

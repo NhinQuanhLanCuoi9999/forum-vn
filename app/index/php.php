@@ -14,4 +14,5 @@ include('logicPHP/Comment.php');
 include('logicPHP/Pagination.php');
 include('logicPHP/PaginationBtn.php');
 include('logicPHP/Logout.php');
+include('logicPHP/TitleName.php');
 ?>

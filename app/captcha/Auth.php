@@ -1,6 +1,25 @@
 <?php
+include '../config.php';
 // Khởi tạo session
 session_start();
+
+// Kiểm tra nếu config.php không tồn tại
+if (!file_exists('../config.php')) {
+    header("Location: ../setup.php"); // Chuyển hướng đến setup.php nếu config.php không tồn tại
+    exit();
+}
+
+// Lấy hcaptcha_api_key từ bảng misc (chỉ lấy 1 bản ghi duy nhất)
+$query = "SELECT hcaptcha_api_key FROM misc LIMIT 1";
+$result = $conn->query($query);
+
+// Kiểm tra nếu có bản ghi
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $hcaptcha_api_key = $row['hcaptcha_api_key']; // Lấy hcaptcha_api_key từ cơ sở dữ liệu
+} else {
+    die("Không tìm thấy hcaptcha_api_key trong cơ sở dữ liệu.");
+}
 
 // Kiểm tra nếu người dùng đã xác thực captcha bằng session
 if (isset($_SESSION['captcha_verified'])) {
@@ -22,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Xác thực với API hCaptcha
         $url = 'https://hcaptcha.com/siteverify';
         $data = [
-            'secret' => 'ES_eafd0df71344421686007fe53757d82a', // Thay thế bằng khóa bí mật của bạn từ hCaptcha
+            'secret' => $hcaptcha_api_key, // Sử dụng khóa API từ cơ sở dữ liệu
             'response' => $hcaptcha_response,
             'remoteip' => $_SERVER['REMOTE_ADDR']
         ];

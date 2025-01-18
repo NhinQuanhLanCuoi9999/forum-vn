@@ -3,6 +3,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
 include('config.php'); // Bao gồm file config để kết nối DB
 // Bao gồm tệp index.php sau khi kiểm tra cấm xong
 include('app/index/php.php');
+
 ?>
 
 
@@ -14,7 +15,7 @@ include('app/index/php.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Forum</title>
+    <title><?php echo htmlspecialchars($page_title); ?></title>
     <link rel="icon" href="favicon.png" type="image/png">
     <link rel="stylesheet" type="text/css" href="app/index/styles.css">
 
@@ -30,7 +31,7 @@ include('app/index/php.php');
 
     <script src = app/index/Size.js></script>
 <div class="container">
-    <h1>Forum</h1>
+<h1 class="text-center mb-4 fade-in"><?php echo htmlspecialchars($forum_name); ?></h1>
     <?php if (!isset($_SESSION['username'])): ?>
         <!-- Hiển thị form nếu chưa đăng nhập -->
         <form id="login-form" method="post" action="index.php" style="display: block;">
