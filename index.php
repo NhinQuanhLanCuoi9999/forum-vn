@@ -35,15 +35,34 @@ include('app/index/php.php');
     <?php if (!isset($_SESSION['username'])): ?>
         <!-- Hiển thị form nếu chưa đăng nhập -->
         <form id="login-form" method="post" action="index.php" style="display: block;">
-            <h2>Đăng nhập</h2>
-            <input type="text" name="username" placeholder="Tên đăng nhập" required maxlength="50">
-            <input type="password" name="password" placeholder="Mật khẩu" required>
-            <button type="submit" name="login">Đăng nhập</button>
-            <p>Chưa có tài khoản? <span class="toggle-link" style="color: red;"  onclick="toggleForms()">Đăng ký</span></p>
-        </form>
+        <?php
+// Khởi tạo CSRF token nếu chưa có
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Tạo token ngẫu nhiên
+}
+?>
+
+<form id="login-form" method="post" action="index.php" style="display: block;">
+    <h2>Đăng nhập</h2>
+    <input type="text" name="username" placeholder="Tên đăng nhập" required maxlength="50">
+    <input type="password" name="password" placeholder="Mật khẩu" required>
+    
+    <!-- Thêm CSRF token vào form -->
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+    
+    <button type="submit" name="login">Đăng nhập</button>
+    <p>Chưa có tài khoản? <span class="toggle-link" style="color: red;" onclick="toggleForms()">Đăng ký</span></p>
+</form>
+
+
         <form id="register-form" method="post" action="index.php" style="display: none;">
-        <h2>Đăng ký</h2>
-<form id="registrationForm">
+      <?php  // Tạo token CSRF nếu chưa có
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Tạo token CSRF ngẫu nhiên
+}
+?>
+<h2>Đăng ký</h2>
+<form id="registrationForm" method="POST" action="register.php">
     <input type="text" name="username" placeholder="Tên đăng nhập" required pattern="^[a-zA-Z0-9]{5,30}$"
         title="Vui lòng chỉ nhập ký tự chữ và số không dấu và không có khoảng trắng hoặc ký tự đặc biệt. Nhập từ 5 đến 30 ký tự.">
     <input type="password" name="password" placeholder="Mật khẩu" required 
@@ -52,15 +71,20 @@ include('app/index/php.php');
         title="Vui lòng chỉ nhập ký tự chữ và số, không có khoảng trắng hoặc ký tự đặc biệt. Nhập từ 6 đến 30 ký tự.">
     <input type="password" name="confirm_password" placeholder="Nhập lại mật khẩu" required>
     
+    <!-- Token CSRF -->
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+
     <!-- Checkbox và liên kết -->
     <label>
-        <input type="checkbox" id="agreeCheckbox"> 
+        <input type="checkbox" id="agreeCheckbox" onclick="toggleSubmitButton()"> 
         Bằng cách nhấn vào nút này, bạn đồng ý <a href="/docs/tos.html" target="_blank"><strong>Điều khoản dịch vụ</strong><b>.</b></a> <br>
     </label>
     
     <!-- Nút đăng ký mặc định xám và có hiệu ứng chuyển màu -->
     <button type="submit" name="register" id="registerBtn" disabled style="background-color: #9e9e9e;">Đăng ký</button>
- <p>Đã có tài khoản? <span class="toggle-link" style="color: red;" onclick="toggleForms()">Đăng nhập</span></p></form>
+    <p>Đã có tài khoản? <span class="toggle-link" style="color: red;" onclick="toggleForms()">Đăng nhập</span></p>
+</form>
+
 
 
 <script src = app/index/checkBox.js></script>
@@ -99,7 +123,8 @@ include('app/index/php.php');
     <!-- Trường tải lên tệp -->
     <label for="file">Chọn tệp để tải lên:</label>
     <input type="file" name="file" id="file">
-
+     <!-- CSRF Token -->
+     <input type="hidden" name="csrf_token2" value="<?php echo $_SESSION['csrf_token2']; ?>">
     <button type="submit" name="post">Đăng bài</button>
 </form>
 
@@ -157,16 +182,18 @@ include('app/index/php.php');
 
 <?php endif; ?>
 
-    
+
     <!-- Nút hiện/ẩn bình luận -->
 <button class="toggle-comments" data-post-id="<?php echo htmlspecialchars($post['id']); ?>">Hiện bình luận</button>
 <div class="comments" id="comments-<?php echo htmlspecialchars($post['id']); ?>" style="display: none;">
     <h4>Bình luận:</h4>
     <form method="post" action="index.php" class="comment-form">
-        <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['id']); ?>">
-        <textarea name="content" placeholder="Nhập bình luận" required></textarea>
-        <button type="submit" name="comment">Gửi bình luận</button>
-    </form>
+    <input type="hidden" name="csrf_token1" value="<?php echo $_SESSION['csrf_token1']; ?>">
+    <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['id']); ?>">
+    <textarea name="content" placeholder="Nhập bình luận" required></textarea>
+    <button type="submit" name="comment">Gửi bình luận</button>
+</form>
+
     <?php
     $post_id = $post['id'];
     $comments = $conn->query("SELECT * FROM comments WHERE post_id = $post_id ORDER BY created_at DESC");

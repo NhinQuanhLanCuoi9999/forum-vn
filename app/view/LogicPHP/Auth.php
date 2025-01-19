@@ -1,9 +1,10 @@
 <?php
 include '../app/view/LogicPHP/Auth2.php';
 include 'badWord.php';
+
 // Kiểm tra nếu có id trong URL
 if (isset($_GET['id'])) {
-    $postId = $_GET['id'];
+    $postId = intval($_GET['id']);  // Chuyển ID sang kiểu số nguyên để bảo vệ khỏi injection
 
     // Lấy thông tin bài viết theo id
     $stmt = $conn->prepare("SELECT * FROM posts WHERE id = ?");
@@ -40,6 +41,7 @@ if (isset($_GET['id'])) {
             // Định dạng nội dung bình luận
             $formatted_content = formatText($content);
 
+            // Sử dụng prepared statements khi thêm bình luận
             $stmt_insert_comment = $conn->prepare("INSERT INTO comments (post_id, content, username) VALUES (?, ?, ?)");
             $stmt_insert_comment->bind_param("iss", $post_id, $formatted_content, $_SESSION['username']);
             $stmt_insert_comment->execute();
@@ -53,7 +55,9 @@ if (isset($_GET['id'])) {
 
     // Xóa bình luận
     if ($isLoggedIn && isset($_GET['delete_comment'])) {
-        $commentId = $_GET['delete_comment'];
+        $commentId = intval($_GET['delete_comment']);  // Kiểm tra và bảo vệ id
+
+        // Sử dụng prepared statements khi xóa bình luận
         $stmt_delete_comment = $conn->prepare("DELETE FROM comments WHERE id = ? AND username = ?");
         $stmt_delete_comment->bind_param("is", $commentId, $_SESSION['username']);
         $stmt_delete_comment->execute();
@@ -66,6 +70,7 @@ if (isset($_GET['id'])) {
 
     // Xử lý xóa bài viết
     if ($isOwner && isset($_GET['delete_post'])) {
+        // Sử dụng prepared statements khi xóa bài viết
         $stmt_delete_post = $conn->prepare("DELETE FROM posts WHERE id = ?");
         $stmt_delete_post->bind_param("i", $postId);
         $stmt_delete_post->execute();

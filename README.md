@@ -25,18 +25,19 @@ Demo : http://forum-vn.000.pe/
 # Sơ đồ 
 
 
-```c:\xampp\htdocs\
+```c:\xampp\htdocs
+│
 ├── .htaccess
 ├── 404.php
-├── api\
+├── api
 │   ├── Bans.php
 │   ├── Comment.php
 │   ├── Post.php
 │   └── User.php
-├── app\
-│   ├── admin\
+├── app
+│   ├── admin
 │   │   ├── configsys.css
-│   │   ├── logicPHP\
+│   │   ├── logicPHP
 │   │   │   ├── Api.php
 │   │   │   ├── Auth.php
 │   │   │   ├── Comment.php
@@ -44,46 +45,38 @@ Demo : http://forum-vn.000.pe/
 │   │   │   ├── List.php
 │   │   │   ├── Log.php
 │   │   │   ├── Logout.php
-│   │   │   ├── Pagination\
-│   │   │   │   ├── Post.php
-│   │   │   │   └── Users.php
+│   │   │   ├── Pagination
 │   │   │   ├── Post.php
 │   │   │   ├── Search.php
 │   │   │   ├── SearchUser.php
-│   │   │   ├── SystemConfig.php
-│   │   │   ├── Users.php
-│   │   ├── Pagination.css
-│   │   ├── php.php
+│   │   │   └── SystemConfig.php
 │   │   ├── styles.css
-│   │   ├── taskbar.js
-│   ├── api\
-│   │   ├── LogicPHP\
+│   │   └── taskbar.js
+│   ├── api
+│   │   ├── LogicPHP
 │   │   │   ├── Auth.php
 │   │   │   ├── CreateAPI.php
 │   │   │   ├── Pagination.php
-│   │   ├── Pagination.css
-│   │   ├── php.php
-│   │   ├── styles.css
-│   ├── ban\
-│   │   ├── banOption.js
-│   │   ├── LogicPHP\
+│   │   └── styles.css
+│   ├── api_docs
+│   │   └── styles.css
+│   ├── ban
+│   │   ├── LogicPHP
 │   │   │   ├── Auth.php
 │   │   │   ├── Handle.php
-│   │   │   ├── unBan.php
+│   │   │   └── unBan.php
 │   │   ├── php.php
-│   │   ├── style.css
-│   ├── captcha\
-│   │   ├── Auth.php
-│   │   ├── styles.css
-│   ├── changePass\
-│   │   ├── LogicPHP\
+│   │   └── style.css
+│   ├── captcha
+│   │   └── styles.css
+│   ├── changePass
+│   │   ├── LogicPHP
 │   │   │   ├── Auth.php
-│   │   │   ├── Handle.php
-│   │   ├── php.php
-│   │   ├── styles.css
-│   ├── index\
+│   │   │   └── Handle.php
+│   │   └── styles.css
+│   ├── index
 │   │   ├── checkBox.js
-│   │   ├── logicPHP\
+│   │   ├── logicPHP
 │   │   │   ├── badWords.php
 │   │   │   ├── Captcha.php
 │   │   │   ├── checkBan.php
@@ -99,40 +92,35 @@ Demo : http://forum-vn.000.pe/
 │   │   │   ├── PaginationBtn.php
 │   │   │   ├── Post.php
 │   │   │   ├── Register.php
-│   │   │   ├── TitleName.php
-│   │   ├── Refersh.js
-│   │   ├── Size.js
-│   │   ├── Spoil.js
+│   │   │   └── TitleName.php
 │   │   ├── styles.css
-│   │   ├── t.js
 │   │   ├── taskBar.js
 │   │   ├── Toogle.js
-│   ├── info\
-│   │   ├── LogicPHP\
+│   │   └── t.js
+│   ├── info
+│   │   ├── LogicPHP
 │   │   │   ├── Auth.php
 │   │   │   ├── Info.php
-│   │   │   ├── IPv6.php
-│   │   ├── php.php
-│   │   ├── styles.css
-│   ├── logs\
-│   │   ├── LogicPHP\
-│   │   │   ├── Output.php
-│   │   │   ├── Read.php
-│   │   ├── styles.css
-│   ├── network\
+│   │   │   └── IPv6.php
+│   │   └── styles.css
+│   ├── logs
+│   │   └── LogicPHP
+│   │       ├── Output.php
+│   │       └── Read.php
+│   ├── network
 │   │   ├── Auth.php
 │   │   ├── Handle.js
-│   │   ├── styles.css
-│   ├── profile\
+│   │   └── styles.css
+│   ├── profile
 │   │   ├── Handle.php
 │   │   ├── Pagination.php
-│   │   ├── styles.css
-│   ├── rule\
-│   │   ├── styles.css
-│   ├── tos\
-│   │   ├── styles.css
-│   ├── view\
-│   │   ├── LogicPHP\
+│   │   └── styles.css
+│   ├── rule
+│   │   └── styles.css
+│   ├── tos
+│   │   └── styles.css
+│   ├── view
+│   │   ├── LogicPHP
 │   │   │   ├── Auth.php
 │   │   │   ├── Auth2.php
 │   │   │   ├── badWord.php
@@ -142,20 +130,22 @@ Demo : http://forum-vn.000.pe/
 │   │   │   ├── Pagination.php
 │   │   │   ├── PaginationBtn.php
 │   │   ├── php.php
-│   │   ├── styles.css
-├── badwords.txt
+│   │   └── styles.css
+│   └── warning
+│       └── styles.css
 ├── db.sql
-├── docs\
+├── docs
 │   ├── api_docs.html
 │   ├── rules.html
 │   └── tos.html
 ├── index.php
 ├── LICENSE
-├── logs\
-│   └── .readme.bat
+├── logs
+│   ├── .readme.bat
+│   └── logs.txt
 ├── README.md
 ├── setup.php
-├── src\
+├── src
 │   ├── admin.php
 │   ├── api.php
 │   ├── ban.php
@@ -166,11 +156,9 @@ Demo : http://forum-vn.000.pe/
 │   ├── logs.php
 │   ├── network-config.php
 │   ├── profile.php
-│   ├── view.php
-│   └── warning.php
-├── uploads\
-│   └── .readme.bat
-
+│   └── view.php
+├── uploads
+    └── .readme.bat
 ```
 
 

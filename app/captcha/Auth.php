@@ -8,7 +8,6 @@ if (!file_exists('../config.php')) {
     header("Location: ../setup.php"); // Chuyển hướng đến setup.php nếu config.php không tồn tại
     exit();
 }
-
 // Lấy hcaptcha_api_key từ bảng misc (chỉ lấy 1 bản ghi duy nhất)
 $query = "SELECT hcaptcha_api_key FROM misc LIMIT 1";
 $result = $conn->query($query);

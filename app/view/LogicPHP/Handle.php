@@ -1,10 +1,19 @@
 <?php
 include_once 'badWord.php';
+
+// Kiểm tra CSRF token (Bảo vệ chống CSRF)
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_comment'])) {
+    // Kiểm tra CSRF token
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Invalid CSRF Token");
+        exit();
+    }
+
+    // Xử lý bình luận sau khi kiểm tra CSRF token
     $commentId = $_POST['comment_id'];
     $newContent = $_POST['comment_content'];
     $postId = $_GET['id'];  // Đảm bảo bạn có postId từ URL
-    
+
     if (containsBadWords($newContent)) {
         $_SESSION['error'] = "Bình luận không được chứa từ cấm!";
     } else {

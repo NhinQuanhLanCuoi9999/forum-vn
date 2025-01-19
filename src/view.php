@@ -114,10 +114,14 @@ include '../app/view/php.php';
 
             <?php if (isset($_GET['edit_comment']) && $_GET['edit_comment'] == $comment['id'] && $_SESSION['username'] === $comment['username']): ?>
                 <form action="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>" method="POST">
-                    <textarea name="comment_content" required><?php echo htmlspecialchars($comment['content'], ENT_QUOTES, 'UTF-8'); ?></textarea>
-                    <input type="hidden" name="comment_id" value="<?php echo htmlspecialchars($comment['id'], ENT_QUOTES, 'UTF-8'); ?>">
-                    <button type="submit" name="edit_comment">Cập nhật bình luận</button>
-                </form>
+    <!-- CSRF token -->
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+
+    <textarea name="comment_content" required><?php echo htmlspecialchars($comment['content'], ENT_QUOTES, 'UTF-8'); ?></textarea>
+    <input type="hidden" name="comment_id" value="<?php echo htmlspecialchars($comment['id'], ENT_QUOTES, 'UTF-8'); ?>">
+    <button type="submit" name="edit_comment">Cập nhật bình luận</button>
+</form>
+
             <?php endif; ?>
         <?php endwhile; ?>
     </div>
