@@ -1,4 +1,0 @@
-[2025-01-19 14:27:36] - IP: 127.0.0.1 - Người dùng: admin - Hành động: Đăng nhập thành công: admin
-[2025-01-19 14:27:39] - IP: 127.0.0.1 - Người dùng: Khách - Hành động: Đăng xuất: 
-[2025-01-19 14:28:13] - IP: 127.0.0.1 - Người dùng: Khách - Hành động: Đăng ký tài khoản: 111111
-[2025-01-19 14:28:18] - IP: 127.0.0.1 - Người dùng: 111111 - Hành động: Đăng nhập thành công: 111111
