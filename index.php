@@ -141,7 +141,10 @@ if (empty($_SESSION['csrf_token'])) {
     <a href="index.php?logout=true"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
 </div>
 <script src = app/index/taskBar.js></script>
-
+<div class="search"><a href="src/search.php"> Tìm kiếm</a></div>
+<style>
+    .search {padding: 10px; transform: translate(110px,-40px);background-color: azure; /* Màu nền xanh lá */border-radius: 5px; /* Bo góc cho phần tử */text-align: center; /* Canh giữa */max-width: 90px;box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Tạo bóng cho phần tử */transition: background-color 0.3s ease; /* Thêm hiệu ứng chuyển màu nền */}
+</style>
         <h2>Các bài viết</h2>
         <?php if ($posts->num_rows > 0): ?>
     <?php while ($post = $posts->fetch_assoc()): ?>

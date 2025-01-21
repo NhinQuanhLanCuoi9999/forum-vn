@@ -41,6 +41,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post'])) {
 
     $newFileName = null; // Khởi tạo biến cho tên tệp mới
 
+    // Các loại MIME type được phép
+    $allowedTypes = [
+        'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+        'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
+        'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'text/plain', 'application/zip', 'application/x-zip-compressed', 'application/x-rar-compressed', 
+        'application/x-tar', 'application/gzip', 'application/pdf', 'image/jpeg', 'image/png', 'image/gif', 
+        'image/bmp', 'image/tiff', 'video/mp4', 'video/x-msvideo', 'video/x-matroska', 'video/quicktime', 
+        'audio/mpeg', 'audio/wav', 'audio/ogg', 'application/json', 'application/xml', 'text/csv', 'application/epub+zip',
+        'application/vnd.android.package-archive', 'application/x-iso9660-image', 'application/x-bittorrent',
+        'application/x-font-ttf', 'application/x-font-otf', 'application/font-woff', 'application/font-woff2', 
+        'application/vnd.ms-fontobject', 'application/x-font-woff', 'text/html', 'application/javascript',
+        'text/css', 'application/javascript', 'application/x-sh', 'application/x-bash', 'text/x-python', 'application/x-php'
+    ];
+
     // Kiểm tra nếu có tệp tin được tải lên
     if (isset($_FILES['file']) && $_FILES['file']['error'] !== UPLOAD_ERR_NO_FILE) {
         $file = $_FILES['file'];
@@ -50,17 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post'])) {
         $fileError = $file['error'];
         $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-        // Các loại tệp được phép
-        $allowedExt = [
-            'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'rar', 'zip', 'html', 'css', 'js', 'java', 'php', 'py', 
-            'lua', 'c', 'cpp', 'pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'mp4', 'avi', 'mkv', 'mov', 'mp3', 'wav',
-            'ogg', 'flac', 'sql', 'json', 'xml', 'yaml', 'md', 'rtf', 'epub', 'mobi', 'apk', 'exe', 'bin', 'iso', 'torrent', 
-            'csv', 'psd', 'ai', 'svg', 'webp', 'ogg', 'flv', 'zip', '7z', 'tar', 'gz', 'rar', 'mpg', 'mpeg', 'bmp', 'ttf', 'otf',
-            'woff', 'woff2', 'eot', 'scss', 'less', 'tsx', 'jsx', 'ts', 'dart', 'coffee', 'asm', 'bat', 'sh', 'ps1', 'vbs', 'pl'
-        ];
-
         // Kiểm tra loại tệp
-        if (!in_array($fileExt, $allowedExt) || !in_array($file['type'], $allowedTypes)) {
+        if (!in_array($file['type'], $allowedTypes)) {
             $_SESSION['error'] = "Bạn chỉ có thể đăng các tệp: Văn phòng, mã nguồn, tệp nén.";
             header("Location: index.php");
             exit();

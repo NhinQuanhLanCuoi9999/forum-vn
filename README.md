@@ -25,8 +25,7 @@ Demo : http://forum-vn.000.pe/
 # Sơ đồ 
 
 
-```c:\xampp\htdocs
-│
+```C:\xampp\htdocs
 ├── .htaccess
 ├── 404.php
 ├── api
@@ -49,14 +48,20 @@ Demo : http://forum-vn.000.pe/
 │   │   │   ├── Post.php
 │   │   │   ├── Search.php
 │   │   │   ├── SearchUser.php
-│   │   │   └── SystemConfig.php
+│   │   │   ├── SystemConfig.php
+│   │   │   └── Users.php
+│   │   ├── Pagination.css
+│   │   ├── php.php
 │   │   ├── styles.css
+│   │   ├── taskbar.js
 │   │   └── taskbar.js
 │   ├── api
 │   │   ├── LogicPHP
 │   │   │   ├── Auth.php
 │   │   │   ├── CreateAPI.php
-│   │   │   ├── Pagination.php
+│   │   │   └── Pagination.php
+│   │   ├── Pagination.css
+│   │   ├── php.php
 │   │   └── styles.css
 │   ├── api_docs
 │   │   └── styles.css
@@ -65,6 +70,7 @@ Demo : http://forum-vn.000.pe/
 │   │   │   ├── Auth.php
 │   │   │   ├── Handle.php
 │   │   │   └── unBan.php
+│   │   ├── banOption.js
 │   │   ├── php.php
 │   │   └── style.css
 │   ├── captcha
@@ -73,6 +79,7 @@ Demo : http://forum-vn.000.pe/
 │   │   ├── LogicPHP
 │   │   │   ├── Auth.php
 │   │   │   └── Handle.php
+│   │   ├── php.php
 │   │   └── styles.css
 │   ├── index
 │   │   ├── checkBox.js
@@ -88,77 +95,44 @@ Demo : http://forum-vn.000.pe/
 │   │   │   ├── Log.php
 │   │   │   ├── Login.php
 │   │   │   ├── Logout.php
+│   │   │   ├── Notify.php
 │   │   │   ├── Pagination.php
 │   │   │   ├── PaginationBtn.php
 │   │   │   ├── Post.php
 │   │   │   ├── Register.php
-│   │   │   └── TitleName.php
+│   │   │   ├── TitleName.php
+│   │   ├── Refersh.js
+│   │   ├── Size.js
+│   │   ├── Spoil.js
 │   │   ├── styles.css
+│   │   ├── t.js
+│   │   ├── taskbar.css
 │   │   ├── taskBar.js
 │   │   ├── Toogle.js
-│   │   └── t.js
 │   ├── info
 │   │   ├── LogicPHP
 │   │   │   ├── Auth.php
 │   │   │   ├── Info.php
 │   │   │   └── IPv6.php
-│   │   └── styles.css
-│   ├── logs
-│   │   └── LogicPHP
-│   │       ├── Output.php
-│   │       └── Read.php
-│   ├── network
-│   │   ├── Auth.php
-│   │   ├── Handle.js
-│   │   └── styles.css
-│   ├── profile
-│   │   ├── Handle.php
-│   │   ├── Pagination.php
-│   │   └── styles.css
-│   ├── rule
-│   │   └── styles.css
-│   ├── tos
-│   │   └── styles.css
-│   ├── view
-│   │   ├── LogicPHP
-│   │   │   ├── Auth.php
-│   │   │   ├── Auth2.php
-│   │   │   ├── badWord.php
-│   │   │   ├── Captcha.php
-│   │   │   ├── Handle.php
-│   │   │   ├── Logs.php
-│   │   │   ├── Pagination.php
-│   │   │   ├── PaginationBtn.php
 │   │   ├── php.php
 │   │   └── styles.css
+│   ├── logs
+│   └── network
+│   ├── profile
+│   ├── rule
+│   ├── search
+│   ├── tos
+│   ├── view
 │   └── warning
-│       └── styles.css
+├── badwords.txt
 ├── db.sql
 ├── docs
-│   ├── api_docs.html
-│   ├── rules.html
-│   └── tos.html
 ├── index.php
 ├── LICENSE
-├── logs
-│   ├── .readme.bat
-│   └── logs.txt
 ├── README.md
 ├── setup.php
-├── src
-│   ├── admin.php
-│   ├── api.php
-│   ├── ban.php
-│   ├── captcha_verification.php
-│   ├── change_password.php
-│   ├── index.php
-│   ├── info_user.php
-│   ├── logs.php
-│   ├── network-config.php
-│   ├── profile.php
-│   └── view.php
-├── uploads
-    └── .readme.bat
+├── logs
+└── uploads
 ```
 
 
