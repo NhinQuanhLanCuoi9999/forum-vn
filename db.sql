@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS misc (
     id INT NOT NULL DEFAULT 1 PRIMARY KEY,  -- id chỉ có thể là 1, không có giá trị khác
     title VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
+    info VARCHAR(255) NULL,
     hcaptcha_api_key VARCHAR(255) NOT NULL,
     ipinfo_api_key VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

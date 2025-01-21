@@ -105,6 +105,7 @@ if (empty($_SESSION['csrf_token'])) {
             <div class="success"><?php echo $success; ?></div>
         <?php endif; ?>
     <?php else: ?>
+      
         <!-- Hiển thị form đăng bài nếu đã đăng nhập -->
         <form action="index.php" method="POST" enctype="multipart/form-data">
     <h2>Đăng bài viết</h2>

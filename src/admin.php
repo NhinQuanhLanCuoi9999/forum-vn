@@ -154,6 +154,10 @@ include('../app/admin/php.php');
                 <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($system_config['name']); ?>" required>
             </div>
             <div class="form-row">
+                <label for="info">Nội dung thông báo:</label>
+                <input type="text" id="info" name="info" value="<?php echo htmlspecialchars($system_config['info']); ?>">
+            </div>
+            <div class="form-row">
                 <label for="hcaptcha_api_key">hCaptcha API Key:</label>
                 <input type="text" id="hcaptcha_api_key" name="hcaptcha_api_key" value="<?php echo htmlspecialchars($system_config['hcaptcha_api_key']); ?>" required>
             </div>

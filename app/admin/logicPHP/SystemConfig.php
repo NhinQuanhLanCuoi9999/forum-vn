@@ -9,11 +9,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Lấy dữ liệu từ form
     $title = $_POST['title'];
     $name = $_POST['name'];
+    $info = $_POST['info'];
     $hcaptcha_api_key = $_POST['hcaptcha_api_key'];
     $ipinfo_api_key = $_POST['ipinfo_api_key'];
 
     // Cập nhật bảng misc
-    $update_sql = "UPDATE misc SET title = '$title', name = '$name', hcaptcha_api_key = '$hcaptcha_api_key', ipinfo_api_key = '$ipinfo_api_key' WHERE id = 1";
+    $update_sql = "UPDATE misc SET title = '$title', name = '$name', info = '$info', hcaptcha_api_key = '$hcaptcha_api_key', ipinfo_api_key = '$ipinfo_api_key' WHERE id = 1";
     if ($conn->query($update_sql) === TRUE) {
         // Sau khi lưu thành công, chuyển hướng lại trang này để làm mới và giữ lại phần section
         header('Location: admin.php?section=system_config');

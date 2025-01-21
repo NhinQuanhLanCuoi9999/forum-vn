@@ -18,9 +18,11 @@ function getClientIP() {
                 return $ip;
             }
 
-            // Nếu là IPv4, chuyển đổi sang IPv4-mapped IPv6
+            // Nếu là IPv4, chuyển đổi sang IPv4-mapped IPv6 với dạng mới
             if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-                return "::ffff:$ip";
+                $ipv4_parts = explode('.', $ip); // Tách IPv4 thành các phần
+                $ipv6 = '::ffff:' . sprintf('%x:%x:%x:%x', $ipv4_parts[0], $ipv4_parts[1], $ipv4_parts[2], $ipv4_parts[3]);
+                return $ipv6;
             }
         }
     }
@@ -30,3 +32,4 @@ function getClientIP() {
 
 $ipv6 = getClientIP();
 ?>
+
