@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post'])) {
 
         // Kiểm tra loại tệp
         if (!in_array($file['type'], $allowedTypes)) {
-            $_SESSION['error'] = "Bạn chỉ có thể đăng các tệp: Văn phòng, mã nguồn, tệp nén.";
+            $_SESSION['error'] = "Bạn không thể đăng loại tệp này";
             header("Location: index.php");
             exit();
         } elseif ($fileSize > 5 * 1024 * 1024) {

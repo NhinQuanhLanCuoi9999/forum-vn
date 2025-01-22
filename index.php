@@ -153,13 +153,17 @@ if (empty($_SESSION['csrf_token'])) {
             <p><?php echo htmlspecialchars($post['description']); ?></p>
             
             <!-- Hiển thị liên kết tải xuống nếu có tệp tin -->
-            <?php if (!empty($post['file'])): ?>
-                <p>Tệp đính kèm: 
-                    <a href="uploads/<?php echo rawurlencode(basename($post['file'])); ?>" download>
-                        <?php echo htmlspecialchars(basename($post['file'])); ?>
-                    </a>
-                </p>
-            <?php endif; ?>
+<?php if (!empty($post['file'])): ?>
+    <p>Tệp đính kèm: 
+        <a href="uploads/<?php echo rawurlencode(basename($post['file'])); ?>" 
+           download 
+           onclick="return confirmDownload('<?php echo htmlspecialchars(basename($post['file'])); ?>')">
+            <?php echo htmlspecialchars(basename($post['file'])); ?>
+        </a>
+    </p>
+<?php endif; ?>
+
+<script>function confirmDownload(fileName) {const userConfirmed = confirm(`Cảnh báo: Tệp "${fileName}" có thể không an toàn. Bạn có chắc chắn muốn tải xuống không?`);return userConfirmed;}</script>
 
             <?php
                 // Định dạng ngày tháng
