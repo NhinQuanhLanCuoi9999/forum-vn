@@ -13,6 +13,9 @@ if (isset($_SESSION['username'])) {
         return;  // Nếu giá trị là null hoặc chuỗi rỗng, dừng thực thi mã và không hiển thị phần echo
     }
 
+    // Mã hóa dữ liệu trước khi chèn vào HTML
+    $safe_misc_name = htmlspecialchars($misc_name, ENT_QUOTES, 'UTF-8');
+
     // Xuất JavaScript vào phần đầu trang HTML
     echo '<script>
             // Kiểm tra nếu đã có thông báo trong localStorage và đã hết thời gian 2 giờ
@@ -21,7 +24,7 @@ if (isset($_SESSION['username'])) {
 
             if (!dismissedTime || (currentTime - dismissedTime) > 7200000) {  // 7200000 ms = 2 giờ
                 document.write(\'<div id="alert-message" style="background-color: #f8d7da; color: #721c24; padding: 15px; margin: 16px 0; border: 1px solid #f5c6cb; border-radius: 2px; position: relative; font-size: 16px;">\');
-                document.write(\'<span>\' + "Thông báo: ' . $misc_name . '" + \'</span>\');
+                document.write(\'<span>\' + "' ."Thông báo: ". $safe_misc_name . '" + \'</span>\');
                 document.write(\'<span onclick="closeAlert()" style="position: absolute; top: 5px; right: 10px; cursor: pointer; font-size: 18px; color: #721c24;">×</span>\');
                 document.write(\'</div>\');
             }

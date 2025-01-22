@@ -60,11 +60,7 @@ include('../app/admin/php.php');
     </li>
 </ul>
 
-        <form method="GET" class="search-form" action="src/admin.php">
-            <input type="hidden" name="section" value="<?php echo isset($_GET['section']) ? $_GET['section'] : 'posts'; ?>">
-            <input type="text" name="search" class="search-input" placeholder="<?php echo (isset($_GET['section']) && $_GET['section'] === 'users') ? 'Tìm người dùng' : 'Tìm bài viết'; ?>">
-            <button type="submit" class="management-button">Tìm</button>
-        </form>
+      
     </nav>
     <div class="main-content">
         <button id="open-btn" class="open-btn">☰ Mở Menu</button>
@@ -171,65 +167,66 @@ include('../app/admin/php.php');
         </div>
     </form>
 
-<?php elseif (isset($_GET['section']) && $_GET['section'] === 'posts'): ?>
-    <h2>Quản lý bài viết</h2>
-    <div class="user-list">
-        <?php if ($posts_result && $posts_result->num_rows > 0): ?>
-            <?php while ($post = $posts_result->fetch_assoc()): ?>
-                <div class="post">
-                    <h4><?php echo htmlspecialchars($post['content']); ?></h4>
-                    <small>Đăng bởi: <?php echo htmlspecialchars($post['username']); ?> vào <?php echo $post['created_at']; ?></small>
-                    <a href="src/admin.php?delete_post=<?php echo $post['id']; ?>" class="delete-button">Xóa bài viết</a>
+    <?php elseif (isset($_GET['section']) && $_GET['section'] === 'posts'): ?>
 
-                    <h5>Bình luận:</h5>
-                    <?php if (isset($comments[$post['id']])): ?>
-                        <?php foreach ($comments[$post['id']] as $comment): ?>
-                            <div class="comment">
-                                <strong><?php echo htmlspecialchars($comment['username']); ?>:</strong>
-                                <?php echo htmlspecialchars($comment['content']); ?>
-                                <a href="src/admin.php?delete_comment=<?php echo $comment['id']; ?>" class="delete-button" style="position: absolute; top: 10px; right: 10px;">Xóa</a>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>Chưa có bình luận nào.</p>
-                    <?php endif; ?>
-                </div>
-            <?php endwhile; ?>
-        <?php else: ?>
-            <p>Chưa có bài viết nào.</p>
-        <?php endif; ?>
+<h2>Quản lý bài viết</h2>
 
-       <!-- Pagination links -->
+<!-- Form tìm kiếm -->
+<form method="GET" action="admin.php" class="search-form">
+    <input type="hidden" name="section" value="posts">
+    <input type="text" name="search" placeholder="Tìm kiếm bài viết..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+    <button type="submit">Tìm kiếm</button>
+</form>
+
+<div class="user-list">
+    <?php
+ $search_query=isset($_GET['search'])?$_GET['search']:'';$search_sql='';if(!empty($search_query)){$search_sql="WHERE content LIKE ? OR username LIKE ?";$search_param='%'.$search_query.'%';}$stmt=$conn->prepare("SELECT * FROM posts $search_sql ORDER BY created_at DESC LIMIT ?, ?");if(!empty($search_query)){$stmt->bind_param('ssii',$search_param,$search_param,$offset,$limit);}else{$stmt->bind_param('ii',$offset,$limit);}$stmt->execute();$posts_result=$stmt->get_result();
+    if ($posts_result && $posts_result->num_rows > 0): ?>
+        <?php while ($post = $posts_result->fetch_assoc()): ?>
+            <div class="post">
+                <h4><?php echo htmlspecialchars($post['content']); ?></h4>
+                <small>Đăng bởi: <?php echo htmlspecialchars($post['username']); ?> vào <?php echo $post['created_at']; ?></small>
+                <a href="src/admin.php?delete_post=<?php echo $post['id']; ?>" class="delete-button">Xóa bài viết</a>
+            </div>
+        <?php endwhile; ?>
+    <?php else: ?>
+        <p>Không tìm thấy bài viết nào.</p>
+    <?php endif; ?>
+</div>
+
+<!-- Pagination links -->
 <div class="pagination">
     <?php if ($page > 1): ?>
-        <a href="admin.php?section=posts&page=1" class="prev">&lt;&lt; Trang đầu</a>
+        <a href="admin.php?section=posts&page=1&search=<?php echo urlencode($search_query); ?>" class="prev">&lt;&lt; Trang đầu</a>
     <?php endif; ?>
 
     <!-- Hiển thị các số trang với ... -->
     <?php if ($total_pages > 5): ?>
         <?php if ($page > 3): ?>
-            <a href="admin.php?section=posts&page=1">1</a>
+            <a href="admin.php?section=posts&page=1&search=<?php echo urlencode($search_query); ?>">1</a>
             <span>...</span>
         <?php endif; ?>
 
         <?php for ($i = max(1, $page - 2); $i <= min($total_pages, $page + 2); $i++): ?>
-            <a href="admin.php?section=posts&page=<?php echo $i; ?>" class="page-link <?php echo ($i == $page) ? 'active' : ''; ?>"><?php echo $i; ?></a>
+            <a href="admin.php?section=posts&page=<?php echo $i; ?>&search=<?php echo urlencode($search_query); ?>" class="page-link <?php echo ($i == $page) ? 'active' : ''; ?>"><?php echo $i; ?></a>
         <?php endfor; ?>
 
         <?php if ($page < $total_pages - 2): ?>
             <span>...</span>
-            <a href="admin.php?section=posts&page=<?php echo $total_pages; ?>"><?php echo $total_pages; ?></a>
+            <a href="admin.php?section=posts&page=<?php echo $total_pages; ?>&search=<?php echo urlencode($search_query); ?>"><?php echo $total_pages; ?></a>
         <?php endif; ?>
     <?php else: ?>
         <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-            <a href="admin.php?section=posts&page=<?php echo $i; ?>" class="page-link <?php echo ($i == $page) ? 'active' : ''; ?>"><?php echo $i; ?></a>
+            <a href="admin.php?section=posts&page=<?php echo $i; ?>&search=<?php echo urlencode($search_query); ?>" class="page-link <?php echo ($i == $page) ? 'active' : ''; ?>"><?php echo $i; ?></a>
         <?php endfor; ?>
     <?php endif; ?>
 
     <?php if ($page < $total_pages): ?>
-        <a href="admin.php?section=posts&page=<?php echo $total_pages; ?>" class="next">Trang cuối &gt;&gt;</a>
+        <a href="admin.php?section=posts&page=<?php echo $total_pages; ?>&search=<?php echo urlencode($search_query); ?>" class="next">Trang cuối &gt;&gt;</a>
     <?php endif; ?>
 </div>
+
+
 
      <?php elseif (isset($_GET['section']) && $_GET['section'] === 'info'): ?>
             <div class="in4">   <h2>Thông tin</h2> </div>

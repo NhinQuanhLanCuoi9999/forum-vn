@@ -6,7 +6,6 @@ include('logicPHP/Users.php');
 include('logicPHP/Comment.php');
 include('logicPHP/Post.php');
 include('logicPHP/List.php');
-include('logicPHP/Search.php');
 include('logicPHP/Info.php');
 include('logicPHP/Api.php');
 include('logicPHP/Pagination/Users.php');
