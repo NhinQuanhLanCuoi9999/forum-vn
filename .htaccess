@@ -17,3 +17,13 @@ RewriteRule ^ /%1/%2 [L,R=301]
 # Chặn truy cập vào thư mục logs và chuyển hướng đến trang lỗi 404
 RewriteCond %{REQUEST_URI} ^/logs/
 RewriteRule ^.*$ /404.php [L]
+
+# Chặn thực thi PHP và HTML trong thư mục uploads
+RewriteCond %{REQUEST_URI} ^/uploads/
+RewriteCond %{REQUEST_URI} \.(php)$ [NC]
+RewriteRule ^.*$ /404.php [L]
+
+# Chuyển hướng ngay lập tức nếu URL chứa '/app', nhưng không ảnh hưởng đến tài nguyên như .css, .js, .jpg
+RewriteCond %{REQUEST_URI} ^/app
+RewriteCond %{REQUEST_URI} !\.(css|js|jpg|jpeg|png|gif|bmp|tiff|svg|ico|woff|woff2|eot|ttf|otf|webp)$ [NC]
+RewriteRule ^ /404.php [L]
