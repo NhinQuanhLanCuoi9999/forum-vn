@@ -28,8 +28,8 @@ if ($result->num_rows === 0) {
 // Tham số URL
 $username = isset($_GET['username']) ? $_GET['username'] : null;
 $description = isset($_GET['description']) ? $_GET['description'] : null;
-$sort = isset($_GET['sort']) ? $_GET['sort'] : null;
-$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 50; // Mặc định trả về tối đa 50 bài viết
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'created_at:desc'; // Mặc định sắp xếp theo 'created_at' tăng dần
+$limit = 50; // Mặc định trả về tối đa 50 bài viết
 
 // Bắt đầu query
 $sql = "SELECT id, username, content, description, created_at FROM posts WHERE 1=1";
@@ -45,13 +45,11 @@ if ($description) {
 }
 
 // Sắp xếp
-if ($sort) {
-    $allowed_sort_columns = ['created_at', 'username', 'id'];
-    $sort_parts = explode(':', $sort);
-    $sort_column = in_array($sort_parts[0], $allowed_sort_columns) ? $sort_parts[0] : 'created_at';
-    $sort_order = isset($sort_parts[1]) && strtolower($sort_parts[1]) === 'desc' ? 'DESC' : 'ASC';
-    $sql .= " ORDER BY $sort_column $sort_order";
-}
+$allowed_sort_columns = ['created_at', 'username', 'id'];
+$sort_parts = explode(':', $sort);
+$sort_column = in_array($sort_parts[0], $allowed_sort_columns) ? $sort_parts[0] : 'created_at';
+$sort_order = isset($sort_parts[1]) && strtolower($sort_parts[1]) === 'desc' ? 'DESC' : 'ASC';
+$sql .= " ORDER BY $sort_column $sort_order";
 
 // Giới hạn kết quả
 $sql .= " LIMIT ?";

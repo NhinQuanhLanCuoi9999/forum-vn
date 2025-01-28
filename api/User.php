@@ -29,7 +29,6 @@ if ($result->num_rows === 0) {
 $username = isset($_GET['username']) ? $_GET['username'] : null;
 $desc = isset($_GET['desc']) ? $_GET['desc'] : null;
 $sort = isset($_GET['sort']) ? $_GET['sort'] : null;
-$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 50; // Mặc định là 50 bản ghi
 
 // Bắt đầu query
 $sql = "SELECT id, username, `desc`, created_at FROM users WHERE 1=1";
@@ -53,8 +52,8 @@ if ($sort) {
     $sql .= " ORDER BY $sort_column $sort_order";
 }
 
-// Giới hạn số lượng
-$sql .= " LIMIT ?";
+// Giới hạn số lượng bản ghi xuống 50 bản ghi mới nhất
+$sql .= " LIMIT 50";
 
 $stmt = $conn->prepare($sql);
 
@@ -70,10 +69,10 @@ if ($desc) {
     $like_desc = '%' . $desc . '%';
     $params[] = &$like_desc;
 }
-$param_types .= 'i';
-$params[] = &$limit;
 
-call_user_func_array([$stmt, 'bind_param'], array_merge([$param_types], $params));
+if (!empty($params)) {
+    call_user_func_array([$stmt, 'bind_param'], array_merge([$param_types], $params));
+}
 
 $stmt->execute();
 $result = $stmt->get_result();

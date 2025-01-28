@@ -27,8 +27,8 @@ if ($result->num_rows === 0) {
 
 // Tham số URL
 $username = isset($_GET['username']) ? $_GET['username'] : null;
+$content = isset($_GET['content']) ? $_GET['content'] : null;
 $sort = isset($_GET['sort']) ? $_GET['sort'] : null;
-$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 50; // Giới hạn mặc định là 50
 
 // Bắt đầu query
 $sql = "SELECT id, username, content, created_at FROM comments WHERE 1=1";
@@ -38,6 +38,11 @@ if ($username) {
     $sql .= " AND username = ?";
 }
 
+// Lọc theo content
+if ($content) {
+    $sql .= " AND content LIKE ?";
+}
+
 // Sắp xếp
 if ($sort) {
     $allowed_sort_columns = ['created_at', 'username', 'id'];
@@ -45,10 +50,13 @@ if ($sort) {
     $sort_column = in_array($sort_parts[0], $allowed_sort_columns) ? $sort_parts[0] : 'created_at';
     $sort_order = isset($sort_parts[1]) && strtolower($sort_parts[1]) === 'desc' ? 'DESC' : 'ASC';
     $sql .= " ORDER BY $sort_column $sort_order";
+} else {
+    // Mặc định sắp xếp theo created_at DESC
+    $sql .= " ORDER BY created_at DESC";
 }
 
-// Giới hạn kết quả
-$sql .= " LIMIT ?";
+// Giới hạn kết quả mặc định là 50 bản ghi gần nhất
+$sql .= " LIMIT 50";
 
 $stmt = $conn->prepare($sql);
 
@@ -59,10 +67,15 @@ if ($username) {
     $param_types .= 's';
     $params[] = &$username;
 }
-$param_types .= 'i';
-$params[] = &$limit;
+if ($content) {
+    $param_types .= 's';
+    $content_param = '%' . $content . '%';
+    $params[] = &$content_param;
+}
 
-call_user_func_array([$stmt, 'bind_param'], array_merge([$param_types], $params));
+if ($param_types) {
+    call_user_func_array([$stmt, 'bind_param'], array_merge([$param_types], $params));
+}
 
 $stmt->execute();
 $result = $stmt->get_result();

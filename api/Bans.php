@@ -28,8 +28,8 @@ if ($result->num_rows === 0) {
 // Tham số URL
 $username = isset($_GET['username']) ? $_GET['username'] : null;
 $ip = isset($_GET['ip']) ? $_GET['ip'] : null;
-$sort = isset($_GET['sort']) ? $_GET['sort'] : null;
-$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 100;
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'created_at:desc'; // Mặc định sắp xếp theo 'created_at' giảm dần
+$limit = 50; // Mặc định giới hạn là 50 bản ghi mới nhất
 
 // Bắt đầu query
 $sql = "SELECT id, username, ip_address, reason, ban_start, ban_end, permanent FROM bans WHERE 1=1";
