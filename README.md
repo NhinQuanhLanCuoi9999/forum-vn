@@ -1,23 +1,24 @@
-## Cách cài
-- Chạy xampp , start hết.
-- Tải htdocs.zip về rồi giải nén
-- Dán file htdocs vào đường dẫn đang chạy xampp
-  - Vào phpmyadmin chạy lệnh này :
-    [lệnh](https://raw.githubusercontent.com/NhinQuanhLanCuoi9999/forum/refs/heads/main/db.sql) 
-  ### Cách chạy
-  - http://localhost (:port [nếu có] )
-  - http://"dảy ip lan của bạn"(:port [nếu có] )
-  ### Cách lấy địa chỉ dải ip mạng lan
-- Vào cmd gõ lệnh "ipconfig" rồi copy cái dòng ipv4 là được
-# Lưu ý
+## Cách cài đặt
 
-- Bạn cần thay đổi API key trong phần network-config để khớp với API key của ipinfo.io.
+1. Chạy XAMPP và khởi động tất cả các dịch vụ.
+2. Sử dụng lệnh `git clone` để sao chép repository này về, sau đó di chuyển vào thư mục `htdocs` của XAMPP.
 
-- Nếu bạn có ý định đưa website lên internet, hãy đảm bảo rằng bạn đã cập nhật tệp config.php để phù hợp với thông tin MySQL của hosting mà bạn đang sử dụng.
+### Cách chạy
 
-- Nếu bạn có tài khoản "admin" , sau khi đăng nhập thì bạn có thể vào trang admin.php để quản lý website 
+- Truy cập vào website qua địa chỉ: `http://localhost(:port [nếu có])`
+- Hoặc truy cập từ máy khác trong cùng mạng LAN qua địa chỉ: `http://[địa chỉ IP LAN của bạn](:port [nếu có])`
 
-- Hãy đảm bảo trong htdocs bạn đã tạo 2 folder là uploads và logs
+### Cách lấy địa chỉ IP mạng LAN
+
+1. Mở Command Prompt (CMD) và gõ lệnh `ipconfig`.
+2. Sao chép giá trị của dòng "IPv4 Address" (địa chỉ IP).
+
+## Lưu ý
+
+- Bạn cần thay đổi API key trong tệp `network-config` để phù hợp với API key của dịch vụ ipinfo.io.
+- Nếu bạn dự định triển khai website lên internet, hãy cập nhật tệp `config.php` với thông tin MySQL của hosting mà bạn đang sử dụng.
+- Nếu bạn có tài khoản "admin", sau khi đăng nhập, bạn có thể truy cập trang `admin.php` để quản lý website.
+- Đảm bảo rằng trong thư mục `htdocs`, bạn đã tạo 2 thư mục con là `uploads` và `logs` để lưu trữ các dữ liệu liên quan.
 
 
 
