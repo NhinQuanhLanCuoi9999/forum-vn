@@ -4,6 +4,7 @@ include('config.php'); // Bao gồm file config để kết nối DB
 // Bao gồm tệp index.php sau khi kiểm tra cấm xong
 include('app/index/php.php');
 
+
 ?>
 
 

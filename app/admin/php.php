@@ -12,4 +12,5 @@ include('logicPHP/Pagination/Users.php');
 include('logicPHP/Pagination/Post.php');
 include('logicPHP/SearchUser.php');
 include('logicPHP/SystemConfig.php');
+include('logicPHP/MessageCheck.php');
 ?>

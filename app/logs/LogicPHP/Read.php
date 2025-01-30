@@ -1,6 +1,6 @@
 <?php
 // Danh sách các file log có sẵn
-$availableLogs = ['ban-log.txt', 'edit.txt', 'log.txt', 'logs.txt'];
+$availableLogs = ['ban-log.txt', 'edit.txt', 'log.txt', 'logs.txt','admin-log.txt'];
 
 // Lấy file được chọn từ GET
 $selectedLog = isset($_GET['log']) ? $_GET['log'] : 'logs.txt'; // Mặc định là logs.txt

@@ -19,7 +19,7 @@ if (isset($_GET['confirm_delete_post'])) {
     // Ghi log
     logAction("Đã xóa bài viết với ID '$post_id'.");
 
-    $_SESSION['message'] = "<div class='alert alert-success'>Đã xóa bài viết với ID '$post_id'.</div>";
+    $_SESSION['ss1'] = "<div class='alert alert-success'>Đã xóa bài viết với ID '$post_id'.</div>";
     header("Location: src/admin.php?section=posts");
     exit();
 }
