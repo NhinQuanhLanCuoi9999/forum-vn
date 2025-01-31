@@ -63,3 +63,4 @@ button:hover{background:#4cae4c;}
 .pagination a:hover{background-color:#007bff;color:white}
 
 .pagination strong{background-color:#007bff;color:white;padding:10px 15px;border-radius:5px}
+progress {width: 100%;height: 20px;}

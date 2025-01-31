@@ -28,7 +28,7 @@ if ($result->num_rows === 0) {
 // Tham số URL
 $username = isset($_GET['username']) ? $_GET['username'] : null;
 $desc = isset($_GET['desc']) ? $_GET['desc'] : null;
-$sort = isset($_GET['sort']) ? $_GET['sort'] : null;
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'id:desc'; // Mặc định sắp xếp theo 'id' tăng dần
 
 // Bắt đầu query
 $sql = "SELECT id, username, `desc`, created_at FROM users WHERE 1=1";

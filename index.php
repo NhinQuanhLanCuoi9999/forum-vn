@@ -66,11 +66,13 @@ if (empty($_SESSION['csrf_token'])) {
 <form id="registrationForm" method="POST" action="register.php">
     <input type="text" name="username" placeholder="Tên đăng nhập" required pattern="^[a-zA-Z0-9]{5,30}$"
         title="Vui lòng chỉ nhập ký tự chữ và số không dấu và không có khoảng trắng hoặc ký tự đặc biệt. Nhập từ 5 đến 30 ký tự.">
-    <input type="password" name="password" placeholder="Mật khẩu" required 
+    
+    <input type="password" name="password" id="password" placeholder="Mật khẩu" required 
         minlength="6" maxlength="30" 
         pattern="^[a-zA-Z0-9]{6,30}$"
         title="Vui lòng chỉ nhập ký tự chữ và số, không có khoảng trắng hoặc ký tự đặc biệt. Nhập từ 6 đến 30 ký tự.">
-    <input type="password" name="confirm_password" placeholder="Nhập lại mật khẩu" required>
+    
+    <input type="password" name="confirm_password" id="confirm_password" placeholder="Nhập lại mật khẩu" required>
     
     <!-- Token CSRF -->
     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
@@ -84,10 +86,15 @@ if (empty($_SESSION['csrf_token'])) {
     <!-- Nút đăng ký mặc định xám và có hiệu ứng chuyển màu -->
     <button type="submit" name="register" id="registerBtn" disabled style="background-color: #9e9e9e;">Đăng ký</button>
     <p>Đã có tài khoản? <span class="toggle-link" style="color: red;" onclick="toggleForms()">Đăng nhập</span></p>
+    
+    <!-- Thanh tiến độ mật khẩu -->
+    <div id="passwordStrengthContainer" style="display:none;">
+        <progress id="passwordStrength" value="0" max="100"></progress>
+        <span id="passwordStrengthText"></span>
+    </div>
 </form>
 
-
-
+<script src="/app/index/ProgressBar.js"></script>
 <script src = app/index/checkBox.js></script>
             <?php if (isset($_SESSION['error'])): ?>
                 <div class="error"><?php echo $_SESSION['error']; ?></div>

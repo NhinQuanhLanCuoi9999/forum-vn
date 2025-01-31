@@ -28,7 +28,7 @@ if ($result->num_rows === 0) {
 // Tham số URL
 $username = isset($_GET['username']) ? $_GET['username'] : null;
 $content = isset($_GET['content']) ? $_GET['content'] : null;
-$sort = isset($_GET['sort']) ? $_GET['sort'] : null;
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'id:desc'; // Mặc định sắp xếp theo 'id' tăng dần
 
 // Bắt đầu query
 $sql = "SELECT id, username, content, created_at FROM comments WHERE 1=1";
