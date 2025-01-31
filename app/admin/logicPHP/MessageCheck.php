@@ -7,8 +7,8 @@ if (!isset($_SESSION['ss1_refresh'])) {
     $_SESSION['ss1_refresh']++; // Tăng giá trị của ss1_refresh lên 1
 }
 
-// Kiểm tra nếu ss1_refresh > 2, thì mới xóa ss1 và ss1_seen, ss1_refresh 
-if ($_SESSION['ss1_refresh'] > 2) {
+// Kiểm tra nếu ss1_refresh > 1, thì mới xóa ss1 và ss1_seen, ss1_refresh 
+if ($_SESSION['ss1_refresh'] > 1) {
     unset($_SESSION['ss1']);
     unset($_SESSION['ss1_seen']);
     unset($_SESSION['ss1_refresh']);

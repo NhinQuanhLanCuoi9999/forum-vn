@@ -119,7 +119,7 @@ if (file_exists('config.php')) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cấu hình CSDL</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../asset/css/Bootstrap.min.css">
     <style>
         .fade-in {
             animation: fadeIn 1s ease-out forwards;
@@ -194,8 +194,8 @@ if (file_exists('config.php')) {
     </div>
 
     <!-- Thêm jQuery và Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../asset/js/jquery.min.js"></script>
+    <script src="../asset/js/Bootstrap.bundle.min.js"></script>
 
     <script>
         $(document).ready(function() {

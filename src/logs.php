@@ -22,8 +22,7 @@ if (!isset($_SESSION['username']) || $_SESSION['username'] !== 'admin') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log Viewer</title>
-    <!-- Thêm font Poppins từ Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../asset/css/Poppins.css">
     <link rel="stylesheet" type="text/css" href="../app/logs/styles.css">
 </head>
 <body>

@@ -11,103 +11,11 @@ include '../app/search/php.php';
     <title>Tìm kiếm bài đăng</title>
 
     <!-- Link đến Bootstrap CSS và Font Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../asset/css/Poppins.css">
+    <link rel="stylesheet" href="../asset/css/Bootstrap.min.css">
+    <style>body{font-family:'Poppins',sans-serif;background-color:#f8f9fa;margin:0;padding:0}.container{max-width:900px;margin:30px auto;padding:30px;background-color:#fff;border-radius:10px;box-shadow:0 4px 6px rgba(0,0,0,.1)}h1{font-size:2.5rem;font-weight:600;color:#343a40;margin-bottom:30px;text-align:center}.form-control{border-radius:50px;padding:15px;font-size:16px;width:100%;box-sizing:border-box}.btn-primary,#advanced-search-btn{background-color:#007bff;border:none;padding:12px 30px;border-radius:30px;font-size:16px;color:white;transition:background-color .3s;cursor:pointer}.btn-primary:hover,#advanced-search-btn:hover{background-color:#0056b3}.post{border-bottom:1px solid #ddd;padding:20px;margin-bottom:20px;background-color:#f9f9f9;border-radius:10px}.pagination{display:flex;justify-content:center;flex-wrap:wrap}.pagination a{color:#007bff;text-decoration:none;padding:10px 15px;margin:0 5px;border-radius:50px;transition:background-color .3s}.pagination a:hover{background-color:#f1f1f1}.pagination .active{font-weight:bold;background-color:#007bff;color:white;padding:10px 15px;border-radius:50px}#advanced-search-form{display:block;overflow:hidden;max-height:0;transition:max-height .3s ease-out;padding:0 20px}.advanced-search-input{margin-bottom:15px}.advanced-search-label{font-weight:600;color:#495057}@media(max-width:768px){.container{max-width:100%;margin:15px;padding:20px}.h1{font-size:1.8rem}.form-control{border-radius:30px;padding:12px;font-size:14px}.btn-primary,#advanced-search-btn{padding:10px 20px;font-size:14px;border-radius:20px}.post{padding:15px;margin-bottom:15px}.pagination a{padding:8px 12px;font-size:14px}.advanced-search-input{margin-bottom:10px}} </style>
 
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: #343a40;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .form-control {
-            border-radius: 50px;
-            padding: 15px;
-            font-size: 16px;
-        }
-
-        .btn-primary, #advanced-search-btn {
-            background-color: #007bff;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-size: 16px;
-            color: white;
-            transition: background-color 0.3s;
-        }
-
-        .btn-primary:hover, #advanced-search-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .post {
-            border-bottom: 1px solid #ddd;
-            padding: 20px;
-            margin-bottom: 20px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-        }
-
-        .pagination {
-            justify-content: center;
-        }
-
-        .pagination a {
-            color: #007bff;
-            text-decoration: none;
-            padding: 10px 15px;
-            margin: 0 5px;
-            border-radius: 50px;
-            transition: background-color 0.3s;
-        }
-
-        .pagination a:hover {
-            background-color: #f1f1f1;
-        }
-
-        .pagination .active {
-            font-weight: bold;
-            background-color: #007bff;
-            color: white;
-        }
-
-        #advanced-search-form {
-    display: block;
-    overflow: hidden;
-    max-height: 0; /* Ẩn form ban đầu */
-    transition: max-height 0.3s ease-out; /* Hiệu ứng mượt mà */
-    padding: 0 20px; /* Thêm padding để form không bị dính vào cạnh */
-}
-
-
-        .advanced-search-input {
-            margin-bottom: 15px;
-        }
-
-        .advanced-search-label {
-            font-weight: 600;
-            color: #495057;
-        }
-    </style>
+    
 </head>
 <body>
 
@@ -156,7 +64,7 @@ include '../app/search/php.php';
     </div>
 
     <!-- Script Bootstrap và hiệu ứng trượt -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../asset/js/Bootstrap.bundle.min.js"></script>
     <script>
     document.getElementById('advanced-search-btn').addEventListener('click', function() {
         var form = document.getElementById('advanced-search-form');

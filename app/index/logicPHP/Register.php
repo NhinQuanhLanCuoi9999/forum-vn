@@ -19,13 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
         exit();
     }
 
-    // Kiểm tra mật khẩu và các điều kiện khác
-    if (strlen($password) < 8) {
-        $_SESSION['error'] = "Mật khẩu phải có ít nhất 8 ký tự.";
-        header("Location: index.php");
-        exit();
-    }
-
     if ($password !== $confirm_password) {
         $_SESSION['error'] = "Hai mật khẩu không trùng khớp!";
         header("Location: index.php");

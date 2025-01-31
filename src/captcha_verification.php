@@ -8,7 +8,7 @@ include('../app/captcha/Auth.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="favicon.png" type="image/png">
     <title>Xác thực Captcha</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../asset/css/Poppins.css">
     <link rel="stylesheet" type="text/css" href="/app/captcha/styles.css">
 </head>
 <body>

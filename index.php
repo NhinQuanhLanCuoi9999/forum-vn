@@ -14,10 +14,10 @@ include('app/index/php.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../asset/css/Poppins.css">
+    <link rel="stylesheet" href="/asset/css/FontAwesome.min.css">
     <title><?php echo htmlspecialchars($page_title); ?></title>
-    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="icon" href="/favicon.png" type="image/png">
     <link rel="stylesheet" type="text/css" href="app/index/styles.css">
 
    <script src = app/index/Toogle.js></script>

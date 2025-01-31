@@ -7,8 +7,8 @@ include('../app/warning/Auth.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cấm Truy Cập</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
-    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="stylesheet" href="../asset/css/DancingScript.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
    <link rel="stylesheet" type="text/css" href="/app/warning/styles.css">
 </head>
 <body>
@@ -39,8 +39,17 @@ include('../app/warning/Auth.php');
         <?php endif; ?>
 
         <div class="footer">
-            <p>&copy; 2024 Bảo lưu mọi quyền.</p>
-        </div>
+    <p>&copy; <span id="year"></span> Bảo lưu mọi quyền.</p>
+</div>
+
+<script>
+    // Lấy năm hiện tại
+    const currentYear = new Date().getFullYear();
+
+    // Cập nhật năm vào phần tử có id là 'year'
+    document.getElementById('year').textContent = currentYear;
+</script>
+
     </div>
 
     <div class="message">
