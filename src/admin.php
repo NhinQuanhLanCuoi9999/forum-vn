@@ -33,32 +33,16 @@ include('../app/admin/php.php');
         </div>
         <ul class="sidebar-menu">
     <li><a href="index.php"><i class="fas fa-home"></i> Trang chính</a></li>
-    <li>
-        <span style="cursor: pointer;" onclick="changeSection('info')"><i class="fas fa-info-circle"></i> Thông tin</span>
-    </li>
-    <li>
-        <span style="cursor: pointer;" onclick="changeSection('system_config')"><i class="fas fa-sliders-h"></i> Cấu hình hệ thống</span>
-    </li>
-    <li>
-        <span style="cursor: pointer;" onclick="changeSection('posts')"><i class="fas fa-file-alt"></i> Quản lý bài viết</span>
-    </li>
-    <li>
-        <span style="cursor: pointer;" onclick="changeSection('users')"><i class="fas fa-users"></i> Quản lý người dùng</span>
-    </li>
-    <li>
-        <span style="cursor: pointer;" onclick="changeSection('api')"><i class="fas fa-cogs"></i> API</span>
-    </li>
-
-    <li>
-        <span style="cursor: pointer;" onclick="window.location.href='logs.php'"><i class="fas fa-book"></i> Logs</span>
-    </li>
-    <li>
-        <span style="cursor: pointer;" onclick="window.location.href='ban.php'"><i class="fas fa-user-slash"></i> Cấm User</span>
-    </li>
-    <li>
-        <span style="cursor: pointer;" onclick="window.location.href='index.php?logout=true'"><i class="fas fa-sign-out-alt"></i> Đăng xuất</span>
-    </li>
-</ul>
+    <li><span style="cursor: pointer;" onclick="changeSection('info')"><i class="fas fa-info-circle"></i> Thông tin</span></li>
+    <li><span style="cursor: pointer;" onclick="changeSection('system_config')"><i class="fas fa-sliders-h"></i> Cấu hình hệ thống</span></li>
+    <li><span style="cursor: pointer;" onclick="changeSection('posts')"><i class="fas fa-file-alt"></i> Quản lý bài viết</span></li>
+    <li><span style="cursor: pointer;" onclick="changeSection('users')"><i class="fas fa-users"></i> Quản lý người dùng</span></li>
+    <li><span style="cursor: pointer;" onclick="changeSection('api')"><i class="fas fa-cogs"></i> API</span></li>
+    <li><span style="cursor: pointer;" onclick="window.location.href='logs.php'"><i class="fas fa-book"></i> Logs</span></li>
+    <li><span style="cursor: pointer;" onclick="window.location.href='/backup/backup.php'"><i class="fas fa-hdd"></i> Backup [BETA]</span></li>
+    <li><span style="cursor: pointer;" onclick="window.location.href='ban.php'"><i class="fas fa-user-slash"></i> Cấm User</span></li>
+    <li><span style="cursor: pointer;" onclick="window.location.href='index.php?logout=true'"><i class="fas fa-sign-out-alt"></i> Đăng xuất</span></li>
+    </ul>
 
       
     </nav>

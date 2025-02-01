@@ -1,6 +1,6 @@
 <?php
 // Danh sách các file log có sẵn
-$availableLogs = ['ban-log.txt', 'edit.txt', 'log.txt', 'logs.txt','admin-log.txt'];
+$availableLogs = ['ban-log.txt', 'edit.txt', 'log.txt', 'logs.txt','admin-log.txt','backup.txt'];
 
 // Lấy file được chọn từ GET
 $selectedLog = isset($_GET['log']) ? $_GET['log'] : 'logs.txt'; // Mặc định là logs.txt
@@ -8,6 +8,4 @@ $selectedLog = isset($_GET['log']) ? $_GET['log'] : 'logs.txt'; // Mặc định
 // Kiểm tra xem file có hợp lệ không
 if (!in_array($selectedLog, $availableLogs)) {
     $selectedLog = 'logs.txt'; // Nếu file không hợp lệ, mặc định là logs.txt
-}
-         
-            ?>
+} ?>
