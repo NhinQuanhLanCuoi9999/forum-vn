@@ -1,7 +1,7 @@
 <?php
 session_start(); // Bắt đầu phiên
-include('../app/info/php.php');
-
+include '../config.php';
+include '../app/info/php.php';
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -13,10 +13,6 @@ include('../app/info/php.php');
     <link rel="stylesheet" href="../asset/css/Poppins.css">
     <link rel="stylesheet" type="text/css" href="/app/info/styles.css">
     <script>
-        // Cấm sao chép nội dung
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.addEventListener('copy', event => event.preventDefault());
-
         // Hiển thị/ẩn form cập nhật mô tả với hiệu ứng
         function toggleDescForm() {
             const form = document.getElementById("update-desc-form");
@@ -30,7 +26,6 @@ include('../app/info/php.php');
             }
         }
     </script>
-   
 </head>
 <body>
 
@@ -43,11 +38,11 @@ include('../app/info/php.php');
         <div class="line"></div>
         <p><span>Ngày tạo:</span> <strong><?php echo htmlspecialchars(date('d-m-Y H:i:s', strtotime($createdAt))); ?></strong></p>
         <div class="line"></div>
-        <p><span>IPv4:</span><strong><?php $ip = $_SERVER['REMOTE_ADDR']; echo $ip;?></strong></p>
+        <p><span>IPv4:</span><strong><?php $ip = $_SERVER['REMOTE_ADDR']; echo htmlspecialchars($ip); ?></strong></p>
         <div class="line"></div>
-        <p><span>IPv6:</span><strong><?php echo $ipv6?></strong></p>
+        <p><span>IPv6:</span><strong><?php echo htmlspecialchars($ipv6); ?></strong></p>
         <div class="line"></div>
-        <p><span>User Agent:</span><strong><?php $agent = $_SERVER['HTTP_USER_AGENT']; echo $agent;?></strong></p>
+        <p><span>User Agent:</span><strong><?php $agent = $_SERVER['HTTP_USER_AGENT']; echo htmlspecialchars($agent); ?></strong></p>
         <div class="line"></div>
         <!-- Hiển thị mô tả bản thân và nút sửa mô tả bên cạnh -->
         <div class="desc-container">
@@ -57,7 +52,7 @@ include('../app/info/php.php');
         <div class="line"></div>
 
         <!-- Form sửa mô tả (ẩn mặc định) -->
-        <form id="update-desc-form" method="POST" action="">
+        <form id="update-desc-form" method="POST" action="" style="display:none;">
             <label for="desc">Cập nhật mô tả bản thân:</label>
             <textarea id="desc" name="desc" rows="4" cols="50" placeholder="Nhập mô tả của bạn..." maxlength="255"><?php echo htmlspecialchars($userDesc); ?></textarea>
             <br>
