@@ -31,7 +31,7 @@ $desc = isset($_GET['desc']) ? $_GET['desc'] : null;
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'id:desc'; // Mặc định sắp xếp theo 'id' tăng dần
 
 // Bắt đầu query
-$sql = "SELECT id, username, `desc`, created_at FROM users WHERE 1=1";
+$sql = "SELECT id, username, description, created_at FROM users WHERE 1=1";
 
 // Lọc theo username
 if ($username) {
@@ -40,7 +40,7 @@ if ($username) {
 
 // Lọc theo desc
 if ($desc) {
-    $sql .= " AND `desc` LIKE ?";
+    $sql .= " AND description LIKE ?";
 }
 
 // Sắp xếp

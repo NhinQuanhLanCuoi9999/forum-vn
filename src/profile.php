@@ -24,7 +24,7 @@ include('../app/profile/Pagination.php');
         <div class="profile-info">
             <h2>Thông tin người dùng</h2>
             <p><strong>Tên người dùng:</strong> <?php echo htmlspecialchars($user_info['username']); ?></p>
-            <p><strong>Mô tả:</strong> <?php echo nl2br(htmlspecialchars($user_info['desc'])); ?></p>
+            <p><strong>Mô tả:</strong> <?php echo nl2br(htmlspecialchars($user_info['description'])); ?></p>
         </div>
 
         <?php if ($result_posts->num_rows > 0): ?>

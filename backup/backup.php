@@ -4,6 +4,10 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 include '../app/backup/Pagination.php';
 include '../app/backup/Logic.php';
 include '../app/backup/Auth.php';
+include '../app/backup/Delete.php';
+include '../app/backup/Import.php';
+
+
 
 
 // Include file cấu hình CSDL
@@ -44,21 +48,10 @@ function writeLog($message) {
     <title>Hệ thống Backup & Import Database [BETA]</title>
     <link rel="stylesheet" href="/asset/css/Bootstrap.min.css">
     <link href="/asset/css/Poppins.css" rel="stylesheet">
-    <style>
-        body { font-family: 'Poppins', sans-serif; }
-        .container { margin-top: 30px; }
-        .backup-list li { margin-bottom: 8px; }
-        .card { margin-bottom: 20px; }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/app/backup/style.css">
     <script>
-        function confirmDelete(fileName) {
-            if (confirm("Bạn có chắc muốn xóa file " + fileName + " không?")) {
-                window.location.href = "?delete=" + fileName;
-            }
-        }
-        function confirmImport(fileName) {
-            return confirm("Chú ý: Dữ liệu hiện tại sẽ được ghi đè. Bạn có chắc muốn import file " + fileName + " không?");
-        }
+        function confirmDelete(fileName) {if (confirm("Bạn có chắc muốn xóa file " + fileName + " không?")) {window.location.href = "?delete=" + fileName;}}
+        function confirmImport(fileName) {return confirm("Chú ý: Dữ liệu hiện tại sẽ được ghi đè. Bạn có chắc muốn import file " + fileName + " không?");}
     </script>
 </head>
 <body>
@@ -68,9 +61,7 @@ function writeLog($message) {
         <!-- Thông báo kết quả -->
         <?php if (!empty($message)): ?>
             <div class="alert alert-<?php echo $alertType; ?>">
-                <?php echo $message; ?>
-            </div>
-        <?php endif; ?>
+                <?php echo $message; ?></div><?php endif; ?>
 
         <div class="row">
             <!-- Cột Backup -->
@@ -81,9 +72,7 @@ function writeLog($message) {
                     </div>
                     <div class="card-body">
                         <form method="post">
-                            <button type="submit" name="backup" class="btn btn-primary btn-block mb-3">
-                                Thực hiện Backup
-                            </button>
+                            <button type="submit" name="backup" class="btn btn-primary btn-block mb-3">Thực hiện Backup</button>
                         </form>
                         <h5>Danh sách file backup</h5>
                         <ul class="list-group backup-list">
@@ -95,11 +84,8 @@ function writeLog($message) {
                                     echo '<li class="list-group-item d-flex justify-content-between align-items-center">';
                                     echo $fileName;
                                     echo '<button class="btn btn-danger btn-sm" onclick="confirmDelete(\'' . $fileName . '\')">Xóa</button>';
-                                    echo '</li>';
-                                }
-                            } else {
-                                echo '<li class="list-group-item">Không có file backup nào.</li>';
-                            }
+                                    echo '</li>';}} 
+                            else {echo '<li class="list-group-item">Không có file backup nào.</li>';}
                         ?>
                         </ul>
                         
@@ -157,13 +143,9 @@ function writeLog($message) {
                                     <?php endforeach; ?>
                                 </ul>
                             </div>
-                            <button type="submit" name="import" class="btn btn-warning btn-block">
-                                Thực hiện Import
-                            </button>
+                            <button type="submit" name="import" class="btn btn-warning btn-block">Thực hiện Import</button>
                             <br>
-                            <small class="form-text text-muted">
-                                Chú ý: Dữ liệu hiện tại sẽ được ghi đè bởi dữ liệu trong file import.
-                            </small>
+                            <small class="form-text text-muted">Chú ý: Dữ liệu hiện tại sẽ được ghi đè bởi dữ liệu trong file import.</small>
                         </form>
 
                         <!-- Phân trang -->

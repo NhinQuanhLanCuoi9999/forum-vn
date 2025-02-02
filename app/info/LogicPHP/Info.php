@@ -20,7 +20,7 @@ if ($result->num_rows > 0) {
 $username = $_SESSION['username']; // Giả sử bạn lưu tên người dùng trong session
 
 // Truy vấn để lấy thông tin người dùng từ cơ sở dữ liệu
-$query = "SELECT id, created_at, `desc` FROM users WHERE username = ?";
+$query = "SELECT id, created_at, description FROM users WHERE username = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $username);
 $stmt->execute();
@@ -30,7 +30,7 @@ if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
     $userId = $user['id'];
     $createdAt = $user['created_at'];
-    $userDesc = $user['desc']; // Lấy mô tả người dùng
+    $userDesc = $user['description']; // Lấy mô tả người dùng
 } else {
     // Xử lý nếu không tìm thấy người dùng
     $userId = null;
@@ -40,10 +40,10 @@ if ($result->num_rows > 0) {
 
 // Cập nhật mô tả người dùng khi gửi form
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $newDesc = $_POST['desc'];
+    $newDesc = $_POST['description'];
     
     // Cập nhật mô tả vào cơ sở dữ liệu
-    $updateQuery = "UPDATE users SET `desc` = ? WHERE username = ?";
+    $updateQuery = "UPDATE users SET description = ? WHERE username = ?";
     $stmt_update = $conn->prepare($updateQuery);
     $stmt_update->bind_param("ss", $newDesc, $username);
     $stmt_update->execute();
