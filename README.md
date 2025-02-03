@@ -14,12 +14,7 @@
 2. Sao chép giá trị của dòng "IPv4 Address" (địa chỉ IP).
 
 ## Lưu ý
-
-- Bạn cần thay đổi API key trong tệp `network-config` để phù hợp với API key của dịch vụ ipinfo.io.
-- Nếu bạn dự định triển khai website lên internet, hãy cập nhật tệp `config.php` với thông tin MySQL của hosting mà bạn đang sử dụng.
-- Nếu bạn có tài khoản "admin", sau khi đăng nhập, bạn có thể truy cập trang `admin.php` để quản lý website.
-- Đảm bảo rằng trong thư mục `htdocs`, bạn đã tạo 2 thư mục con là `uploads` và `logs` để lưu trữ các dữ liệu liên quan.
-
+- Nếu bạn có tài khoản "admin", sau khi đăng nhập, bạn có thể truy cập trang `src/admin.php` để quản lý website.
 
 
 
