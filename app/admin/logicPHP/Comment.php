@@ -4,7 +4,7 @@ if (isset($_GET['delete_comment'])) {
     $comment_id = $_GET['delete_comment'];
     echo "<script>
             if(confirm('Bạn có chắc chắn muốn xóa bình luận này không?')) {
-                window.location.href = 'src/admin.php?confirm_delete_comment=$comment_id';
+                window.location.href = 'admin_tool/admin.php?confirm_delete_comment=$comment_id';
             }
           </script>";
 }
@@ -20,7 +20,7 @@ if (isset($_GET['confirm_delete_comment'])) {
     logAction("Đã xóa bình luận với ID '$comment_id'.");
 
     $_SESSION['message'] = "<div class='alert alert-success'>Đã xóa bình luận với ID '$comment_id'.</div>";
-    header("Location: src/admin.php?section=posts");
+    header("Location: admin_tool/admin.php?section=posts");
     exit();
 }
 ?>

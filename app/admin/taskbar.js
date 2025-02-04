@@ -28,5 +28,5 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function changeSection(section) {
-    window.location.href = "src/admin.php?section=" + section;
+    window.location.href = "admin_tool/admin.php?section=" + section;
 }

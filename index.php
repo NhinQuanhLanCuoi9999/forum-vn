@@ -4,7 +4,6 @@ include('config.php'); // Bao gồm file config để kết nối DB
 // Bao gồm tệp index.php sau khi kiểm tra cấm xong
 include('app/index/php.php');
 
-
 ?>
 
 
@@ -47,7 +46,7 @@ if (empty($_SESSION['csrf_token'])) {
     <h2>Đăng nhập</h2>
     <input type="text" name="username" placeholder="Tên đăng nhập" required maxlength="50">
     <input type="password" name="password" placeholder="Mật khẩu" required>
-    
+    <a href="/src/forget_pass.php">Quên mật khẩu?</a> <br>
     <!-- Thêm CSRF token vào form -->
     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
     
@@ -73,6 +72,8 @@ if (empty($_SESSION['csrf_token'])) {
         title="Vui lòng chỉ nhập ký tự chữ và số, không có khoảng trắng hoặc ký tự đặc biệt. Nhập từ 6 đến 30 ký tự.">
     
     <input type="password" name="confirm_password" id="confirm_password" placeholder="Nhập lại mật khẩu" required>
+
+    <input type="email" name="gmail" placeholder="Email">
     
     <!-- Token CSRF -->
     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">

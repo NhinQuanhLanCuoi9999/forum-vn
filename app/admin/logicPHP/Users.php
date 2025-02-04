@@ -21,7 +21,7 @@ if (isset($_GET['delete_user'])) {
         } else {
             echo "<script>
                     if(confirm('Bạn có chắc chắn muốn xóa tài khoản này không?')) {
-                        window.location.href = 'src/admin.php?confirm_delete_user=$user_id';
+                        window.location.href = 'admin_tool/admin.php?confirm_delete_user=$user_id';
                     }
                   </script>";
         }
@@ -47,7 +47,7 @@ if (isset($_GET['confirm_delete_user'])) {
     logAction("Đã xóa tài khoản '{$user['username']}' thành công.");
     
     $_SESSION['ss1'] = "<div class='alert alert-success'>Đã xóa tài khoản '{$user['username']}' thành công.</div>";
-    header("Location: src/admin.php?section=users");
+    header("Location: admin_tool/admin.php?section=users");
     exit();
 }
 // Chỉnh sửa tên người dùng
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_user'])) {
     logAction("Đã đổi tài khoản '{$user['username']}' thành '$new_username' thành công.");
     
     $_SESSION['ss1'] = "<div class='alert alert-success'>Đã đổi tài khoản '{$user['username']}' thành '$new_username' thành công.</div>";
-    header("Location: src/admin.php?section=users");
+    header("Location: admin_tool/admin.php?section=users");
     exit();
 }
 

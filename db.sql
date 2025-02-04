@@ -7,6 +7,9 @@ CREATE TABLE IF NOT EXISTS users (
     id VARCHAR(36) PRIMARY KEY DEFAULT (UUID()), -- Sử dụng UUID làm giá trị mặc định
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    gmail VARCHAR(255) NULL UNIQUE,
+    is_active CHAR(1) DEFAULT '0', -- 1 là đã active , 0 là chưa
+    2fa CHAR(1) DEFAULT '0',
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -60,6 +63,8 @@ CREATE TABLE IF NOT EXISTS misc (
     info VARCHAR(255) NULL,
     hcaptcha_api_key VARCHAR(255) NOT NULL,
     ipinfo_api_key VARCHAR(255) NOT NULL,
+    account_smtp VARCHAR(255) NOT NULL,
+    password_smtp VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (id)  -- id duy nhất (không có bản ghi khác ngoài id=1)
 );

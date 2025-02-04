@@ -16,4 +16,5 @@ include('logicPHP/PaginationBtn.php');
 include('logicPHP/Logout.php');
 include('logicPHP/TitleName.php');
 include('LogicPHP/Notify.php');
+include('LogicPHP/GmailAuth.php');
 ?>

@@ -1,7 +1,7 @@
 ## Cách cài đặt
 
-1. Chạy XAMPP và khởi động tất cả các dịch vụ.
-2. Sử dụng lệnh `git clone` để sao chép repository này về, sau đó di chuyển vào thư mục `htdocs` của XAMPP.
+1. Chạy Laragon và khởi động Apache/MySQL.
+2. Sử dụng lệnh `git clone` để sao chép repository này về, sau đó di chuyển vào thư mục `www` của Laragon.
 
 ### Cách chạy
 
@@ -14,73 +14,7 @@
 2. Sao chép giá trị của dòng "IPv4 Address" (địa chỉ IP).
 
 ## Lưu ý
-- Nếu bạn có tài khoản "admin", sau khi đăng nhập, bạn có thể truy cập trang `src/admin.php` để quản lý website.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Nên dùng Laragon để tránh lỗi về PHP Mail ( nếu dùng XAMPP thì bạn phải tự setup thủ công)
+- Nếu bạn có tài khoản "admin", sau khi đăng nhập, bạn có thể truy cập trang `admin_tool/admin.php` để quản lý website.
+- Hãy chắc chắn rằng bạn đã bật 2FA tài khoản Google và đã tạo [App Password](https://myaccount.google.com/apppasswords)
 

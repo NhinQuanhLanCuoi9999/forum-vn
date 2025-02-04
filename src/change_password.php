@@ -42,6 +42,7 @@ include('../app/changePass/php.php');
             <label for="confirm_password">Xác nhận mật khẩu mới:</label>
             <input type="password" name="confirm_password" required minlength="6" maxlength="30">
             <p>Chưa muốn đổi mật khẩu? <a href="index.php">Quay lại</a>.</p>
+            <p><a href="/src/forget_pass.php">Quên mật khẩu?</a> <br> </p>
             <button type="submit" name="change_password" class="submit-btn">Đổi mật khẩu</button>
         </form>
     </div>

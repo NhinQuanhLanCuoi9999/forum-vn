@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
+    $gmail = trim($_POST['gmail']); // Lấy dữ liệu từ trường email (gmail)
 
     // Kiểm tra tên người dùng và các điều kiện khác như trước
     if (!preg_match('/^[a-zA-Z0-9_]+$/', $username)) {
@@ -26,13 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
     }
 
     // Kiểm tra tài khoản đã tồn tại trong cơ sở dữ liệu
-    $checkUser = $conn->prepare("SELECT * FROM users WHERE username = ?");
-    $checkUser->bind_param("s", $username);
+    $checkUser = $conn->prepare("SELECT * FROM users WHERE username = ? OR gmail = ?");
+    $checkUser->bind_param("ss", $username, $gmail);
     $checkUser->execute();
     $result = $checkUser->get_result();
 
     if ($result->num_rows > 0) {
-        $_SESSION['error'] = "Tài khoản đã tồn tại!";
+        $_SESSION['error'] = "Tài khoản hoặc email đã tồn tại!";
         header("Location: index.php");
         exit();
     }
@@ -41,8 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Tạo tài khoản mới nếu không có lỗi
-    $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-    $stmt->bind_param("ss", $username, $hashed_password);
+    $stmt = $conn->prepare("INSERT INTO users (username, password, gmail) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $username, $hashed_password, $gmail); // Lưu thêm giá trị gmail
     $stmt->execute();
 
     // Ghi log hành động
@@ -53,3 +54,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
     header("Location: index.php");
     exit();
 }
+?>

@@ -4,7 +4,7 @@ if (isset($_GET['delete_post'])) {
     $post_id = $_GET['delete_post'];
     echo "<script>
             if(confirm('Bạn có chắc chắn muốn xóa bài viết này không?')) {
-                window.location.href = 'src/admin.php?confirm_delete_post=$post_id';
+                window.location.href = 'admin_tool/admin.php?confirm_delete_post=$post_id';
             }
           </script>";
 }
@@ -20,7 +20,7 @@ if (isset($_GET['confirm_delete_post'])) {
     logAction("Đã xóa bài viết với ID '$post_id'.");
 
     $_SESSION['ss1'] = "<div class='alert alert-success'>Đã xóa bài viết với ID '$post_id'.</div>";
-    header("Location: src/admin.php?section=posts");
+    header("Location: admin_tool/admin.php?section=posts");
     exit();
 }
 ?>
