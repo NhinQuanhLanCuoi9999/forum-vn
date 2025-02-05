@@ -5,7 +5,7 @@ if (!apiKey) {
     console.error("Không thể lấy API key từ cơ sở dữ liệu.");
 } else {
     let isExtraInfoVisible = false;
-    let countdown = 30; // Thời gian đếm ngược
+    let countdown = 90; // Thời gian đếm ngược
     const timerElement = document.getElementById('time');
     const loggedIPs = JSON.parse(localStorage.getItem('loggedIPs')) || {};
 

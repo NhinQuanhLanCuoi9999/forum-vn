@@ -22,13 +22,15 @@ if ($user = mysqli_fetch_assoc($result)) {$currentGmail = $user['gmail'];$isActi
 mysqli_stmt_close($stmt);
 
 // Xử lý khi người dùng gửi yêu cầu thay đổi Gmail
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['gmail'])) {
     $newGmail = $_POST['gmail'];
 
     // Kiểm tra xem Gmail mới đã tồn tại chưa
     $checkQuery = "SELECT COUNT(*) FROM users WHERE gmail = ?";
     $stmt = mysqli_prepare($conn, $checkQuery);
-    if ($stmt === false) {die("Chuẩn bị câu truy vấn thất bại: " . mysqli_error($conn));}
+    if ($stmt === false) {
+        die("Chuẩn bị câu truy vấn thất bại: " . mysqli_error($conn));
+    }
 
     mysqli_stmt_bind_param($stmt, "s", $newGmail);
     mysqli_stmt_execute($stmt);
@@ -40,11 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Nếu Gmail đã tồn tại
     if ($gmailCount > 0) {
-        echo "<div style='color: white; background-color: red; padding: 10px; font-size: 16px; border-radius: 5px;transform: translate(730px,-410px);z-index: 2000;'>Gmail này đã tồn tại, vui lòng chọn Gmail khác!</div>";} else {
+        echo "<div style='color: white; background-color: red; padding: 10px; font-size: 16px; border-radius: 5px;transform: translate(730px,-410px);z-index: 2000;'>Gmail này đã tồn tại, vui lòng chọn Gmail khác!</div>";
+    } else {
         // Cập nhật Gmail mới và reset is_active nếu Gmail mới khác với Gmail cũ
-        if ($newGmail !== $currentGmail) {$updateQuery = "UPDATE users SET gmail = ?, is_active = '0' WHERE username = ?";
+        if ($newGmail !== $currentGmail) {
+            $updateQuery = "UPDATE users SET gmail = ?, is_active = '0' WHERE username = ?";
             $stmt = mysqli_prepare($conn, $updateQuery);
-            if ($stmt === false) {die("Chuẩn bị câu truy vấn thất bại: " . mysqli_error($conn));}
+            if ($stmt === false) {
+                die("Chuẩn bị câu truy vấn thất bại: " . mysqli_error($conn));
+            }
 
             // Sử dụng 'ss' vì cả gmail và username đều là chuỗi
             mysqli_stmt_bind_param($stmt, "ss", $newGmail, $userId);
@@ -54,8 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Cập nhật lại thông tin người dùng
                 $currentGmail = $newGmail;
                 $isActive = '0'; // Đặt trạng thái chưa kích hoạt
-                echo "<div style='color: white; background-color: green; padding: 10px; font-size: 16px; border-radius: 5px;transform: translate(730px,-410px);z-index: 2000;'>Gmail đã được cập nhật thành công.</div>";} 
-    mysqli_stmt_close($stmt);}}}
+                echo "<div style='color: white; background-color: green; padding: 10px; font-size: 16px; border-radius: 5px;transform: translate(730px,-410px);z-index: 2000;'>Gmail đã được cập nhật thành công.</div>";
+            }
+            mysqli_stmt_close($stmt);
+        }
+    }
+}
+
 
 // Đóng kết nối
 mysqli_close($conn);
@@ -70,20 +81,8 @@ mysqli_close($conn);
     <!-- Nhúng font Poppins -->
     <link rel="stylesheet" href="../asset/css/Poppins.css">
     <link rel="stylesheet" type="text/css" href="/app/info/styles.css">
-    <script>
-        // Hiển thị/ẩn form cập nhật mô tả với hiệu ứng
-        function toggleDescForm() {
-            const form = document.getElementById("update-desc-form");
-            form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
-            if (form.style.display === "block") {
-                // Thêm hiệu ứng fade-in
-                form.classList.add("fade-in");
-            } else {
-                // Xóa hiệu ứng fade-in khi ẩn
-                form.classList.remove("fade-in");
-            }
-        }
-    </script>
+    <script src="/app/info/desc_switch.js"></script>
+
 </head>
 <body>
 
@@ -108,22 +107,34 @@ mysqli_close($conn);
             <button class="button" onclick="toggleDescForm()">Cập nhật mô tả</button>
         </div>
         <div class="line"></div>
-          <!-- Hiển thị thông tin Gmail và trạng thái kích hoạt -->
-          <p><span>Gmail hiện tại:</span> <strong><?php echo htmlspecialchars($currentGmail ?: 'Chưa có Gmail'); ?></strong></p>
-        <p><span>Trạng thái Gmail:</span> <strong><?php echo $isActive == '1' ? 'Đã kích hoạt' : 'Chưa kích hoạt'; ?></strong></p>
-
-        <div class="line"></div>
-
-        <!-- Form sửa Gmail -->
-        <form method="POST" action="">
-            <label for="gmail">Cập nhật Gmail:</label>
-            <input type="email" id="gmail" name="gmail" value="<?php echo htmlspecialchars($currentGmail ?? 'Chưa có Gmail'); ?>" required>
 
 
-            <button type="submit" class="button">Cập nhật Gmail</button>
-        </form>
+<!-- Hiển thị thông tin Gmail và trạng thái kích hoạt -->
+<p>
+  <span>Gmail hiện tại:</span>
+  <strong id="gmailText"><?php echo htmlspecialchars($currentGmail ?: 'Chưa có Gmail'); ?></strong>
+  <button id="editGmailBtn" class="button">Chỉnh sửa</button>
+</p>
+<p>
+  <span>Trạng thái Gmail:</span>
+  <strong><?php echo $isActive == '1' ? 'Đã kích hoạt' : 'Chưa kích hoạt'; ?></strong>
+</p>
 
-        <div class="line"></div>
+
+
+<!-- Form sửa Gmail (ẩn mặc định) -->
+<div id="gmailForm" style="display: none; margin-top: 10px;">
+  <form method="POST" action="">
+    <label for="gmail">Cập nhật Gmail:</label>
+    <input type="email" id="gmail" name="gmail" value="<?php echo htmlspecialchars($currentGmail ?: ''); ?>" required>
+    <button type="submit" class="button">Lưu</button>
+    <button type="button" id="cancelEdit" class="button">Hủy</button>
+  </form>
+</div>
+
+
+<script src="/app/info/gmail_switch.js"></script>
+
 
         <!-- Form sửa mô tả (ẩn mặc định) -->
         <form id="update-desc-form" method="POST" action="" style="display:none;">
