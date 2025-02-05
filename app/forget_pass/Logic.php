@@ -28,8 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Lấy thông tin user để so sánh sau này (nếu cần)
                 $user = $result->fetch_assoc();
                 $_SESSION['old_password_hash'] = $user['password'];
-
-                $_SESSION['otp']         = rand(100000, 999999);
+                $_SESSION['otp'] = strtoupper(bin2hex(random_bytes(8)));
                 $_SESSION['reset_email'] = $gmail;
                 $_SESSION['otp_expiry']  = time() + 300;
                 
@@ -81,19 +80,52 @@ $headers .= "From: no-reply@gmail.com" . "\r\n";  // Địa chỉ gửi email
             $error = "Vui lòng nhập Gmail.";
         }
     }
-    // Bước 2: Nhập OTP
-    elseif ($_SESSION['step'] == 2) {
-        $input_otp = isset($_POST['otp']) ? trim($_POST['otp']) : "";
-        if (empty($input_otp)) {
-            $error = "Vui lòng nhập mã OTP.";
-        } elseif (!isset($_SESSION['otp']) || time() > $_SESSION['otp_expiry']) {
-            $error = "Mã OTP đã hết hạn hoặc không tồn tại.";
-        } elseif ($input_otp == $_SESSION['otp']) {
-            $_SESSION['step'] = 3;
+// Bước 2: Nhập OTP
+elseif ($_SESSION['step'] == 2) {
+    $input_otp = isset($_POST['otp']) ? trim($_POST['otp']) : "";
+
+    if (empty($input_otp)) {
+        $error = "Vui lòng nhập mã OTP.";
+    } elseif (!isset($_SESSION['otp']) || time() > $_SESSION['otp_expiry']) {
+        $error = "Mã OTP đã hết hạn hoặc không tồn tại.";
+    } elseif ($input_otp == $_SESSION['otp']) {
+        // Nếu OTP đúng, reset biến đếm số lần nhập sai (nếu có) và chuyển sang bước tiếp theo
+        unset($_SESSION['otp_attempts']);
+        $_SESSION['step'] = 3;
+    } else {
+        // Nếu OTP không đúng, tăng biến đếm số lần nhập sai
+        if (!isset($_SESSION['otp_attempts'])) {
+            $_SESSION['otp_attempts'] = 0;
+        }
+        $_SESSION['otp_attempts']++;
+
+        // Tính số lần thử còn lại (cho đến 10 lần)
+        $attempts_remaining = 10 - $_SESSION['otp_attempts'];
+
+        if ($_SESSION['otp_attempts'] >= 10) {
+            // Nếu nhập sai quá 10 lần, xóa hết session và thông báo
+            session_unset();
+            session_destroy();
+
+            echo "<div style='color: red; font-weight: bold; text-align: center; margin-top: 20px;'>
+                    Bạn đã nhập mã OTP sai quá 10 lần. Hệ thống sẽ đóng sau 5 giây.
+                  </div>";
+
+            // Chuyển hướng sau 5 giây (đảm bảo không có output nào khác trước header)
+            header("Refresh: 5; url=/");
+            exit();
         } else {
+            // In thông báo số lần thử còn lại với inline CSS
+            echo "<div style='color: red; font-weight: bold; text-align: center; margin-top: 20px;'>
+                    Mã OTP không đúng. Bạn còn {$attempts_remaining} lần thử trước khi hệ thống khóa OTP.
+                  </div>";
+
             $error = "Mã OTP không đúng.";
         }
     }
+}
+
+
     // Bước 3: Nhập mật khẩu mới và cập nhật CSDL
     elseif ($_SESSION['step'] == 3) {
         $new_password     = isset($_POST['new_password']) ? $_POST['new_password'] : "";
