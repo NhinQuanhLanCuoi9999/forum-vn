@@ -69,7 +69,7 @@ if (isset($_POST['backup'])) {
                 foreach ($row as $col => $val) {
                     $cols[] = $col;
                     // Escape giá trị để an toàn
-                    $vals[] = "'" . $conn->real_escape_string($val) . "'";
+                    $vals[] = "'" . $conn->real_escape_string($val ?? '') . "'";
                 }
                 $cols = implode(", ", $cols);
                 $vals = implode(", ", $vals);

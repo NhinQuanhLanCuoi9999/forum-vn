@@ -39,7 +39,7 @@ include('../app/admin/php.php');
     <li><span style="cursor: pointer;" onclick="changeSection('users')"><i class="fas fa-users"></i> Quản lý người dùng</span></li>
     <li><span style="cursor: pointer;" onclick="changeSection('api')"><i class="fas fa-cogs"></i> API</span></li>
     <li><span style="cursor: pointer;" onclick="window.location.href='logs.php'"><i class="fas fa-book"></i> Logs</span></li>
-    <li><span style="cursor: pointer;" onclick="window.location.href='/backup/backup.php'"><i class="fas fa-hdd"></i> Backup [BETA]</span></li>
+    <li><span style="cursor: pointer;" onclick="window.location.href='backup.php'"><i class="fas fa-hdd"></i> Backup [BETA]</span></li>
     <li><span style="cursor: pointer;" onclick="window.location.href='ban.php'"><i class="fas fa-user-slash"></i> Cấm User</span></li>
     <li><span style="cursor: pointer;" onclick="window.location.href='/index.php?logout=true'"><i class="fas fa-sign-out-alt"></i> Đăng xuất</span></li>
     </ul>
