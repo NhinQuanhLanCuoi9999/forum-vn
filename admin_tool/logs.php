@@ -1,6 +1,8 @@
 <?php
 session_start();
+include '../config.php';
 include '../app/logs/LogicPHP/Read.php';
+include '../app/logs/LogicPHP/Check2FA.php';
 
 // Kiểm tra nếu người dùng đã đăng nhập thông qua cookie
 if (isset($_COOKIE['username']) && !isset($_SESSION['username'])) {

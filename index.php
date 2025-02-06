@@ -199,35 +199,6 @@ if (empty($_SESSION['csrf_token'])) {
 
 <?php endif; ?>
 
-
-    <!-- Nút hiện/ẩn bình luận -->
-<button class="toggle-comments" data-post-id="<?php echo htmlspecialchars($post['id']); ?>">Hiện bình luận</button>
-<div class="comments" id="comments-<?php echo htmlspecialchars($post['id']); ?>" style="display: none;">
-    <h4>Bình luận:</h4>
-    <form method="post" action="index.php" class="comment-form">
-    <input type="hidden" name="csrf_token1" value="<?php echo $_SESSION['csrf_token1']; ?>">
-    <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['id']); ?>">
-    <textarea name="content" placeholder="Nhập bình luận" required></textarea>
-    <button type="submit" name="comment">Gửi bình luận</button>
-</form>
-
-    <?php
-    $post_id = $post['id'];
-    $comments = $conn->query("SELECT * FROM comments WHERE post_id = $post_id ORDER BY created_at DESC");
-    if ($comments->num_rows > 0):
-        while ($comment = $comments->fetch_assoc()): ?>
-            <div class="comment">
-                <strong><a href="src/profile.php?username=<?php echo htmlspecialchars($comment['username']); ?>" target="_blank"><?php echo htmlspecialchars($comment['username']); ?></a></strong>:
-                <span><?php echo htmlspecialchars($comment['content']); ?></span> 
-                <?php if ($comment['username'] == $_SESSION['username']): ?>
-                    <a href="index.php?delete_comment=<?php echo htmlspecialchars($comment['id']); ?>">Xóa bình luận</a>
-                <?php endif; ?>
-            </div>
-    <?php endwhile; ?>
-    <?php else: ?>
-        <p class="no-posts">Chưa có bình luận nào.</p>
-    <?php endif; ?>
-</div>
 </div>
             <?php endwhile; ?>
         <?php else: ?>
@@ -235,6 +206,5 @@ if (empty($_SESSION['csrf_token'])) {
         <?php endif; ?>
     <?php endif; ?>
 </div>
-<script src = app/index/t.js></script>
 </body>
 </html>

@@ -1,14 +1,12 @@
 <?php
 
-
-
 // Xóa người dùng
 if (isset($_GET['delete_user'])) {
     $user_id = $_GET['delete_user'];
 
     // Lấy thông tin tài khoản để kiểm tra tên người dùng
     $stmt = $conn->prepare("SELECT username FROM users WHERE id = ?");
-    $stmt->bind_param("i", $user_id);
+    $stmt->bind_param("s", $user_id);  // Sử dụng "s" vì id là kiểu VARCHAR
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -34,13 +32,13 @@ if (isset($_GET['delete_user'])) {
 if (isset($_GET['confirm_delete_user'])) {
     $user_id = $_GET['confirm_delete_user'];
     $stmt = $conn->prepare("SELECT username FROM users WHERE id = ?");
-    $stmt->bind_param("i", $user_id);
+    $stmt->bind_param("s", $user_id);  // Sử dụng "s" vì id là kiểu VARCHAR
     $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
 
     $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
-    $stmt->bind_param("i", $user_id);
+    $stmt->bind_param("s", $user_id);  // Sử dụng "s" vì id là kiểu VARCHAR
     $stmt->execute();
 
     // Ghi log
@@ -50,6 +48,7 @@ if (isset($_GET['confirm_delete_user'])) {
     header("Location: admin_tool/admin.php?section=users");
     exit();
 }
+
 // Chỉnh sửa tên người dùng
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_user'])) {
     $user_id = $_POST['user_id'];
@@ -63,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_user'])) {
         } else {
             // Kiểm tra nếu tài khoản admin cố gắng đổi tên
             $stmt = $conn->prepare("SELECT username FROM users WHERE id = ?");
-            $stmt->bind_param("i", $user_id);
+            $stmt->bind_param("s", $user_id);  // Sử dụng "s" vì id là kiểu VARCHAR
             $stmt->execute();
             $result = $stmt->get_result();
             $user = $result->fetch_assoc();
@@ -73,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_user'])) {
             } else {
                 // Kiểm tra xem tên người dùng đã tồn tại hay chưa
                 $stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
-                $stmt->bind_param("s", $new_username);
+                $stmt->bind_param("s", $new_username);  // Sử dụng "s" vì username là kiểu VARCHAR
                 $stmt->execute();
                 $count_result = $stmt->get_result();
                 $count = $count_result->fetch_row()[0];
@@ -83,8 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_user'])) {
                 } else {
                     // Nếu không có vấn đề gì, tiến hành cập nhật tên người dùng
                     $stmt = $conn->prepare("UPDATE users SET username = ? WHERE id = ?");
-                    $stmt->bind_param("si", $new_username, $user_id);
-                    
+                    $stmt->bind_param("ss", $new_username, $user_id);  // Cả username và user_id đều là kiểu VARCHAR
                     if ($stmt->execute()) {
                         if ($stmt->affected_rows > 0) {
                             // Cập nhật username trong các bảng posts, comments và bans

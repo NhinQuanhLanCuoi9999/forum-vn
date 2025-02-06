@@ -13,4 +13,6 @@ include('logicPHP/Pagination/Post.php');
 include('logicPHP/SearchUser.php');
 include('logicPHP/SystemConfig.php');
 include('logicPHP/MessageCheck.php');
+include('logicPHP/Check2FA.php');
+
 ?>
