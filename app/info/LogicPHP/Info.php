@@ -10,7 +10,6 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
-    $userId = $user['id'];
     $createdAt = $user['created_at'];
     // Nếu khóa description không tồn tại hoặc là null, gán chuỗi rỗng
     $userDesc = isset($user['description']) && $user['description'] !== null ? $user['description'] : '';
@@ -35,4 +34,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Cập nhật lại mô tả trong biến
     $userDesc = $newDesc;
 }
+
+
+
+
+// Truy vấn để lấy id của người dùng
+$sql = "SELECT id FROM users WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Truy vấn để lấy id của người dùng
+$sql = "SELECT id FROM users WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $userId = $row['id']; // Đã có kiểm tra trước khi dùng
+    
+}
+
 ?>

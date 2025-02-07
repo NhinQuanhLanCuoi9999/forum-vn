@@ -11,8 +11,7 @@ include '../app/info/php.php';
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> <!-- Cấm phóng to, thu nhỏ -->
-    <title>Thông tin người dùng</title>
+    <meta name="viewport" content="width=device-width">
     <!-- Nhúng font Poppins -->
     <link rel="stylesheet" href="../asset/css/Poppins.css">
     <link rel="stylesheet" type="text/css" href="/app/info/styles.css">
@@ -20,13 +19,12 @@ include '../app/info/php.php';
 
 </head>
 <body>
-
 <div class="container">
     <h1>THÔNG TIN TÀI KHOẢN</h1>
     <div class="user-info">
         <p><span>Tên người dùng:</span> <strong><?php echo htmlspecialchars($username); ?></strong></p>
         <div class="line"></div>
-        <p><span>ID:</span> <strong><?php echo htmlspecialchars($userId); ?></strong></p>
+        <p><span>ID:</span> <strong><?php echo $row['id']; ?></strong></p>
         <div class="line"></div>
         <p><span>Ngày tạo:</span> <strong><?php echo htmlspecialchars(date('d-m-Y H:i:s', strtotime($createdAt))); ?></strong></p>
         <div class="line"></div>
