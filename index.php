@@ -73,7 +73,7 @@ if (empty($_SESSION['csrf_token'])) {
     
     <input type="password" name="confirm_password" id="confirm_password" placeholder="Nhập lại mật khẩu" required>
 
-    <input type="email" name="gmail" placeholder="Email">
+    <input type="email" name="gmail" placeholder="Email" required>
     
     <!-- Token CSRF -->
     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">

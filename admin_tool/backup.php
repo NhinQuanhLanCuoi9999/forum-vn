@@ -3,11 +3,10 @@ session_start();
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 include '../app/backup/Pagination.php';
 include '../app/backup/Logic.php';
-include '../app/backup/Auth.php';
+include '../app/admin/logicPHP/Auth.php';
 include '../app/backup/Delete.php';
 include '../app/backup/Import.php';
 include '../app/backup/Check2FA.php';
-
 
 
 

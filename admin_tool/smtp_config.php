@@ -2,9 +2,9 @@
 session_start();
 include '../config.php';
 include '../app/smtp_config/Handle.php';
-include '../app/smtp_config/Auth.php';
+include '../app/admin/logicPHP/Auth.php';
 include '../app/smtp_config/Check2FA.php';
-
+include('../app/admin/logicPHP/Auth.php');
 ?>
 
 <!DOCTYPE html>

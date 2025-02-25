@@ -5,6 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ban'])) {
     $ip_address = trim($_POST['ip_address']);
     $ban_end = $_POST['ban_end']; // Giá trị ban_end từ biểu mẫu
     $permanent = 0;
+    $log_message = ''; // Biến để lưu nội dung log
 
     // Kiểm tra định dạng ban_end
     $ban_end_date = DateTime::createFromFormat('Y-m-d\TH:i', $ban_end);
@@ -40,7 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ban'])) {
                         $stmt->execute();
 
                         $success_message = "Đã cấm $username thành công.";
-                        writeLog("Cấm người dùng: $username, Lý do: $reason, Đến: " . $ban_end_date->format('Y-m-d H:i:s') . ", IP: $ip_address");
+
+                        // Ghi log vào biến
+                        $log_message = "[" . date('Y-m-d H:i:s') . "] Cấm người dùng: $username, Lý do: $reason, Đến: " . $ban_end_date->format('Y-m-d H:i:s') . ", IP: $ip_address";
                     } else {
                         $error_message = 'Không tìm thấy người dùng!';
                     }
@@ -48,19 +51,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ban'])) {
                 // Nếu không có username (chỉ cấm theo IP)
                 elseif (!empty($ip_address)) {
                     // Cấm theo IP mà không cần tham chiếu tới bảng users
-                    // Chỉ thêm IP vào trường ip_address mà không phải là username
                     $stmt = $conn->prepare("INSERT INTO bans (username, ip_address, reason, ban_start, ban_end, permanent) VALUES (NULL, ?, ?, NOW(), ?, ?)");
-                    $ban_end_formatted = $ban_end_date->format('Y-m-d H:i:s');  // Gán kết quả của format vào một biến
+                    $ban_end_formatted = $ban_end_date->format('Y-m-d H:i:s');  
                     $stmt->bind_param("sssi", $ip_address, $reason, $ban_end_formatted, $permanent);                    
                     $stmt->execute();
 
                     $success_message = "Đã cấm IP $ip_address thành công.";
-                    writeLog("Cấm IP: $ip_address, Lý do: $reason, Đến: " . $ban_end_date->format('Y-m-d H:i:s'));
+
+                    // Ghi log vào biến
+                    $log_message = "[" . date('Y-m-d H:i:s') . "] Cấm IP: $ip_address, Lý do: $reason, Đến: " . $ban_end_date->format('Y-m-d H:i:s');
                 }
             } else {
                 $error_message = 'Vui lòng nhập tên người dùng hoặc địa chỉ IP để cấm!';
             }
         }
+    }
+
+    // Nếu có log, lưu vào file
+    if (!empty($log_message)) {
+        $log_file = $_SERVER['DOCUMENT_ROOT'] . '/logs/ban-logs.txt';
+
+        // Tạo thư mục logs nếu chưa có
+        if (!file_exists(dirname($log_file))) {
+            mkdir(dirname($log_file), 0777, true);
+        }
+
+        // Ghi log vào file, thêm dòng mới
+        file_put_contents($log_file, $log_message . PHP_EOL, FILE_APPEND);
     }
 }
 ?>

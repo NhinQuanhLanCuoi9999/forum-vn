@@ -1,5 +1,5 @@
 <?php
-include('LogicPHP/Auth.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/app/admin/logicPHP/Auth.php');
 include('LogicPHP/Handle.php');
 include('LogicPHP/unBan.php');
 include('LogicPHP/Pagination.php');

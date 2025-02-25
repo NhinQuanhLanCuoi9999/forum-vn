@@ -2,7 +2,7 @@
 include('logicPHP/Captcha.php');
 include('logicPHP/checkConfig.php');
 include('logicPHP/checkBan.php');
-include('logicPHP/CookieandAdmin.php');
+include('logicPHP/AdminBtn.php');
 include('logicPHP/Log.php');
 include('logicPHP/Format.php');
 include('logicPHP/badWords.php');
