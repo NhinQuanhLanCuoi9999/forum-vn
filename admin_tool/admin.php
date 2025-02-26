@@ -41,6 +41,7 @@ include('../app/admin/php.php');
     <li><span style="cursor: pointer;" onclick="window.location.href='logs.php'"><i class="fas fa-book"></i> Logs</span></li>
     <li><span style="cursor: pointer;" onclick="window.location.href='backup.php'"><i class="fas fa-hdd"></i> Backup [BETA]</span></li>
     <li><span style="cursor: pointer;" onclick="window.location.href='ban.php'"><i class="fas fa-user-slash"></i> Cấm User</span></li>
+    <li><span style="cursor: pointer;" onclick="window.location.href='authencation.php'"><i class="fas fa-user-shield"></i> Phân quyền</span></li>
     <li><span style="cursor: pointer;" onclick="window.location.href='/index.php?logout=true'"><i class="fas fa-sign-out-alt"></i> Đăng xuất</span></li>
     </ul>
 

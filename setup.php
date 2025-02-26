@@ -94,10 +94,12 @@ if (file_exists('config.php')) {
                 $adminPass = password_hash($_POST['admin_pass'], PASSWORD_BCRYPT);
                 
                 // Xóa bản ghi có id = 1 nếu có
-                $conn->query("DELETE FROM users WHERE id = 1");
+                $conn->query("DELETE FROM users WHERE username = 'admin'");
+
                 
                 // Thêm tài khoản admin mới
-                $conn->query("INSERT INTO users (id, username, password) VALUES (1, '$adminName', '$adminPass')");
+                $conn->query("INSERT INTO users (username, password, role) VALUES ('$adminName', '$adminPass', 'owner')");
+
                 
                 // Thêm thông tin vào bảng misc, bao gồm thông tin API và SMTP
                 $stmt = $conn->prepare("INSERT INTO misc (title, name, hcaptcha_api_key, ipinfo_api_key, account_smtp, password_smtp) VALUES (?, ?, ?, ?, ?, ?)");

@@ -9,6 +9,11 @@ include '../app/backup/Import.php';
 include '../app/backup/Check2FA.php';
 
 
+$currentUser = $_SESSION['username'];
+$currentRole = $_SESSION['role'] ?? 'member'; 
+
+// Nếu không phải admin, chặn truy cập
+$notAdmin = ($currentRole !== 'owner');
 
 // Include file cấu hình CSDL
 include '../config.php';
@@ -55,6 +60,7 @@ function writeLog($message) {
     </script>
 </head>
 <body>
+<?php if ($notAdmin) {die("Chỉ Owner mới có quyền vào trang này.");}?>
     <div class="container">
         <h1 class="mb-4 text-center">Hệ thống Backup & Import Database [BETA]</h1>
         
