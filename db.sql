@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
     is_active CHAR(1) DEFAULT '0', -- 1 là đã active , 0 là chưa
     2fa CHAR(1) DEFAULT '0',
     description TEXT,
+    role VARCHAR(20) DEFAULT 'member',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
