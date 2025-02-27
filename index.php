@@ -3,7 +3,21 @@ session_start(); // Đảm bảo session đã được bắt đầu
 include('config.php'); // Bao gồm file config để kết nối DB
 // Bao gồm tệp index.php sau khi kiểm tra cấm xong
 include('app/index/php.php');
+/*
+##############################################################
+#                                                            #
+# This is the LICENSE file of Forum VN                       #
+# Copyright belongs to Forum VN, Original Author:            #
+# NhinQuanhLanCuoi9999                                       #
+#                                                            #
+##############################################################
 
+Copyright © 2025 Forum VN  
+Original Author: NhinQuanhLanCuoi9999  
+License: GNU General Public License v3.0  
+
+You are free to use, modify, and distribute this software under the terms of the GPL v3.  
+However, if you redistribute the source code, you must retain this license.  */
 ?>
 
 
