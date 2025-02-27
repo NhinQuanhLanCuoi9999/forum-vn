@@ -21,6 +21,9 @@ include '../app/admin/logicPHP/Auth.php';
 <body>
 <div class="container mt-4">
     <h1 class="mb-4">Quản Lý Admin</h1>
+    <!-- Nút về trang admin.php -->
+    <a href="/admin_tool/admin.php" class="btn btn-info mb-3">Về Trang Admin</a>
+    
     <p>Xin chào, <strong><?php echo htmlspecialchars($currentUser); ?></strong></p>
 
     <?php if ($msg != ""): ?>
@@ -73,13 +76,13 @@ if ($result->num_rows > 0) {
                             <?php endif; ?>
                         </td>
                     </tr>
-    <?php
-                endwhile;
-            } else {
-                echo "<tr><td colspan='3'>Không có Admin nào</td></tr>";
-            }
-            $conn->close();
-    ?>
+        <?php
+    endwhile;
+} else {
+    echo "<tr><td colspan='3'>Không có Admin nào</td></tr>";
+}
+$conn->close();
+        ?>
         </tbody>
     </table>
     <?php endif; ?>
@@ -93,13 +96,16 @@ if ($result->num_rows > 0) {
             <a href="/index.php" class="btn btn-danger">Quay lại Trang Chủ</a>
         </div>
     </div>
-
 <?php endif; ?>
 
 <script>
 function confirmDelete(btn) {
     let confirmBtn = btn.nextElementSibling;
-    if (confirmBtn) {confirmBtn.classList.remove("d-none");btn.classList.add("d-none");}}
+    if (confirmBtn) {
+        confirmBtn.classList.remove("d-none");
+        btn.classList.add("d-none");
+    }
+}
 </script>
 </body>
 </html>

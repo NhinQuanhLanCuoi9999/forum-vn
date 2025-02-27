@@ -4,7 +4,6 @@ include('logicPHP/checkConfig.php');
 include('logicPHP/checkBan.php');
 include('logicPHP/AdminBtn.php');
 include('logicPHP/Log.php');
-include('logicPHP/Format.php');
 include('logicPHP/badWords.php');
 include('logicPHP/Register.php');
 include('logicPHP/Login.php');

@@ -158,7 +158,7 @@ if (empty($_SESSION['csrf_token'])) {
         <?php if ($posts->num_rows > 0): ?>
     <?php while ($post = $posts->fetch_assoc()): ?>
         <div class="post">
-            <h3><?php echo htmlspecialchars(formatText($post['content'])); ?></h3>
+            <h3><?php echo htmlspecialchars($post['content']); ?></h3>
             <p><?php echo htmlspecialchars($post['description']); ?></p>
             
             <!-- Hiển thị liên kết tải xuống nếu có tệp tin -->
