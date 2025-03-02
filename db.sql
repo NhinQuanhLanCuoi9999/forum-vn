@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS misc (
     name VARCHAR(255) NOT NULL,
     info VARCHAR(255) NULL,
     hcaptcha_api_key VARCHAR(255) NOT NULL,
+    hcaptcha_site_key VARCHAR(255) NOT NULL,
     ipinfo_api_key VARCHAR(255) NOT NULL,
     account_smtp VARCHAR(255) NOT NULL,
     password_smtp VARCHAR(255) NOT NULL,

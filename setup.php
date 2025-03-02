@@ -1,131 +1,104 @@
 <?php
 session_start();
 
-// Kiểm tra nếu file config tồn tại và kết nối thành công
-if (file_exists('config.php')) {
+$configFile = 'config.php';
+$db = 'forum_db';
+
+// Nếu file config đã tồn tại, chuyển hướng về index
+if (file_exists($configFile)) {
     header("Location: index.php");
     exit;
 }
 
-$db = 'forum_db';
-
-// Nếu file config đã tồn tại thì kết nối cơ sở dữ liệu
-if (file_exists('config.php')) {
-    include 'config.php';
-    $conn = new mysqli($host, $user, $pass, $db);
-
-    if ($conn->connect_error) {
-        die("<h3>Kết nối thất bại: " . $conn->connect_error . "</h3>");
-    }
-
-    $result = $conn->query("SHOW DATABASES LIKE '$db'");
-    if ($result->num_rows == 0) {
-        if ($conn->query("CREATE DATABASE $db")) {
-            echo "<h3>Cơ sở dữ liệu $db đã được tạo!</h3>";
-        } else {
-            die("<h3>Không thể tạo cơ sở dữ liệu: " . $conn->error . "</h3>");
-        }
-    }
-
-    $conn->select_db($db);
-} else {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Kiểm tra nếu form cấu hình CSDL, API và SMTP đã được gửi
-        if (isset($_POST['host'], $_POST['user'], $_POST['pass'], $_POST['admin_pass'], 
-                  $_POST['title'], $_POST['name'], $_POST['hcaptcha_api_key'], $_POST['ipinfo_api_key'],
-                  $_POST['account_smtp'], $_POST['password_smtp'])) {
-            
-            // Nhận dữ liệu từ form
-            $host           = $_POST['host'];
-            $user           = $_POST['user'];
-            $pass           = $_POST['pass'];
-            $title          = $_POST['title'];
-            $name           = $_POST['name'];
-            $hcaptchaApiKey = $_POST['hcaptcha_api_key'];
-            $ipinfoApiKey   = $_POST['ipinfo_api_key'];
-            $smtp_account   = $_POST['account_smtp'];
-            $smtp_password  = $_POST['password_smtp'];
-            
-            try {
-                // Test cấu hình SMTP: dùng mail() để gửi email kiểm tra tới tài khoản Gmail vừa nhập
-                $to      = $smtp_account;
-                $subject = "Test SMTP";
-                $message = "Đây là email kiểm tra cấu hình SMTP.";
-                $headers = "From: $smtp_account\r\n";
-                if (!mail($to, $subject, $message, $headers)) {
-                    throw new Exception("Không thể gửi email qua SMTP. Vui lòng kiểm tra lại thông tin cấu hình SMTP.");
-                }
-                
-                // Kết nối cơ sở dữ liệu
-                $conn = new mysqli($host, $user, $pass);
-                if ($conn->connect_error) {
-                    throw new Exception("Kết nối thất bại: " . $conn->connect_error);
-                }
-                
-                // Kiểm tra và tạo database nếu chưa có
-                $result = $conn->query("SHOW DATABASES LIKE '$db'");
-                if ($result->num_rows == 0) {
-                    if (!$conn->query("CREATE DATABASE $db")) {
-                        throw new Exception("Không thể tạo cơ sở dữ liệu: " . $conn->error);
-                    }
-                    echo "<h3 class='alert alert-success'>Cơ sở dữ liệu $db đã được tạo!</h3>";
-                }
-                
-                $conn->select_db($db);
-                
-                // Thực thi file SQL để thiết lập cơ sở dữ liệu
-                $sqlFile = 'db.sql';
-                if (file_exists($sqlFile)) {
-                    $sql = file_get_contents($sqlFile);
-                    if (!$conn->multi_query($sql)) {
-                        throw new Exception("Lỗi khi chạy SQL: " . $conn->error);
-                    }
-                    
-                    // Xử lý kết quả trả về của multi_query
-                    do {
-                        if ($result = $conn->store_result()) {
-                            $result->free();
-                        }
-                    } while ($conn->more_results() && $conn->next_result());
-                }
-                
-                // Tạo tài khoản admin
-                $adminName = 'admin';
-                $adminPass = password_hash($_POST['admin_pass'], PASSWORD_BCRYPT);
-                
-                // Xóa bản ghi có id = 1 nếu có
-                $conn->query("DELETE FROM users WHERE username = 'admin'");
-
-                
-                // Thêm tài khoản admin mới
-                $conn->query("INSERT INTO users (username, password, role) VALUES ('$adminName', '$adminPass', 'owner')");
-
-                
-                // Thêm thông tin vào bảng misc, bao gồm thông tin API và SMTP
-                $stmt = $conn->prepare("INSERT INTO misc (title, name, hcaptcha_api_key, ipinfo_api_key, account_smtp, password_smtp) VALUES (?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("ssssss", $title, $name, $hcaptchaApiKey, $ipinfoApiKey, $smtp_account, $smtp_password);
-                $stmt->execute();
-                $stmt->close();
-                
-                // Lưu thông tin cấu hình vào file config.php
-                $configContent = "<?php\n";
-                $configContent .= "\$host = '$host';\n";
-                $configContent .= "\$db = '$db';\n";
-                $configContent .= "\$user = '$user';\n";
-                $configContent .= "\$pass = '$pass';\n";
-                $configContent .= "\$conn = new mysqli(\$host, \$user, \$pass, \$db);\n";
-                $configContent .= "?>\n";
-                file_put_contents('config.php', $configContent);
-                
-                echo "<h3 class='alert alert-success fade-in'>Cấu hình thành công! Bạn có thể đăng nhập với tài khoản admin.</h3>";
-                exit;
-            } catch (Exception $e) {
-                echo "<script>alert('Lỗi: " . addslashes($e->getMessage()) . "');</script>";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Kiểm tra nếu form đã gửi đầy đủ thông tin
+    if (isset($_POST['host'], $_POST['user'], $_POST['pass'], $_POST['admin_pass'], 
+              $_POST['title'], $_POST['name'], $_POST['hcaptcha_api_key'], $_POST['hcaptcha_site_key'], 
+              $_POST['ipinfo_api_key'], $_POST['account_smtp'], $_POST['password_smtp'])) {
+        
+        // Nhận dữ liệu từ form
+        $host           = $_POST['host'];
+        $user           = $_POST['user'];
+        $pass           = $_POST['pass'];
+        $adminPass      = password_hash($_POST['admin_pass'], PASSWORD_BCRYPT);
+        $title          = $_POST['title'];
+        $name           = $_POST['name'];
+        $hcaptchaApiKey = $_POST['hcaptcha_api_key'];
+        $hcaptchaSiteKey = $_POST['hcaptcha_site_key'];
+        $ipinfoApiKey   = $_POST['ipinfo_api_key'];
+        $smtp_account   = $_POST['account_smtp'];
+        $smtp_password  = password_hash($_POST['password_smtp'], PASSWORD_BCRYPT); // Bảo mật mật khẩu SMTP
+        
+        try {
+            // Kết nối database
+            $conn = new mysqli($host, $user, $pass);
+            if ($conn->connect_error) {
+                throw new Exception("Kết nối thất bại: " . $conn->connect_error);
             }
+
+            // Tạo database nếu chưa có
+            if ($conn->query("CREATE DATABASE IF NOT EXISTS $db") === TRUE) {
+                $conn->select_db($db);
+            } else {
+                throw new Exception("Không thể tạo cơ sở dữ liệu: " . $conn->error);
+            }
+
+            // Thực thi file SQL để thiết lập cơ sở dữ liệu
+            $sqlFile = 'db.sql';
+            if (file_exists($sqlFile)) {
+                $sql = file_get_contents($sqlFile);
+                if (!$conn->multi_query($sql)) {
+                    throw new Exception("Lỗi khi chạy SQL: " . $conn->error);
+                }
+
+                // Xử lý kết quả trả về của multi_query
+                do {
+                    if ($result = $conn->store_result()) {
+                        $result->free();
+                    }
+                } while ($conn->more_results() && $conn->next_result());
+            }
+
+            // Xóa tài khoản admin nếu tồn tại trước đó
+            $conn->query("DELETE FROM users WHERE username = 'admin'");
+
+            // Thêm tài khoản admin mới
+            $stmt = $conn->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, 'owner')");
+            $adminName = 'admin';
+            $stmt->bind_param("ss", $adminName, $adminPass);
+            $stmt->execute();
+            $stmt->close();
+
+            // Thêm thông tin vào bảng misc
+            $stmt = $conn->prepare("INSERT INTO misc (id, title, name, hcaptcha_api_key, hcaptcha_site_key, ipinfo_api_key, account_smtp, password_smtp)
+                                    VALUES (1, ?, ?, ?, ?, ?, ?, ?)
+                                    ON DUPLICATE KEY UPDATE title = VALUES(title), name = VALUES(name), 
+                                    hcaptcha_api_key = VALUES(hcaptcha_api_key), hcaptcha_site_key = VALUES(hcaptcha_site_key),
+                                    ipinfo_api_key = VALUES(ipinfo_api_key), account_smtp = VALUES(account_smtp), 
+                                    password_smtp = VALUES(password_smtp)");
+            $stmt->bind_param("sssssss", $title, $name, $hcaptchaApiKey, $hcaptchaSiteKey, $ipinfoApiKey, $smtp_account, $smtp_password);
+            $stmt->execute();
+            $stmt->close();
+
+            // Lưu thông tin cấu hình vào file config.php
+            $configContent = "<?php\n";
+            $configContent .= "\$host = '$host';\n";
+            $configContent .= "\$db = '$db';\n";
+            $configContent .= "\$user = '$user';\n";
+            $configContent .= "\$pass = '$pass';\n";
+            $configContent .= "\$conn = new mysqli(\$host, \$user, \$pass, \$db);\n";
+            $configContent .= "?>\n";
+            file_put_contents($configFile, $configContent);
+
+            echo "<h3 class='alert alert-success fade-in'>Cấu hình thành công! Bạn có thể đăng nhập với tài khoản admin.</h3>";
+            exit;
+        } catch (Exception $e) {
+            echo "<script>alert('Lỗi: " . addslashes($e->getMessage()) . "');</script>";
         }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -189,6 +162,11 @@ if (file_exists('config.php')) {
                         <label for="hcaptcha_api_key" class="form-label">Hcaptcha API Key</label>
                         <input type="text" id="hcaptcha_api_key" name="hcaptcha_api_key" class="form-control" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="hcaptcha_site_key" class="form-label">hCaptcha Site Key</label>
+                         <input type="text" id="hcaptcha_site_key" name="hcaptcha_site_key" class="form-control" required>
+                    </div>
+
                     <div class="mb-3">
                         <label for="ipinfo_api_key" class="form-label">Ipinfo API Key</label>
                         <input type="text" id="ipinfo_api_key" name="ipinfo_api_key" class="form-control" required>

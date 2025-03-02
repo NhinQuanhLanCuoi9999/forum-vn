@@ -43,7 +43,7 @@ However, if you redistribute the source code, you must retain this license.  */
             <?php endif; ?>
             <form action="captcha_verification.php" method="POST">
                 <div class="captcha-container">
-                    <div class="h-captcha" data-sitekey="8ab08556-388c-4fca-b4e4-6844ec20b396"></div>
+                <div class="h-captcha" data-sitekey="<?php echo htmlspecialchars($sitekey); ?>"></div>
                 </div>
                 <button type="submit" class="btn-submit">Xác minh</button>
             </form>
