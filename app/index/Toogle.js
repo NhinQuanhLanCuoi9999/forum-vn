@@ -1,9 +1,11 @@
 function toggleForms() {
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
-    
-    // Toggle the display of the forms
-    if (loginForm.style.display === 'none') {
+
+    // Lấy trạng thái thực tế của form đăng nhập
+    const loginDisplay = window.getComputedStyle(loginForm).display;
+
+    if (loginDisplay === 'none') {
         loginForm.style.display = 'block';
         registerForm.style.display = 'none';
     } else {
