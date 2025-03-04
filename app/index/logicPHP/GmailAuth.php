@@ -9,23 +9,28 @@ if (isset($_SESSION['username'])) {
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
+    
+    if ($row = $result->fetch_assoc()) { // Kiểm tra nếu có dữ liệu
+        $isActive = $row['is_active'];
+        $gmail = $row['gmail'];
 
-    $row = $result->fetch_assoc();
+        // Kiểm tra điều kiện và hiển thị cảnh báo
+        if ($isActive == 0 || empty($gmail)) {
+            echo '<div style="color: #a94442; background-color: #f2dede; border: 1px solid #ebccd1; padding: 15px; border-radius: 4px; position: relative; margin-bottom: 20px;">';
+            echo '<button type="button" onclick="this.parentElement.style.display=\'none\';" 
+                    style="color: black; position: absolute; top: 5px; right: 10px; background: transparent; border: none; font-size: 20px; line-height: 20px; cursor: pointer;">
+                    &times;
+                  </button>';
+            
+            if ($isActive == 0) {
+                echo 'Tài khoản của bạn chưa được xác thực, vui lòng xác thực <a href="src/verify.php" style="color: #d9534f; text-decoration: underline;">Tại đây</a>.<br>';
+            }
+            if (empty($gmail)) {
+                echo 'Cảnh báo: Tài khoản của bạn chưa có Gmail, vui lòng thêm Gmail <a href="src/info_user.php" style="color: #d9534f; text-decoration: underline;">Tại đây</a>.';
+            }
 
-    // Kiểm tra trạng thái xác thực (is_active)
-    if ($row['is_active'] == 0) {
-        echo '<div style="color: #a94442; background-color: #f2dede; border: 1px solid #ebccd1; padding: 15px; border-radius: 4px; position: relative; margin-bottom: 20px;" class="fade in">';
-        echo '<button type="button" onclick="this.parentElement.style.display=\'none\';" style="color: black; position: absolute; top: 5px; right: 10px; background: transparent; border: none; font-size: 20px; line-height: 20px; cursor: pointer;">&times;</button>';
-        echo 'Tài khoản của bạn chưa được xác thực, vui lòng xác thực <a href="src/verify.php">Tại đây</a>.';
-        echo '</div>';
-    }
-
-    // Kiểm tra trường gmail (nếu null hoặc rỗng)
-    if (empty($row['gmail'])) {
-        echo '<div style="color: #a94442; background-color: #f2dede; border: 1px solid #ebccd1; padding: 15px; border-radius: 4px; position: relative; margin-bottom: 20px;" class="fade in">';
-        echo '<button type="button" onclick="this.parentElement.style.display=\'none\';" style="color: black; position: absolute; top: 5px; right: 10px; background: transparent; border: none; font-size: 20px; line-height: 20px; cursor: pointer;">&times;</button>';
-        echo 'Cảnh báo: Tài khoản của bạn chưa có gmail, vui lòng thêm gmail <a href="src/info_user.php">Tại đây</a>.';
-        echo '</div>';
+            echo '</div>';
+        }
     }
 }
 ?>

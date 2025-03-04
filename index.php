@@ -2,6 +2,23 @@
 session_start();
 include('config.php');
 include('app/index/php.php');
+/*
+##############################################################
+#                                                            #
+# This is the LICENSE file of Forum VN                       #
+# Copyright belongs to Forum VN, Original Author:            #
+# NhinQuanhLanCuoi9999                                       #
+#                                                            #
+##############################################################
+
+Copyright © 2025 Forum VN  
+Original Author: NhinQuanhLanCuoi9999  
+License: GNU General Public License v3.0  
+
+You are free to use, modify, and distribute this software under the terms of the GPL v3.  
+However, if you redistribute the source code, you must retain this license.  */
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -186,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
       <?php endwhile; ?>
     <?php else: ?>
-      <p class="no-posts">Chưa có bài viết nào.</p>
+      <p class="no-posts">Chưa có bài viết nào.</p> <br> <br>
     <?php endif; ?>
   </div>
   <script src="app/index/taskBar.js"></script>

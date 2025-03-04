@@ -1,11 +1,16 @@
 <?php
+
+require_once 'Log.php';
+
 // Đăng xuất
 if (isset($_GET['logout'])) {
-    // Xóa chỉ session username
+    logAction("Đăng xuất");
+
     unset($_SESSION['username']);
     unset($_SESSION['2fa']);
     unset($_SESSION['role']);
-    logAction("Đăng xuất: {$_SESSION['username']}");
+
+    // Chuyển hướng về trang chính
     header("Location: index.php");
     exit();
 }
