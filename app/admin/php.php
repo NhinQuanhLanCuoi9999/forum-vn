@@ -1,6 +1,5 @@
 <?php
 include('logicPHP/Auth.php');
-include('logicPHP/Logout.php');
 include('logicPHP/Log.php');
 include('logicPHP/Users.php');
 include('logicPHP/Comment.php');

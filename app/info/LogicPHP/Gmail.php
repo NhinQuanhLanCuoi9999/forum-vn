@@ -4,7 +4,7 @@ $userId = $_SESSION['username'];
 // Truy vấn thông tin người dùng từ bảng users
 $query = "SELECT gmail, is_active FROM users WHERE username = ?";
 $stmt = mysqli_prepare($conn, $query);
-if ($stmt === false) {die("Chuẩn bị câu truy vấn thất bại: " . mysqli_error($conn));}
+if ($stmt === false) {die("Chuẩn bị câu truy vấn thất bại");}
 
 mysqli_stmt_bind_param($stmt, "s", $userId);
 mysqli_stmt_execute($stmt);
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['gmail'])) {
     $checkQuery = "SELECT COUNT(*) FROM users WHERE gmail = ?";
     $stmt = mysqli_prepare($conn, $checkQuery);
     if ($stmt === false) {
-        die("Chuẩn bị câu truy vấn thất bại: " . mysqli_error($conn));
+        die("Chuẩn bị câu truy vấn thất bại");
     }
 
     mysqli_stmt_bind_param($stmt, "s", $newGmail);
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['gmail'])) {
             $updateQuery = "UPDATE users SET gmail = ?, is_active = '0' WHERE username = ?";
             $stmt = mysqli_prepare($conn, $updateQuery);
             if ($stmt === false) {
-                die("Chuẩn bị câu truy vấn thất bại: " . mysqli_error($conn));
+                die("Chuẩn bị câu truy vấn thất bại: ");
             }
 
             // Sử dụng 'ss' vì cả gmail và username đều là chuỗi

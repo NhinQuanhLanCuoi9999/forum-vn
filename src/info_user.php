@@ -42,6 +42,8 @@ However, if you redistribute the source code, you must retain this license.  */
         <div class="line"></div>
         <p><span>Ngày tạo:</span> <strong><?php echo htmlspecialchars(date('d-m-Y H:i:s', strtotime($createdAt))); ?></strong></p>
         <div class="line"></div>
+        <p><span>Vai trò:</span> <strong><?php echo htmlspecialchars($userRole); ?></strong></p>
+        <div class="line"></div>
         <p><span>IPv4:</span><strong><?php $ip = $_SERVER['REMOTE_ADDR']; echo htmlspecialchars($ip); ?></strong></p>
         <div class="line"></div>
         <p><span>IPv6:</span><strong><?php echo htmlspecialchars($ipv6); ?></strong></p>

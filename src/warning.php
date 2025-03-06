@@ -58,10 +58,7 @@ However, if you redistribute the source code, you must retain this license.  */
 </div>
 
 <script>
-    // Lấy năm hiện tại
     const currentYear = new Date().getFullYear();
-
-    // Cập nhật năm vào phần tử có id là 'year'
     document.getElementById('year').textContent = currentYear;
 </script>
 
