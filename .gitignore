@@ -1,0 +1,12 @@
+# Chặn file config.php trong thư mục gốc
+/config.php
+
+# Chặn toàn bộ file trong các thư mục này
+/uploads/*
+/backup/*
+/logs/*
+
+# Nhưng vẫn cho phép các file .readme.bat trong các thư mục đó
+!/uploads/.readme.bat
+!/backup/.readme.bat
+!/logs/.readme.bat
