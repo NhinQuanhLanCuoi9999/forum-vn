@@ -105,9 +105,11 @@ However, if you redistribute the source code, you must retain this license.  */
 
     <?php if ($isLoggedIn): ?>
         <form action="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>" method="POST">
-            <textarea name="comment" placeholder="Viết bình luận..." required></textarea>
-            <button type="submit">Bình luận</button>
-        </form>
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+    <textarea name="comment" placeholder="Viết bình luận..." required></textarea>
+    <button type="submit">Bình luận</button>
+</form>
+
     <?php endif; ?>
 
     <div class="comments">

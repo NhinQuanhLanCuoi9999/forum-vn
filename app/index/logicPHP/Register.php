@@ -1,5 +1,11 @@
 <?php
 
+
+// Tạo CSRF token nếu chưa có
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 // Kiểm tra CSRF token khi nhận dữ liệu POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
     // Kiểm tra token CSRF
@@ -7,26 +13,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
         die("Invalid CSRF token.");
     }
 
-    // Tiến hành xử lý đăng ký (các bước như kiểm tra tài khoản, mật khẩu... như mã trước đó)
+    // Lấy dữ liệu từ form
     $username = trim($_POST['username']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
-    $gmail = trim($_POST['gmail']); // Lấy dữ liệu từ trường email (gmail)
+    $gmail = trim($_POST['gmail']);
 
-    // Kiểm tra tên người dùng và các điều kiện khác như trước
+    // Kiểm tra username có đủ 5 ký tự không
+    if (strlen($username) < 5) {
+        $_SESSION['error'] = "Tên người dùng phải có ít nhất 5 ký tự.";
+        header("Location: index.php");
+        exit();
+    }
+
+    // Kiểm tra username chỉ chứa chữ, số, _
     if (!preg_match('/^[a-zA-Z0-9_]+$/', $username)) {
         $_SESSION['error'] = "Tên người dùng chỉ được chứa chữ cái, số và dấu gạch dưới.";
         header("Location: index.php");
         exit();
     }
 
+    // Kiểm tra password có đủ 6 ký tự không
+    if (strlen($password) < 6) {
+        $_SESSION['error'] = "Mật khẩu phải có ít nhất 6 ký tự.";
+        header("Location: index.php");
+        exit();
+    }
+
+    // Kiểm tra hai mật khẩu có trùng khớp không
     if ($password !== $confirm_password) {
         $_SESSION['error'] = "Hai mật khẩu không trùng khớp!";
         header("Location: index.php");
         exit();
     }
 
-    // Kiểm tra tài khoản đã tồn tại trong cơ sở dữ liệu
+    // Kiểm tra email không được rỗng
+    if (empty($gmail)) {
+        $_SESSION['error'] = "Email không được để trống.";
+        header("Location: index.php");
+        exit();
+    }
+
+    // Kiểm tra email hợp lệ
+    if (!filter_var($gmail, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['error'] = "Email không hợp lệ.";
+        header("Location: index.php");
+        exit();
+    }
+
+    // Kiểm tra tài khoản hoặc email đã tồn tại
     $checkUser = $conn->prepare("SELECT * FROM users WHERE username = ? OR gmail = ?");
     $checkUser->bind_param("ss", $username, $gmail);
     $checkUser->execute();
@@ -38,20 +73,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
         exit();
     }
 
-    // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
+    // Mã hóa mật khẩu trước khi lưu vào database
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Tạo tài khoản mới nếu không có lỗi
+    // Lưu tài khoản vào database
     $stmt = $conn->prepare("INSERT INTO users (username, password, gmail) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $username, $hashed_password, $gmail); // Lưu thêm giá trị gmail
-    $stmt->execute();
+    $stmt->bind_param("sss", $username, $hashed_password, $gmail);
+    
+    if ($stmt->execute()) {
+        // Ghi log hành động đăng ký
+        logAction("Đăng ký tài khoản: " . htmlspecialchars($username));
 
-    // Ghi log hành động
-    logAction("Đăng ký tài khoản: " . htmlspecialchars($username));
-
-    // Thông báo thành công và chuyển hướng về trang chính
-    $_SESSION['success'] = "Đăng ký thành công!";
-    header("Location: index.php");
-    exit();
+        // Thông báo thành công
+        $_SESSION['success'] = "Đăng ký thành công!";
+        header("Location: index.php");
+        exit();
+    } else {
+        $_SESSION['error'] = "Lỗi khi tạo tài khoản, vui lòng thử lại.";
+        header("Location: index.php");
+        exit();
+    }
 }
 ?>

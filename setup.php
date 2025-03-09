@@ -10,24 +10,82 @@ if (file_exists($configFile)) {
     exit;
 }
 
+// Tạo token CSRF nếu chưa có
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Kiểm tra nếu form đã gửi đầy đủ thông tin
+    // Kiểm tra CSRF token
+    if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        exit('Yêu cầu không hợp lệ.');
+    }
+    // Xóa token sau khi dùng để tránh lặp lại
+    unset($_SESSION['csrf_token']);
+    
+    // Kiểm tra các trường bắt buộc đã được gửi chưa
     if (isset($_POST['host'], $_POST['user'], $_POST['pass'], $_POST['admin_pass'], 
               $_POST['title'], $_POST['name'], $_POST['hcaptcha_api_key'], $_POST['hcaptcha_site_key'], 
               $_POST['ipinfo_api_key'], $_POST['account_smtp'], $_POST['password_smtp'])) {
         
-        // Nhận dữ liệu từ form
-        $host           = $_POST['host'];
-        $user           = $_POST['user'];
-        $pass           = $_POST['pass'];
-        $adminPass      = password_hash($_POST['admin_pass'], PASSWORD_BCRYPT);
-        $title          = $_POST['title'];
-        $name           = $_POST['name'];
-        $hcaptchaApiKey = $_POST['hcaptcha_api_key'];
-        $hcaptchaSiteKey = $_POST['hcaptcha_site_key'];
-        $ipinfoApiKey   = $_POST['ipinfo_api_key'];
-        $smtp_account   = $_POST['account_smtp'];
-        $smtp_password  = password_hash($_POST['password_smtp'], PASSWORD_BCRYPT); // Bảo mật mật khẩu SMTP
+        // Lấy các biến và trim dữ liệu
+        $host = trim($_POST['host']);
+        $user = trim($_POST['user']);
+        if (empty($user)) {
+            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
+            exit("Tên đăng nhập không được để trống.");
+        }
+        
+        $pass = $_POST['pass']; // Mật khẩu có thể để trống nếu server không yêu cầu
+        $adminPassPlain = trim($_POST['admin_pass']);
+        if (strlen($adminPassPlain) < 6) {
+            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
+            exit("Mật khẩu Admin phải có ít nhất 6 ký tự.");
+        }
+        $adminPass = password_hash($adminPassPlain, PASSWORD_BCRYPT);
+        
+        $title = trim($_POST['title']);
+        if (empty($title)) {
+            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
+            exit("Title không được để trống.");
+        }
+        
+        $name = trim($_POST['name']);
+        if (empty($name)) {
+            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
+            exit("Name không được để trống.");
+        }
+        
+        $hcaptchaApiKey = trim($_POST['hcaptcha_api_key']);
+        if (empty($hcaptchaApiKey)) {
+            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
+            exit("Hcaptcha API Key không được để trống.");
+        }
+        
+        $hcaptchaSiteKey = trim($_POST['hcaptcha_site_key']);
+        if (empty($hcaptchaSiteKey)) {
+            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
+            exit("hCaptcha Site Key không được để trống.");
+        }
+        
+        $ipinfoApiKey = trim($_POST['ipinfo_api_key']);
+        if (empty($ipinfoApiKey)) {
+            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
+            exit("Ipinfo API Key không được để trống.");
+        }
+        
+        $smtp_account = trim($_POST['account_smtp']);
+        if (!filter_var($smtp_account, FILTER_VALIDATE_EMAIL)) {
+            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
+            exit("Tài khoản Gmail không hợp lệ.");
+        }
+        
+        $smtpPassPlain = trim($_POST['password_smtp']);
+        if (strlen($smtpPassPlain) < 6) {
+            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
+            exit("Mật khẩu SMTP phải có ít nhất 6 ký tự.");
+        }
+        $smtp_password = password_hash($smtpPassPlain, PASSWORD_BCRYPT); // Bảo mật mật khẩu SMTP
         
         try {
             // Kết nối database
@@ -85,8 +143,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $configContent .= "\$host = '$host';\n";
             $configContent .= "\$db = '$db';\n";
             $configContent .= "\$user = '$user';\n";
-            $configContent .= "\$pass = '$pass';\n";
-            $configContent .= "\$conn = new mysqli(\$host, \$user, \$pass, \$db);\n";
+            $configContent .= "\$pass = '$pass';\n\n";
+            $configContent .= "try {\n";
+            $configContent .= "    // Tạo kết nối\n";
+            $configContent .= "    \$conn = new mysqli(\$host, \$user, \$pass, \$db);\n\n";
+            $configContent .= "    // Kiểm tra lỗi kết nối\n";
+            $configContent .= "    if (\$conn->connect_error) {\n";
+            $configContent .= "        throw new Exception(\"Kết nối thất bại, vui lòng liên hệ Admin để trợ giúp.\");\n";
+            $configContent .= "    }\n";
+            $configContent .= "} catch (Exception \$e) {\n";
+            $configContent .= "    die(\"Kết nối thất bại, vui lòng liên hệ Admin để trợ giúp.\");\n";
+            $configContent .= "}\n";
             $configContent .= "?>\n";
             file_put_contents($configFile, $configContent);
 
@@ -117,6 +184,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="card-body">
             <h3 class="text-center mb-4 fade-in">Cấu hình CSDL</h3>
             <form method="POST">
+                <!-- Thêm token bảo vệ CSRF -->
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                 <!-- Bước 1: Cấu hình cơ sở dữ liệu -->
                 <div class="step" id="step-1">
                     <div class="mb-3">
@@ -164,9 +233,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="mb-3">
                         <label for="hcaptcha_site_key" class="form-label">hCaptcha Site Key</label>
-                         <input type="text" id="hcaptcha_site_key" name="hcaptcha_site_key" class="form-control" required>
+                        <input type="text" id="hcaptcha_site_key" name="hcaptcha_site_key" class="form-control" required>
                     </div>
-
                     <div class="mb-3">
                         <label for="ipinfo_api_key" class="form-label">Ipinfo API Key</label>
                         <input type="text" id="ipinfo_api_key" name="ipinfo_api_key" class="form-control" required>
