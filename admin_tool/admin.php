@@ -50,7 +50,7 @@ However, if you redistribute the source code, you must retain this license.  */
     <li><span style="cursor: pointer;" onclick="changeSection('info')"><i class="fas fa-info-circle"></i> Thông tin</span></li>
     <li><span style="cursor: pointer;" onclick="changeSection('system_config')"><i class="fas fa-sliders-h"></i> Cấu hình hệ thống</span></li>
     <li><span style="cursor: pointer;" onclick="changeSection('posts')"><i class="fas fa-file-alt"></i> Quản lý bài viết</span></li>
-    <li><span style="cursor: pointer;" onclick="changeSection('users')"><i class="fas fa-users"></i> Quản lý người dùng</span></li>
+    <li><span style="cursor: pointer;" onclick="window.location.href='users.php'"><i class="fas fa-users"></i> Quản lý người dùng</span></li>
     <li><span style="cursor: pointer;" onclick="changeSection('api')"><i class="fas fa-cogs"></i> API</span></li>
     <li><span style="cursor: pointer;" onclick="window.location.href='logs.php'"><i class="fas fa-book"></i> Logs</span></li>
     <li><span style="cursor: pointer;" onclick="window.location.href='backup.php'"><i class="fas fa-hdd"></i> Backup [BETA]</span></li>
@@ -65,76 +65,8 @@ However, if you redistribute the source code, you must retain this license.  */
         <button id="open-btn" class="open-btn">☰ Mở Menu</button>
     </div>
     <div id="content" class="hidden">
-    <?php if (isset($_GET['section']) && $_GET['section'] === 'users'): ?>
-        <h2>Quản lý người dùng</h2>
-        
-        <!-- Form tìm kiếm -->
-        <form method="GET" action="admin.php">
-            <input type="hidden" name="section" value="users">
-            <input type="text" name="search" placeholder="Tìm kiếm người dùng" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
-            <button type="submit">Tìm kiếm</button>
-            <style>
-                form{display:flex;justify-content:center;align-items:center;margin:20px 0;padding:10px;background-color:#f1f1f1;border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,.1)}form input[type="text"]{padding:10px;width:250px;border:1px solid #007bff;border-radius:5px;margin-right:10px;font-size:16px;transition:border-color .3s ease}form input[type="text"]:focus{border-color:#0056b3;outline:none}form button{padding:10px 20px;background-color:#007bff;color:white;font-size:16px;border:none;border-radius:5px;cursor:pointer;transition:background-color .3s ease}form button:hover{background-color:#0056b3}form button:focus{outline:none}form input[type="text"]::placeholder{color:#888;font-style:italic}form input[type="text"]:empty::placeholder{color:#aaa;font-style:normal}
-            </style>
-        </form>
-
-        <div class="user-list">
-           
-
-            <?php if ($users_result && $users_result->num_rows > 0): ?>
-                <?php while ($user = $users_result->fetch_assoc()): ?>
-                    <div class="user">
-                        <span><?php echo htmlspecialchars($user['username']); ?></span>
-                        <div>
-                            <form method="POST" style="display:inline;">
-                                <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
-                                <input type="text" name="new_username" placeholder="Tên mới" required pattern="^[a-zA-Z0-9]+$">
-                                <button type="submit" name="edit_user" class="edit-button">Chỉnh sửa</button>
-                            </form>
-                            <a href="admin_tool/admin.php?delete_user=<?php echo $user['id']; ?>" class="delete-button">Xóa</a>
-                        </div>
-                    </div>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <p>Chưa có người dùng nào.</p>
-            <?php endif; ?>
-        </div>
-</div>
-
-
-   <!-- Pagination links -->
-<div class="pagination">
-    <?php if ($page > 1): ?>
-        <a href="admin.php?section=users&page=<?php echo $page - 1; ?>" class="prev">&lt;&lt;</a>
-    <?php endif; ?>
-
-    <!-- Display first page -->
-    <?php if ($page > 3): ?>
-        <a href="admin.php?section=users&page=1" class="page-link">1</a>
-        <span>...</span>
-    <?php endif; ?>
-
-    <!-- Display page numbers -->
-    <?php
-        $start = max(1, $page - 2);
-        $end = min($total_pages, $page + 2);
-
-        for ($i = $start; $i <= $end; $i++): ?>
-            <a href="admin.php?section=users&page=<?php echo $i; ?>" class="page-link <?php echo ($i == $page) ? 'active' : ''; ?>"><?php echo $i; ?></a>
-    <?php endfor; ?>
-
-    <!-- Display last page -->
-    <?php if ($page < $total_pages - 2): ?>
-        <span>...</span>
-        <a href="admin.php?section=users&page=<?php echo $total_pages; ?>" class="page-link"><?php echo $total_pages; ?></a>
-    <?php endif; ?>
-
-    <?php if ($page < $total_pages): ?>
-        <a href="admin.php?section=users&page=<?php echo $page + 1; ?>" class="next">&gt;&gt;</a>
-    <?php endif; ?>
-</div>
-
-<?php elseif (isset($_GET['section']) && $_GET['section'] === 'system_config'): ?>
+     
+<?php if (isset($_GET['section']) && $_GET['section'] === 'system_config'): ?>
     <h2>Cấu hình hệ thống</h2>
 
 
