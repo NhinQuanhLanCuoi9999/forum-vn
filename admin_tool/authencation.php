@@ -1,8 +1,8 @@
 <?php
 session_start();
 include '../config.php';
-include '../app/authencation/Handle.php';
-include '../app/admin/logicPHP/Auth.php';
+include '../app/_ADMIN_TOOLS/authencation/Handle.php';
+include '../app/_ADMIN_TOOLS/admin/logicPHP/Auth.php';
 ?>
 <!DOCTYPE html>
 <html lang="vi">

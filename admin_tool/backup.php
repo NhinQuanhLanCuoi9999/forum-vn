@@ -1,12 +1,12 @@
 <?php
 session_start();
 date_default_timezone_set('Asia/Ho_Chi_Minh');
-include '../app/backup/Pagination.php';
-include '../app/backup/Logic.php';
-include '../app/admin/logicPHP/Auth.php';
-include '../app/backup/Delete.php';
-include '../app/backup/Import.php';
-include '../app/backup/Check2FA.php';
+include '../app/_ADMIN_TOOLS/backup/Pagination.php';
+include '../app/_ADMIN_TOOLS/backup/Logic.php';
+include '../app/_ADMIN_TOOLS/admin/logicPHP/Auth.php';
+include '../app/_ADMIN_TOOLS/backup/Delete.php';
+include '../app/_ADMIN_TOOLS/backup/Import.php';
+include '../app/_ADMIN_TOOLS/backup/Check2FA.php';
 
 
 $currentUser = $_SESSION['username'];
@@ -31,8 +31,8 @@ function writeLog($message) {
     if (preg_match('/\w{8}\.sql$/', $message)) { // Kiểm tra tên file kết thúc bằng .sql
         $fileName = basename($message); // Lấy tên file
         if (strlen($fileName) > 8) {
-            // Ẩn 8 ký tự cuối của tên file
-            $hiddenFileName = substr($fileName, 0, strlen($fileName) - 8) . 'xxxxxxxx.sql';
+            // Ẩn 14 ký tự cuối của tên file
+            $hiddenFileName = substr($fileName, 0, strlen($fileName) - 32) . 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.sql';
             // Thay thế tên file trong message
             $message = str_replace($fileName, $hiddenFileName, $message);
         }

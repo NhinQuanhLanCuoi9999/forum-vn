@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('../config.php');
-include('../app/admin/php.php');
+include('../app/_ADMIN_TOOLS/admin/php.php');
 /*
 ##############################################################
 #                                                            #
@@ -25,11 +25,11 @@ However, if you redistribute the source code, you must retain this license.  */
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/favicon.png" type="image/png">
     <title>Admin Panel</title>
-    <link rel="stylesheet" type="text/css" href="/app/admin/styles.css">
+    <link rel="stylesheet" type="text/css" href="/app/_ADMIN_TOOLS/admin/styles.css">
     <link rel="stylesheet" href="../asset/css/Poppins.css">
     <link rel="stylesheet" href="/asset/css/FontAwesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/app/admin/Pagination.css">
-    <link rel="stylesheet" type="text/css" href="/app/admin/configsys.css">
+    <link rel="stylesheet" type="text/css" href="/app/_ADMIN_TOOLS/admin/Pagination.css">
+    <link rel="stylesheet" type="text/css" href="/app/_ADMIN_TOOLS/admin/configsys.css">
 
 </head>
 <body>
@@ -195,7 +195,7 @@ However, if you redistribute the source code, you must retain this license.  */
         <?php endif; ?>
     </div>
 </div>
-<script src = "/app/admin/taskbar.js"></script>
+<script src = "/app/_ADMIN_TOOLS/admin/taskbar.js"></script>
 
 
 </body>

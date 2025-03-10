@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../config.php';  // Đảm bảo cấu hình kết nối DB
-include '../app/api/php.php';  // Đảm bảo hàm writeLog() và các hàm cần thiết
+include '../app/_ADMIN_TOOLS/api/php.php';  // Đảm bảo hàm writeLog() và các hàm cần thiết
 ?>
 
 <!DOCTYPE html>
@@ -10,8 +10,8 @@ include '../app/api/php.php';  // Đảm bảo hàm writeLog() và các hàm c�
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý API</title>
-    <link rel="stylesheet" type="text/css" href="/app/api/styles.css">
-    <link rel="stylesheet" type="text/css" href="/app/api/Pagination.css">
+    <link rel="stylesheet" type="text/css" href="/app/_ADMIN_TOOLS/api/styles.css">
+    <link rel="stylesheet" type="text/css" href="/app/_ADMIN_TOOLS/api/Pagination.css">
   
 </head>
 <body>

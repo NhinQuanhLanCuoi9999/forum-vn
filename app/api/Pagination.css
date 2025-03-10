@@ -1,6 +1,0 @@
-.pagination {margin-top: 20px;display: flex;justify-content: center;}
-.page-link {margin: 0 5px;padding: 5px 10px;text-decoration: none;color: #007bff;border: 1px solid #ccc;border-radius: 5px;cursor: pointer;}
-.page-link:hover {background-color: #f1f1f1;}
-.page-link.active {background-color: #007bff;color: white;}
-.page-link.disabled {color: #ccc;cursor: not-allowed;}
-.page-link:first-child, .page-link:last-child {font-weight: bold;}

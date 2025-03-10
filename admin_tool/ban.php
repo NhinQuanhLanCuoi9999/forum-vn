@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('../config.php');
-include('../app/ban/php.php');
+include('../app/_ADMIN_TOOLS/ban/php.php');
 
 
 ?>
@@ -12,7 +12,7 @@ include('../app/ban/php.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/favicon.png" type="image/png">
     <title>Quản lý lệnh cấm</title>
-    <link rel="stylesheet" type="text/css" href="/app/ban/style.css">
+    <link rel="stylesheet" type="text/css" href="/app/_ADMIN_TOOLS/ban/style.css">
 </head>
 <body>
     <button class="redirect-button" onclick="window.location.href='admin_tool/admin.php'">Quay lại</button>

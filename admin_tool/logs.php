@@ -1,8 +1,8 @@
 <?php
 session_start();
 include '../config.php';
-include '../app/logs/LogicPHP/Read.php';
-include '../app/logs/LogicPHP/Check2FA.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/logs/LogicPHP/Read.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/logs/LogicPHP/Check2FA.php';
 
 // Kiểm tra nếu người dùng đã đăng nhập thông qua cookie
 if (isset($_COOKIE['username']) && !isset($_SESSION['username'])) {
@@ -52,7 +52,7 @@ if (!isset($_SESSION['username']) || $_SESSION['username'] !== 'admin') {
     <div class="in4">
         <h2>Thông tin về Log: <?= htmlspecialchars($selectedLog) ?></h2>
         <pre id="log-output" class="log-output">
-      <?php  include '../app/logs/LogicPHP/Output.php'; ?>
+     <?php   include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/logs/LogicPHP/Output.php'; ?>
         </pre>
     </div>
 </div>
