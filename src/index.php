@@ -26,7 +26,7 @@ However, if you redistribute the source code, you must retain this license.  */
     <link rel="stylesheet" href="/asset/css/FontAwesome.min.css">
     <title>Forum</title>
     <link rel="icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" type="text/css" href="/app/index/styles.css">
+    <link rel="stylesheet" type="text/css" href="/app/_USERS_LOGIC/index/styles.css">
 
 </head>
 <body>

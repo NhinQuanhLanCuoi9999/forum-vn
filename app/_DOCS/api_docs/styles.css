@@ -1,0 +1,39 @@
+    body {
+      background-color: #f8f9fa;
+    }
+    .header {
+      background-color: #007bff;
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+    }
+    .section-title {
+      margin-top: 30px;
+      font-size: 1.5em;
+      color: #333;
+    }
+    .code-block {
+      background-color: #343a40;
+      color: #ffffff;
+      padding: 7px;
+      border-radius: 5px;
+      font-family: monospace;
+      word-wrap: break-word;
+      max-width: 70%; /* Giảm chiều rộng */
+      overflow-x: auto;
+      margin: 0 auto; /* Căn giữa */
+    }
+    .example {
+      margin-top: 10px;
+      font-size: 1.1em;
+    }
+    .card-body {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .alert-info {
+      font-size: 1.2em;
+      margin-top: 30px;
+    }

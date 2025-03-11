@@ -3,10 +3,10 @@ session_set_cookie_params(900);
 session_start();
 
 include '../config.php'; // file config.php cần chứa cấu hình kết nối CSDL
-include '../app/verify/Auth.php';
-include '../app/verify/Declare.php';
-include '../app/verify/Finale_Verify.php';
-include '../app/verify/Handle.php';
+include '../app/_MAIL_LOGIC/verify/Auth.php';
+include '../app/_MAIL_LOGIC/verify/Declare.php';
+include '../app/_MAIL_LOGIC/verify/Finale_Verify.php';
+include '../app/_MAIL_LOGIC/verify/Handle.php';
 
 /*
 ##############################################################

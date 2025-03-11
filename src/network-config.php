@@ -2,7 +2,7 @@
 session_start();
 // Kết nối cơ sở dữ liệu
 include('../config.php');
-include('../app/network/Auth.php');
+include('../app/_USERS_LOGIC/network/Auth.php');
 
 // Truy vấn lấy API key từ bảng misc
 $query = "SELECT ipinfo_api_key FROM misc LIMIT 1";
@@ -40,7 +40,7 @@ However, if you redistribute the source code, you must retain this license.  */
     <title>IP Address and Location</title>
     <link rel="stylesheet" href="../asset/css/leaflet.css">
     <link rel="icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" type="text/css" href="/app/network/styles.css">
+    <link rel="stylesheet" type="text/css" href="/app/_USERS_LOGIC/network/styles.css">
 </head>
 <body data-apikey="<?php echo htmlspecialchars($apiKey); ?>">
 
@@ -67,7 +67,7 @@ However, if you redistribute the source code, you must retain this license.  */
 
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-<script src="/app/network/Handle.js"></script>
+<script src="/app/_USERS_LOGIC/network/Handle.js"></script>
 
 </body>
 </html>

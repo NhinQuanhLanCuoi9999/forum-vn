@@ -1,5 +1,5 @@
 <?php
-include('../app/changePass/php.php');
+include('../app/_USERS_LOGIC/changePass/php.php');
 
 
 /*
@@ -28,7 +28,7 @@ However, if you redistribute the source code, you must retain this license.  */
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đổi mật khẩu</title>
     <link rel="stylesheet" href="../asset/css/Poppins.css">
-    <link rel="stylesheet" type="text/css" href="/app/changePass/styles.css">
+    <link rel="stylesheet" type="text/css" href="/app/_USERS_LOGIC/changePass/styles.css">
 </head>
 <body>
     <div class="container">

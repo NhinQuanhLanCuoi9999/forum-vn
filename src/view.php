@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../config.php'; // Kết nối database từ file config
-include '../app/view/php.php';
+include '../app/_USERS_LOGIC/view/php.php';
 /*
 ##############################################################
 #                                                            #
@@ -27,7 +27,7 @@ However, if you redistribute the source code, you must retain this license.  */
     <title>View Post</title>
     <link rel="stylesheet" href="../asset/css/Poppins.css">
     <link rel="stylesheet" href="../asset/css/Bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../app/view/styles.css">
+    <link rel="stylesheet" type="text/css" href="../app/_USERS_LOGIC/view/styles.css">
 </head>
 <body>
 <div class="container">

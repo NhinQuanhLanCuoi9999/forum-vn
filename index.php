@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('config.php');
-include('app/index/php.php');
+include('app/_USERS_LOGIC/index/php.php');
 /*
 ##############################################################
 #                                                            #
@@ -29,10 +29,10 @@ However, if you redistribute the source code, you must retain this license.  */
   <link rel="stylesheet" href="/asset/css/FontAwesome.min.css">
   <title><?php echo htmlspecialchars($page_title); ?></title>
   <link rel="icon" href="/favicon.png" type="image/png">
-  <link rel="stylesheet" type="text/css" href="app/index/styles.css">
-  <script src="app/index/Toogle.js"></script>
-  <script src="app/index/Refersh.js"></script>
-  <script src="app/index/Spoil.js"></script>
+  <link rel="stylesheet" type="text/css" href="app/_USERS_LOGIC/index/styles.css">
+  <script src="app/_USERS_LOGIC/index/Toogle.js"></script>
+  <script src="app/_USERS_LOGIC/index/Refersh.js"></script>
+  <script src="app/_USERS_LOGIC/index/Spoil.js"></script>
   <style>
  .fixed-buttons{position:sticky;top:0;background:#fff;padding:10px;display:flex;align-items:center;gap:10px;border-top:1px solid #ccc;margin-top:10px;z-index:500}
  .fixed-buttons button,.fixed-buttons .search{padding:8px 12px;background-color:#f8f8f8;border:none;border-radius:5px;box-shadow:0 2px 4px rgba(0,0,0,0.1);transition:background-color .3s ease;cursor:pointer}
@@ -46,7 +46,7 @@ However, if you redistribute the source code, you must retain this license.  */
   <div id="mobile-warning">
     Vui lòng bật chế độ xem trên máy tính
   </div>
-  <script src="app/index/Size.js"></script>
+  <script src="app/_USERS_LOGIC/index/Size.js"></script>
   <div class="container">
     <h1 class="text-center mb-4 fade-in"><?php echo htmlspecialchars($forum_name); ?></h1>
 
@@ -206,6 +206,6 @@ document.addEventListener("DOMContentLoaded", function() {
       <p class="no-posts">Chưa có bài viết nào.</p> <br> <br>
     <?php endif; ?>
   </div>
-  <script src="app/index/taskBar.js"></script>
+  <script src="app/_USERS_LOGIC/index/taskBar.js"></script>
 </body>
 </html>

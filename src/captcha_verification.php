@@ -1,5 +1,5 @@
 <?php
-include('../app/captcha/Auth.php');
+include('../app/_USERS_LOGIC/captcha/Auth.php');
 
 
 /*
@@ -28,7 +28,7 @@ However, if you redistribute the source code, you must retain this license.  */
     <link rel="icon" href="favicon.png" type="image/png">
     <title>Xác thực Captcha</title>
     <link rel="stylesheet" href="../asset/css/Poppins.css">
-    <link rel="stylesheet" type="text/css" href="/app/captcha/styles.css">
+    <link rel="stylesheet" type="text/css" href="/app/_USERS_LOGIC/captcha/styles.css">
 </head>
 <body>
     <div class="container">

@@ -1,7 +1,7 @@
 <?php
 include('../config.php');
-include('../app/profile/Handle.php');
-include('../app/profile/Pagination.php');
+include('../app/_USERS_LOGIC/profile/Handle.php');
+include('../app/_USERS_LOGIC/profile/Pagination.php');
 /*
 ##############################################################
 #                                                            #
@@ -26,7 +26,7 @@ However, if you redistribute the source code, you must retain this license.  */
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hồ sơ của <?php echo htmlspecialchars($user_info['username']); ?></title>
     <link rel="stylesheet" href="../asset/css/Bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../app/profile/styles.css">
+    <link rel="stylesheet" type="text/css" href="../app/_USERS_LOGIC/profile/styles.css">
     <link rel="stylesheet" href="../asset/css/Poppins.css">
 </head>
 <body>

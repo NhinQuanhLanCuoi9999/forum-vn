@@ -1,5 +1,5 @@
 <?php
-include('../app/warning/Auth.php');
+include('../app/_USERS_LOGIC/warning/Auth.php');
 /*
 ##############################################################
 #                                                            #
@@ -24,7 +24,7 @@ However, if you redistribute the source code, you must retain this license.  */
     <title>Cấm Truy Cập</title>
     <link rel="stylesheet" href="../asset/css/DancingScript.css">
     <link rel="icon" href="/favicon.png" type="image/png">
-   <link rel="stylesheet" type="text/css" href="/app/warning/styles.css">
+   <link rel="stylesheet" type="text/css" href="/app/_USERS_LOGIC/warning/styles.css">
 </head>
 <body>
     <div class="container">

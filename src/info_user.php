@@ -1,7 +1,7 @@
 <?php
 session_start(); // Bắt đầu phiên
 include '../config.php';
-include '../app/info/php.php';
+include '../app/_USERS_LOGIC/info/php.php';
 
 /*
 ##############################################################
@@ -28,8 +28,8 @@ However, if you redistribute the source code, you must retain this license.  */
     <meta name="viewport" content="width=device-width">
     <!-- Nhúng font Poppins -->
     <link rel="stylesheet" href="../asset/css/Poppins.css">
-    <link rel="stylesheet" type="text/css" href="/app/info/styles.css">
-    <script src="/app/info/desc_switch.js"></script>
+    <link rel="stylesheet" type="text/css" href="/app/_USERS_LOGIC/info/styles.css">
+    <script src="/app/_USERS_LOGIC/info/desc_switch.js"></script>
 
 </head>
 <body>
@@ -82,7 +82,7 @@ However, if you redistribute the source code, you must retain this license.  */
 </div>
 
 
-<script src="/app/info/gmail_switch.js"></script>
+<script src="/app/_USERS_LOGIC/info/gmail_switch.js"></script>
 
 
         <!-- Form sửa mô tả (ẩn mặc định) -->

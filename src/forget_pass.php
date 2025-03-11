@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../config.php';
-include '../app/forget_pass/Logic.php';
+include '../app/_MAIL_LOGIC/forget_pass/Logic.php';
 
 /*
 ##############################################################
@@ -27,7 +27,7 @@ However, if you redistribute the source code, you must retain this license.  */
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quên mật khẩu</title>
     <link href="/asset/css/Bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/app/forget_pass/style.css">
+    <link rel="stylesheet" type="text/css" href="/app/_MAIL_LOGIC/forget_pass/style.css">
 </head>
 <body>
 <div class="container">

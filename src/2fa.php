@@ -1,8 +1,8 @@
 <?php
 session_start();
 include '../config.php';
-include '../app/2fa/Auth.php';
-include '../app/2fa/Handle.php';
+include '../app/_MAIL_LOGIC/2fa/Auth.php';
+include '../app/_MAIL_LOGIC/2fa/Handle.php';
 
 // --------------------
 // Hàm gửi email OTP
