@@ -1,4 +1,5 @@
 <?php
+
 // Xử lý tìm kiếm & phân trang (vẫn dùng POST)
 $search_term = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_submit'])) {
@@ -24,7 +25,8 @@ if (!empty($search_term)) {
     $total_users = $count_result->fetch_assoc()['count'];
     $total_pages = ceil($total_users / $limit);
 
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username LIKE ? LIMIT ? OFFSET ?");
+    // Thêm ORDER BY theo thứ tự: owner, admin, member
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username LIKE ? ORDER BY FIELD(role, 'owner','admin','member') LIMIT ? OFFSET ?");
     if (!$stmt) {
         die("Lỗi prepare (SELECT search): " . $conn->error);
     }
@@ -41,7 +43,8 @@ if (!empty($search_term)) {
     $total_users = $total_users_result->fetch_assoc()['count'];
     $total_pages = ceil($total_users / $limit);
 
-    $users_query = "SELECT * FROM users LIMIT $limit OFFSET $offset";
+    // Thêm ORDER BY theo thứ tự: owner, admin, member
+    $users_query = "SELECT * FROM users ORDER BY FIELD(role, 'owner','admin','member') LIMIT $limit OFFSET $offset";
     $users_result = $conn->query($users_query);
     if (!$users_result) {
         die("Lỗi query (SELECT all users): " . $conn->error);
