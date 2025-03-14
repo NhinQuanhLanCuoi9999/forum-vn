@@ -6,7 +6,8 @@ include '../app/_ADMIN_TOOLS/backup/Logic.php';
 include '../app/_ADMIN_TOOLS/admin/logicPHP/Auth.php';
 include '../app/_ADMIN_TOOLS/backup/Delete.php';
 include '../app/_ADMIN_TOOLS/backup/Import.php';
-include '../app/_ADMIN_TOOLS/backup/Check2FA.php';
+include '../app/_ADMIN_TOOLS/admin/logicPHP/Check2FA.php';
+
 
 
 $currentUser = $_SESSION['username'];
@@ -80,6 +81,13 @@ function writeLog($message) {
   </script>
 </head>
 <body>
+  <!-- Nút quay lại trang Admin -->
+<div class="container text-center mt-4">
+    <a href="/admin_tool/admin.php" class="btn btn-success btn-lg">
+        <i class="fas fa-arrow-left"></i> Quay lại trang Admin
+    </a>
+</div>
+
   <?php if ($notAdmin) {die("Chỉ Owner mới có quyền vào trang này.");}?>
   <div class="container">
     <h1 class="mb-4 text-center">Hệ thống Backup & Import Database [BETA]</h1>

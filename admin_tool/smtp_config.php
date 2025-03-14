@@ -3,7 +3,7 @@ session_start();
 include '../config.php';
 include '../app/_ADMIN_TOOLS/smtp_config/Handle.php';
 include '../app/_ADMIN_TOOLS/admin/logicPHP/Auth.php';
-include '../app/_ADMIN_TOOLS/smtp_config/Check2FA.php';
+include($_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Check2FA.php');
 include('../app/_ADMIN_TOOLS/admin/logicPHP/Auth.php');
 ?>
 

@@ -2,7 +2,8 @@
 session_start();
 include '../config.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/logs/LogicPHP/Read.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/logs/LogicPHP/Check2FA.php';
+include($_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Auth.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Check2FA.php');
 
 // Kiểm tra nếu người dùng đã đăng nhập thông qua cookie
 if (isset($_COOKIE['username']) && !isset($_SESSION['username'])) {

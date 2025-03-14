@@ -1,7 +1,7 @@
 <?php
 session_start();
-include '../config.php';  // Đảm bảo cấu hình kết nối DB
-include '../app/_ADMIN_TOOLS/api/php.php';  // Đảm bảo hàm writeLog() và các hàm cần thiết
+include '../config.php'; 
+include '../app/_ADMIN_TOOLS/api/php.php'; 
 ?>
 
 <!DOCTYPE html>
@@ -15,15 +15,22 @@ include '../app/_ADMIN_TOOLS/api/php.php';  // Đảm bảo hàm writeLog() và 
   
 </head>
 <body>
+
     <h1>Quản lý API Keys</h1>
-
-    <?php if (isset($_SESSION['message'])): ?>
-        <p class="message"><?= $_SESSION['message']; unset($_SESSION['message']); ?></p>
-    <?php endif; ?>
-
+<!-- Nút quay về trang admin và nút tạo API Key -->
+<div style="margin-top: 20px; display: flex; align-items: center; gap: 10px;">
+    <a href="/admin_tool/admin.php" style="padding: 8px 15px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">
+        Về trang admin
+    </a>
     <form method="POST">
         <button type="submit" name="generate_key" class="btn btn-generate">Tạo API Key mới</button>
     </form>
+</div>
+
+<?php if (isset($_SESSION['message'])): ?>
+    <p class="message" style="margin-top: 10px;"><?= $_SESSION['message']; unset($_SESSION['message']); ?></p>
+<?php endif; ?>
+
 
     <table class="table">
         <thead>
