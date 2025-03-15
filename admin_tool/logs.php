@@ -5,14 +5,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/logs/LogicPHP/Read.php';
 include($_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Auth.php');
 include($_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Check2FA.php');
 
-// Kiểm tra nếu người dùng đã đăng nhập thông qua cookie
-if (isset($_COOKIE['username']) && !isset($_SESSION['username'])) {
-    $_SESSION['username'] = $_COOKIE['username'];
-}
 
 // Kiểm tra xem người dùng có phải là admin không
-if (!isset($_SESSION['username']) || $_SESSION['username'] !== 'admin') {
-    header("Location: index.php");
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'owner') {
+   die("Bạn cần quyền Owner để vào xem logs.");
     exit();
 }
 
