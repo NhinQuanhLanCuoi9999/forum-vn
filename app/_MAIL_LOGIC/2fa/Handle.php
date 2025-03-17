@@ -4,10 +4,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-$rootPath = $_SERVER['DOCUMENT_ROOT'] . '/app/vendor/phpmailer/phpmailer/src/';
-require $rootPath . 'Exception.php';
-require $rootPath . 'PHPMailer.php';
-require $rootPath . 'SMTP.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/app/vendor/autoload.php';
 
 if (!function_exists('sendOTP')) {
   // Hàm gửi OTP bằng PHPMailer với nội dung email "xịn xò"
@@ -28,7 +25,7 @@ if (!function_exists('sendOTP')) {
           $mail->Port       = 587;                              // Port mặc định (của Gmail)
 
           // Người gửi và người nhận
-          $mail->setFrom($misc['account_smtp'], 'YourAppName');
+          $mail->setFrom($misc['account_smtp'], 'Mail Server');
           $mail->addAddress($to);
 
           // Nội dung email với giao diện HTML "chất"

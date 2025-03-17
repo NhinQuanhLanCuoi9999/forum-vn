@@ -1,23 +1,32 @@
 <?php
 // Kiểm tra xem người dùng đã đăng nhập chưa
 if (isset($_SESSION['username'])) {
-    // Lấy giá trị username từ session
-    $username = $_SESSION['username'];
+  // Lấy giá trị username từ session
+  $username = $_SESSION['username'];
 
-    // Truy vấn vào bảng users để lấy giá trị 2fa
-    $sql = "SELECT 2fa FROM users WHERE username = '$username'";
-    $result = $conn->query($sql);
+  // Truy vấn vào bảng users để lấy giá trị 2fa và is_active
+  $sql = "SELECT 2fa, is_active FROM users WHERE username = '$username'";
+  $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $twofa = $row['2fa'];
+  if ($result->num_rows > 0) {
+      $row = $result->fetch_assoc();
+      $twofa = $row['2fa'];
+      $is_active = $row['is_active'];
 
-        // Nếu giá trị 2fa bằng 0, chuyển hướng về trang chính "/"
-        if ($twofa == 0) {
-            header("Location: /");
-            exit();
-        }
-    }
+      // Nếu is_active = 0, cập nhật 2fa về 0 luôn
+      if ($is_active == 0) {
+          $updateSql = "UPDATE users SET 2fa = 0 WHERE username = '$username'";
+          $conn->query($updateSql);
+          // Đồng bộ biến $twofa sau update
+          $twofa = 0;
+      }
+
+      // Nếu giá trị 2fa bằng 0, chuyển hướng về trang chính "/"
+      if ($twofa == 0) {
+          header("Location: /");
+          exit();
+      }
+  }
 }
 
 // Kiểm tra nếu tham số logout được truyền vào URL thì sẽ logout

@@ -3,10 +3,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-$rootPath = $_SERVER['DOCUMENT_ROOT'] . '/app/vendor/phpmailer/phpmailer/src/';
-require $rootPath . 'Exception.php';
-require $rootPath . 'PHPMailer.php';
-require $rootPath . 'SMTP.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/app/vendor/autoload.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify'])) {
     if (empty($gmail)) {
