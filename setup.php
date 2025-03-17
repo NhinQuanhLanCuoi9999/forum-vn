@@ -1,11 +1,8 @@
 <?php
 session_start();
 
-$configFile = 'config.php';
-$db = 'forum_db';
-
 // Nếu file config đã tồn tại, chuyển hướng về index
-if (file_exists($configFile)) {
+if (file_exists('config.php')) {
     header("Location: index.php");
     exit;
 }
@@ -13,158 +10,45 @@ if (file_exists($configFile)) {
 // Tạo token CSRF nếu chưa có
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    header("Refresh: 0");
 }
 
+// Load autoload của Composer
+require 'app/vendor/autoload.php';
+
+// Nếu gửi form POST, xử lý cài đặt
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Kiểm tra CSRF token
-    if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        exit('Yêu cầu không hợp lệ.');
-    }
-    // Xóa token sau khi dùng để tránh lặp lại
-    unset($_SESSION['csrf_token']);
+
+    // File validate.php sẽ kiểm tra CSRF và validate input
+    require 'app/_SETUP/validate.php';
+    $data = getInstallationData($_POST);
     
-    // Kiểm tra các trường bắt buộc đã được gửi chưa
-    if (isset($_POST['host'], $_POST['user'], $_POST['pass'], $_POST['admin_pass'], 
-              $_POST['title'], $_POST['name'], $_POST['hcaptcha_api_key'], $_POST['hcaptcha_site_key'], 
-              $_POST['ipinfo_api_key'], $_POST['account_smtp'], $_POST['password_smtp'])) {
-        
-        // Lấy các biến và trim dữ liệu
-        $host = trim($_POST['host']);
-        $user = trim($_POST['user']);
-        if (empty($user)) {
-            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
-            exit("Tên đăng nhập không được để trống.");
-        }
-        
-        $pass = $_POST['pass']; // Mật khẩu có thể để trống nếu server không yêu cầu
-        $adminPassPlain = trim($_POST['admin_pass']);
-        if (strlen($adminPassPlain) < 6) {
-            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
-            exit("Mật khẩu Admin phải có ít nhất 6 ký tự.");
-        }
-        $adminPass = password_hash($adminPassPlain, PASSWORD_BCRYPT);
-        
-        $title = trim($_POST['title']);
-        if (empty($title)) {
-            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
-            exit("Title không được để trống.");
-        }
-        
-        $name = trim($_POST['name']);
-        if (empty($name)) {
-            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
-            exit("Name không được để trống.");
-        }
-        
-        $hcaptchaApiKey = trim($_POST['hcaptcha_api_key']);
-        if (empty($hcaptchaApiKey)) {
-            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
-            exit("Hcaptcha API Key không được để trống.");
-        }
-        
-        $hcaptchaSiteKey = trim($_POST['hcaptcha_site_key']);
-        if (empty($hcaptchaSiteKey)) {
-            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
-            exit("hCaptcha Site Key không được để trống.");
-        }
-        
-        $ipinfoApiKey = trim($_POST['ipinfo_api_key']);
-        if (empty($ipinfoApiKey)) {
-            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
-            exit("Ipinfo API Key không được để trống.");
-        }
-        
-        $smtp_account = trim($_POST['account_smtp']);
-        if (!filter_var($smtp_account, FILTER_VALIDATE_EMAIL)) {
-            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
-            exit("Tài khoản Gmail không hợp lệ.");
-        }
-        
-        $smtpPassPlain = trim($_POST['password_smtp']);
-        if (strlen($smtpPassPlain) < 6) {
-            header("Refresh: 3; url=" . $_SERVER['PHP_SELF']);
-            exit("Mật khẩu SMTP phải có ít nhất 6 ký tự.");
-        }
-        $smtp_password = password_hash($smtpPassPlain, PASSWORD_BCRYPT); // Bảo mật mật khẩu SMTP
-        
-        try {
-            // Kết nối database
-            $conn = new mysqli($host, $user, $pass);
-            if ($conn->connect_error) {
-                throw new Exception("Kết nối thất bại: " . $conn->connect_error);
-            }
+    try {
+        // Kết nối database, tạo db và chạy file SQL
+        require 'app/_SETUP/db_setup.php';
+        $conn = setupDatabase($data['host'], $data['user'], $data['pass'], $data['db']);
+        setupSQL($conn, 'db.sql');
 
-            // Tạo database nếu chưa có
-            if ($conn->query("CREATE DATABASE IF NOT EXISTS $db") === TRUE) {
-                $conn->select_db($db);
-            } else {
-                throw new Exception("Không thể tạo cơ sở dữ liệu: " . $conn->error);
-            }
+        // Tạo tài khoản admin và lưu thông tin vào bảng misc
+        setupAdmin($conn, $data['admin_pass']);
+        setupMisc($conn, $data);
 
-            // Thực thi file SQL để thiết lập cơ sở dữ liệu
-            $sqlFile = 'db.sql';
-            if (file_exists($sqlFile)) {
-                $sql = file_get_contents($sqlFile);
-                if (!$conn->multi_query($sql)) {
-                    throw new Exception("Lỗi khi chạy SQL: " . $conn->error);
-                }
+        // Test gửi email cấu hình SMTP
+        require 'app/_SETUP/test_email.php';
+        testEmail($data['smtp_account'], $data['smtp_password']);
 
-                // Xử lý kết quả trả về của multi_query
-                do {
-                    if ($result = $conn->store_result()) {
-                        $result->free();
-                    }
-                } while ($conn->more_results() && $conn->next_result());
-            }
+        // Ghi thông tin cấu hình vào file config.php
+        require 'app/_SETUP/config_writer.php';
+        writeConfigFile('config.php', $data);
 
-            // Xóa tài khoản admin nếu tồn tại trước đó
-            $conn->query("DELETE FROM users WHERE username = 'admin'");
-
-            // Thêm tài khoản admin mới
-            $stmt = $conn->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, 'owner')");
-            $adminName = 'admin';
-            $stmt->bind_param("ss", $adminName, $adminPass);
-            $stmt->execute();
-            $stmt->close();
-
-            // Thêm thông tin vào bảng misc
-            $stmt = $conn->prepare("INSERT INTO misc (id, title, name, hcaptcha_api_key, hcaptcha_site_key, ipinfo_api_key, account_smtp, password_smtp)
-                                    VALUES (1, ?, ?, ?, ?, ?, ?, ?)
-                                    ON DUPLICATE KEY UPDATE title = VALUES(title), name = VALUES(name), 
-                                    hcaptcha_api_key = VALUES(hcaptcha_api_key), hcaptcha_site_key = VALUES(hcaptcha_site_key),
-                                    ipinfo_api_key = VALUES(ipinfo_api_key), account_smtp = VALUES(account_smtp), 
-                                    password_smtp = VALUES(password_smtp)");
-            $stmt->bind_param("sssssss", $title, $name, $hcaptchaApiKey, $hcaptchaSiteKey, $ipinfoApiKey, $smtp_account, $smtp_password);
-            $stmt->execute();
-            $stmt->close();
-
-            // Lưu thông tin cấu hình vào file config.php
-            $configContent = "<?php\n";
-            $configContent .= "\$host = '$host';\n";
-            $configContent .= "\$db = '$db';\n";
-            $configContent .= "\$user = '$user';\n";
-            $configContent .= "\$pass = '$pass';\n\n";
-            $configContent .= "try {\n";
-            $configContent .= "    // Tạo kết nối\n";
-            $configContent .= "    \$conn = new mysqli(\$host, \$user, \$pass, \$db);\n\n";
-            $configContent .= "    // Kiểm tra lỗi kết nối\n";
-            $configContent .= "    if (\$conn->connect_error) {\n";
-            $configContent .= "        throw new Exception(\"Kết nối thất bại, vui lòng liên hệ Admin để trợ giúp.\");\n";
-            $configContent .= "    }\n";
-            $configContent .= "} catch (Exception \$e) {\n";
-            $configContent .= "    die(\"Kết nối thất bại, vui lòng liên hệ Admin để trợ giúp.\");\n";
-            $configContent .= "}\n";
-            $configContent .= "?>\n";
-            file_put_contents($configFile, $configContent);
-
-            echo "<h3 class='alert alert-success fade-in'>Cấu hình thành công! Bạn có thể đăng nhập với tài khoản admin.</h3>";
-            exit;
-        } catch (Exception $e) {
-            echo "<script>alert('Lỗi: " . addslashes($e->getMessage()) . "');</script>";
-        }
+        echo "<h3 class='alert alert-success fade-in'>Cấu hình thành công! Bạn có thể đăng nhập với tài khoản admin.</h3>";
+        exit;
+    } catch (Exception $e) {
+        echo "<script>alert('Lỗi: " . addslashes($e->getMessage()) . "');</script>";
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -268,31 +152,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="../asset/js/jquery.min.js"></script>
     <script src="../asset/js/Bootstrap.bundle.min.js"></script>
     <script>
-        $(document).ready(function() {
-            let currentStep = 1;
-            const totalSteps = $(".step").length;
-
-            function showStep(step) {
-                $(".step").addClass("d-none");
-                $("#step-" + step).removeClass("d-none").addClass("fade-in");
-            }
-
-            $(".next-step").click(function() {
-                if (currentStep < totalSteps) {
-                    currentStep++;
-                    showStep(currentStep);
-                }
-            });
-
-            $(".prev-step").click(function() {
-                if (currentStep > 1) {
-                    currentStep--;
-                    showStep(currentStep);
-                }
-            });
-
-            showStep(currentStep);
-        });
+        $(document).ready(function() {let currentStep = 1;const totalSteps = $(".step").length;function showStep(step) {$(".step").addClass("d-none");$("#step-" + step).removeClass("d-none").addClass("fade-in");}
+            $(".next-step").click(function() {if (currentStep < totalSteps) {currentStep++;showStep(currentStep);}});
+            $(".prev-step").click(function() {if (currentStep > 1) {currentStep--;showStep(currentStep);}});showStep(currentStep);});
     </script>
 </body>
 </html>

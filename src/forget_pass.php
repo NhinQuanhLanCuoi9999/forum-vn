@@ -28,6 +28,8 @@ However, if you redistribute the source code, you must retain this license.  */
     <title>Quên mật khẩu</title>
     <link href="/asset/css/Bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/app/_MAIL_LOGIC/forget_pass/style.css">
+    <link rel="stylesheet" href="/asset/css/Poppins.css">
+
 </head>
 <body>
 <div class="container">

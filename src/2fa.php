@@ -4,43 +4,6 @@ include '../config.php';
 include '../app/_MAIL_LOGIC/2fa/Auth.php';
 include '../app/_MAIL_LOGIC/2fa/Handle.php';
 
-// --------------------
-// Hàm gửi email OTP
-// (Nhận thêm biến $misc làm tham số để sử dụng thông tin SMTP từ DB)
-// --------------------
-function sendOTP($toEmail, $otp, $misc) {
-    $subject = "Mã OTP xác thực 2FA";
-    $message = "
-    <html>
-    <body style='font-family: Arial, sans-serif; background-color: #f7f7f7; margin: 0; padding: 0;'>
-        <div style='max-width: 600px; margin: 20px auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);'>
-            <div style='text-align: center; padding: 10px; font-size: 18px; color: #3b5998;'>
-                Xác thực tài khoản của bạn
-            </div>
-            <div style='font-size: 16px; color: #333333; line-height: 1.5;'>
-                <p>Xin chào,</p>
-                <p>Mã OTP của bạn là:</p>
-                <div style='font-size: 24px; font-weight: bold; color: #e74c3c; padding: 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px; text-align: center; margin-top: 20px;'>
-                    {$otp}
-                </div>
-                <p>Vui lòng sử dụng mã này để hoàn tất quá trình xác thực 2FA của bạn.</p>
-                <p>Chúc bạn một ngày tuyệt vời!</p>
-            </div>
-            <div style='font-size: 12px; text-align: center; color: #aaaaaa; margin-top: 30px;'>
-                <p>Bạn nhận được email này vì đã yêu cầu xác thực tài khoản. Nếu bạn không yêu cầu, vui lòng bỏ qua email này.</p>
-            </div>
-        </div>
-    </body>
-    </html>";
-
-    $headers = "MIME-Version: 1.0\r\n";
-    $headers .= "Content-type: text/html; charset=UTF-8\r\n";
-    $headers .= "From: " . $misc['account_smtp'] . "\r\n";
-    $headers .= "Reply-To: " . $misc['account_smtp'] . "\r\n";
-    $headers .= "X-Mailer: PHP/" . phpversion();
-
-    return mail($toEmail, $subject, $message, $headers);
-}
 
 
 

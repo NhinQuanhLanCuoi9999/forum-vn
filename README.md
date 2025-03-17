@@ -14,7 +14,6 @@
 2. Sao chép giá trị của dòng "IPv4 Address" (địa chỉ IP).
 
 ## Lưu ý
-- Nên dùng Laragon để tránh lỗi về PHP Mail ( nếu dùng XAMPP thì bạn phải tự setup thủ công)
 - Nếu bạn có tài khoản "admin", sau khi đăng nhập, bạn có thể truy cập trang `admin_tool/admin.php` để quản lý website.
 - Hãy chắc chắn rằng bạn đã bật 2FA tài khoản Google và đã tạo [App Password](https://myaccount.google.com/apppasswords)
 - Nếu bị lỗi SMTP thì hãy vào Laragon >> Setting >> Gởi Mail >> Nhập Account Gmail và App Password gửi đi là xong.
