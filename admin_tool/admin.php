@@ -49,7 +49,7 @@ However, if you redistribute the source code, you must retain this license.  */
     <li><a href="/index.php"><i class="fas fa-home"></i> Trang chính</a></li>
     <li><span style="cursor: pointer;" onclick="changeSection('info')"><i class="fas fa-info-circle"></i> Thông tin</span></li>
     <li><span style="cursor: pointer;" onclick="changeSection('system_config')"><i class="fas fa-sliders-h"></i> Cấu hình hệ thống</span></li>
-    <li><span style="cursor: pointer;" onclick="changeSection('posts')"><i class="fas fa-file-alt"></i> Quản lý bài viết</span></li>
+    <li><span style="cursor: pointer;" onclick="window.location.href='post.php'"><i class="fas fa-file-alt"></i> Quản lý bài viết</span></li>
     <li><span style="cursor: pointer;" onclick="window.location.href='users.php'"><i class="fas fa-users"></i> Quản lý người dùng</span></li>
     <li><span style="cursor: pointer;" onclick="changeSection('api')"><i class="fas fa-cogs"></i> API</span></li>
     <li><span style="cursor: pointer;" onclick="window.location.href='logs.php'"><i class="fas fa-book"></i> Logs</span></li>
@@ -98,64 +98,6 @@ However, if you redistribute the source code, you must retain this license.  */
         </div>
     </form>
     <strong><a href="smtp_config.php">Click vào đây </a> để cấu hình SMTP.</strong>
-    <?php elseif (isset($_GET['section']) && $_GET['section'] === 'posts'): ?>
-
-<h2>Quản lý bài viết</h2>
-
-<!-- Form tìm kiếm -->
-<form method="GET" action="admin.php" class="search-form">
-    <input type="hidden" name="section" value="posts">
-    <input type="text" name="search" placeholder="Tìm kiếm bài viết..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
-    <button type="submit">Tìm kiếm</button>
-</form>
-
-<div class="user-list">
-    <?php
- $search_query=isset($_GET['search'])?$_GET['search']:'';$search_sql='';if(!empty($search_query)){$search_sql="WHERE content LIKE ? OR username LIKE ?";$search_param='%'.$search_query.'%';}$stmt=$conn->prepare("SELECT * FROM posts $search_sql ORDER BY created_at DESC LIMIT ?, ?");if(!empty($search_query)){$stmt->bind_param('ssii',$search_param,$search_param,$offset,$limit);}else{$stmt->bind_param('ii',$offset,$limit);}$stmt->execute();$posts_result=$stmt->get_result();
-    if ($posts_result && $posts_result->num_rows > 0): ?>
-        <?php while ($post = $posts_result->fetch_assoc()): ?>
-            <div class="post">
-                <h4><?php echo htmlspecialchars($post['content']); ?></h4>
-                <small>Đăng bởi: <?php echo htmlspecialchars($post['username']); ?> vào <?php echo $post['created_at']; ?></small>
-                <a href="admin_tool/admin.php?delete_post=<?php echo $post['id']; ?>" class="delete-button">Xóa bài viết</a>
-            </div>
-        <?php endwhile; ?>
-    <?php else: ?>
-        <p>Không tìm thấy bài viết nào.</p>
-    <?php endif; ?>
-</div>
-
-<!-- Pagination links -->
-<div class="pagination">
-    <?php if ($page > 1): ?>
-        <a href="admin.php?section=posts&page=1&search=<?php echo urlencode($search_query); ?>" class="prev">&lt;&lt; Trang đầu</a>
-    <?php endif; ?>
-
-    <!-- Hiển thị các số trang với ... -->
-    <?php if ($total_pages > 5): ?>
-        <?php if ($page > 3): ?>
-            <a href="admin.php?section=posts&page=1&search=<?php echo urlencode($search_query); ?>">1</a>
-            <span>...</span>
-        <?php endif; ?>
-
-        <?php for ($i = max(1, $page - 2); $i <= min($total_pages, $page + 2); $i++): ?>
-            <a href="admin.php?section=posts&page=<?php echo $i; ?>&search=<?php echo urlencode($search_query); ?>" class="page-link <?php echo ($i == $page) ? 'active' : ''; ?>"><?php echo $i; ?></a>
-        <?php endfor; ?>
-
-        <?php if ($page < $total_pages - 2): ?>
-            <span>...</span>
-            <a href="admin.php?section=posts&page=<?php echo $total_pages; ?>&search=<?php echo urlencode($search_query); ?>"><?php echo $total_pages; ?></a>
-        <?php endif; ?>
-    <?php else: ?>
-        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-            <a href="admin.php?section=posts&page=<?php echo $i; ?>&search=<?php echo urlencode($search_query); ?>" class="page-link <?php echo ($i == $page) ? 'active' : ''; ?>"><?php echo $i; ?></a>
-        <?php endfor; ?>
-    <?php endif; ?>
-
-    <?php if ($page < $total_pages): ?>
-        <a href="admin.php?section=posts&page=<?php echo $total_pages; ?>&search=<?php echo urlencode($search_query); ?>" class="next">Trang cuối &gt;&gt;</a>
-    <?php endif; ?>
-</div>
 
 
 
