@@ -14,7 +14,7 @@
 2. Sao chép giá trị của dòng "IPv4 Address" (địa chỉ IP).
 
 ## Lưu ý
-- Nếu bạn có tài khoản "admin", sau khi đăng nhập, bạn có thể truy cập trang `admin_tool/admin.php` để quản lý website.
+- Nếu bạn có role "owner" hoặc "admin", sau khi đăng nhập, bạn có thể truy cập trang `admin_tool/admin.php` để quản lý website.
 - Hãy chắc chắn rằng bạn đã bật 2FA tài khoản Google và đã tạo [App Password](https://myaccount.google.com/apppasswords)
 - Nếu bị lỗi SMTP thì hãy vào Laragon >> Setting >> Gởi Mail >> Nhập Account Gmail và App Password gửi đi là xong.
 - Vì vấn đề tiêu chuẩn cộng đồng nên tôi không thể ghi từ cấm trong `badwords.txt` được nên các bạn tự ghi vào.
