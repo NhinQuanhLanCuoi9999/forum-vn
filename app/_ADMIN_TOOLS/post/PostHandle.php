@@ -1,11 +1,10 @@
 <?php
-
 // Xử lý xóa bài đăng
 if (isset($_GET['delete'])) {
     $post_id = intval($_GET['delete']);
 
-    // Truy vấn để lấy username của tác giả bài đăng (DÙNG PREPARED STATEMENT)
-    $query = "SELECT username FROM posts WHERE id = ?";
+    // Truy vấn để lấy username và content của bài đăng (DÙNG PREPARED STATEMENT)
+    $query = "SELECT username, content FROM posts WHERE id = ?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "i", $post_id);
     mysqli_stmt_execute($stmt);
@@ -14,19 +13,21 @@ if (isset($_GET['delete'])) {
     if ($result && mysqli_num_rows($result) > 0) {
         $post = mysqli_fetch_assoc($result);
         $author_username = $post['username'];
+        $post_content = $post['content'];
 
         // Truy vấn để lấy role của tác giả bài đăng (DÙNG PREPARED STATEMENT)
-        $query = "SELECT role FROM users WHERE username = ?";
-        $stmt = mysqli_prepare($conn, $query);
-        mysqli_stmt_bind_param($stmt, "s", $author_username);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+        $query2 = "SELECT role FROM users WHERE username = ?";
+        $stmt2 = mysqli_prepare($conn, $query2);
+        mysqli_stmt_bind_param($stmt2, "s", $author_username);
+        mysqli_stmt_execute($stmt2);
+        $result2 = mysqli_stmt_get_result($stmt2);
 
         $postAuthorRole = 'member'; // Mặc định nếu không tìm thấy
-        if ($result && mysqli_num_rows($result) > 0) {
-            $author = mysqli_fetch_assoc($result);
+        if ($result2 && mysqli_num_rows($result2) > 0) {
+            $author = mysqli_fetch_assoc($result2);
             $postAuthorRole = $author['role'];
         }
+        mysqli_stmt_close($stmt2);
 
         $userRole = $_SESSION['role'];
 
@@ -34,27 +35,13 @@ if (isset($_GET['delete'])) {
         if ($userRole === 'owner' || ($userRole === 'admin' && $postAuthorRole === 'member')) {
             // Xóa bài đăng (DÙNG PREPARED STATEMENT)
             $delete_query = "DELETE FROM posts WHERE id = ?";
-            $stmt = mysqli_prepare($conn, $delete_query);
-            mysqli_stmt_bind_param($stmt, "i", $post_id);
-            mysqli_stmt_execute($stmt);
+            $stmt3 = mysqli_prepare($conn, $delete_query);
+            mysqli_stmt_bind_param($stmt3, "i", $post_id);
+            mysqli_stmt_execute($stmt3);
+            mysqli_stmt_close($stmt3);
 
-            // ✅ Thêm ghi log vào đây
-            $user_ip = $_SERVER['REMOTE_ADDR'];
-            $user_name = $_SESSION['username'] ?? 'Unknown';
-
-            $log_dir = $_SERVER['DOCUMENT_ROOT'] . "/logs/";
-            $log_file = $log_dir . "admin-log.txt";
-
-            // Tạo thư mục logs nếu chưa có
-            if (!is_dir($log_dir)) {
-                mkdir($log_dir, 0777, true);
-            }
-
-            // Nội dung log
-            $log_entry = "[" . date("d/m/Y | H:i:s") . "] Người dùng : [$user_name] (IP: $user_ip) đã thao tác xóa bài đăng có ID [$post_id]\n";
-
-            // Ghi vào file log
-            @file_put_contents($log_file, $log_entry, FILE_APPEND);
+            // Ghi log, sử dụng hàm writeLog với type là 'bài đăng'
+            writeLog($post_id, $post_content, 'bài đăng');
 
             $_SESSION['alert'] = '<div class="alert alert-success alert-dismissible fade show" role="alert">
                 Bài đăng đã được xóa thành công.
@@ -68,6 +55,7 @@ if (isset($_GET['delete'])) {
         }
     }
 
+    mysqli_stmt_close($stmt);
     header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
     exit;
 }

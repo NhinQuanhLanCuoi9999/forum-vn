@@ -3,8 +3,8 @@
 if (isset($_GET['delete_comment'])) {
     $comment_id = intval($_GET['delete_comment']);
 
-    // Lấy thông tin bình luận cần xóa
-    $query_comment = "SELECT comments.*, users.role AS user_role 
+    // Lấy thông tin bình luận cần xóa (chỉ lấy các trường cần thiết)
+    $query_comment = "SELECT comments.id, comments.username, comments.content, users.role AS user_role 
                       FROM comments 
                       JOIN users ON comments.username = users.username 
                       WHERE comments.id = ?";
@@ -16,6 +16,7 @@ if (isset($_GET['delete_comment'])) {
     if (mysqli_num_rows($result_comment) > 0) {
         $comment = mysqli_fetch_assoc($result_comment);
         $comment_role = $comment['user_role'];
+        $comment_content = $comment['content'];
 
         if ($_SESSION['role'] === 'owner' || ($_SESSION['role'] === 'admin' && $comment_role === 'member')) {
             // Xóa bình luận
@@ -25,23 +26,8 @@ if (isset($_GET['delete_comment'])) {
             mysqli_stmt_execute($stmt_delete);
             mysqli_stmt_close($stmt_delete);
 
-            // 🔹 Ghi log xóa bình luận trực tiếp
-            $log_dir = $_SERVER['DOCUMENT_ROOT'] . "/logs/";
-            $log_file = $log_dir . "admin-log.txt";
-
-            // Tạo thư mục logs nếu chưa có
-            if (!is_dir($log_dir)) {
-                mkdir($log_dir, 0777, true);
-            }
-
-            // Lấy thông tin người dùng
-            $user_name = $_SESSION['username'] ?? 'Unknown';
-            $user_ip = $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
-            // Định dạng nội dung log
-            $log_entry = "[" . date("d/m/Y | H:i:s") . "] Người dùng : [$user_name] (IP: $user_ip) đã thao tác xóa bình luận có ID [$comment_id]\n";
-
-            // Ghi vào file log (ẩn lỗi nếu không ghi được)
-            @file_put_contents($log_file, $log_entry, FILE_APPEND);
+            // Ghi log xóa bình luận, bao gồm cả nội dung comment
+            writeLog($comment_id, $comment_content, 'bình luận');
 
             $_SESSION['alert'] = '<div class="alert alert-success alert-dismissible fade show" role="alert">
                 Bình luận đã được xóa thành công.

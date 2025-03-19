@@ -45,6 +45,10 @@ if (isset($_SESSION['username'])) {
 <div class="container">
   <h1>Bài viết</h1>
   <div class="post">
+    <!-- Nút về trang index -->
+  <div class="mt-3">
+    <a href="index.php" class="btn btn-primary">Về trang chủ</a>
+  </div>
     <h2><?php echo htmlspecialchars($post['content'], ENT_QUOTES, 'UTF-8'); ?></h2>
     <p><strong>Mô tả:</strong> <?php echo htmlspecialchars($post['description'], ENT_QUOTES, 'UTF-8'); ?></p>
     <p><strong>Tác giả:</strong> <?php echo htmlspecialchars($post['username'], ENT_QUOTES, 'UTF-8'); ?></p>

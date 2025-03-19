@@ -4,7 +4,7 @@ if (isset($_GET['delete_reply'])) {
     $reply_id = intval($_GET['delete_reply']);
 
     // Sử dụng prepared statement để tránh SQL Injection
-    $query_reply = "SELECT replies.*, users.role AS user_role 
+    $query_reply = "SELECT replies.id, replies.username, replies.content, users.role AS user_role 
                     FROM replies 
                     JOIN users ON replies.username = users.username 
                     WHERE replies.id = ?";
@@ -16,31 +16,18 @@ if (isset($_GET['delete_reply'])) {
     if (mysqli_num_rows($result_reply) > 0) {
         $reply = mysqli_fetch_assoc($result_reply);
         $reply_role = $reply['user_role'];
+        $reply_content = $reply['content']; // Lấy cột content của phản hồi
 
         if ($_SESSION['role'] === 'owner' || ($_SESSION['role'] === 'admin' && $reply_role === 'member')) {
-            // Chuẩn bị truy vấn xóa phản hồi
+            // Xóa phản hồi sử dụng prepared statement
             $delete_reply_query = "DELETE FROM replies WHERE id = ?";
             $stmt_delete = mysqli_prepare($conn, $delete_reply_query);
             mysqli_stmt_bind_param($stmt_delete, "i", $reply_id);
             mysqli_stmt_execute($stmt_delete);
+            mysqli_stmt_close($stmt_delete);
 
-            // ✅ Thêm ghi log vào đây
-            $user_ip = $_SERVER['REMOTE_ADDR'];
-            $user_name = $_SESSION['username'] ?? 'Unknown';
-
-            $log_dir = $_SERVER['DOCUMENT_ROOT'] . "/logs/";
-            $log_file = $log_dir . "admin-log.txt";
-
-            // Tạo thư mục logs nếu chưa có
-            if (!is_dir($log_dir)) {
-                mkdir($log_dir, 0777, true);
-            }
-
-            // Nội dung log
-            $log_entry = "[" . date("d/m/Y | H:i:s") . "] Người dùng : [$user_name] (IP: $user_ip) đã thao tác xóa phản hồi có ID [$reply_id]\n";
-
-            // Ghi vào file log
-            @file_put_contents($log_file, $log_entry, FILE_APPEND);
+            // Ghi log sử dụng hàm writeLog với type là 'phản hồi'
+            writeLog($reply_id, $reply_content, 'phản hồi');
 
             $_SESSION['alert'] = '<div class="alert alert-success alert-dismissible fade show" role="alert">
                 Phản hồi đã được xóa thành công.
@@ -56,10 +43,6 @@ if (isset($_GET['delete_reply'])) {
 
     // Đóng statement
     mysqli_stmt_close($stmt);
-    if (isset($stmt_delete)) {
-        mysqli_stmt_close($stmt_delete);
-    }
-
     header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
     exit;
 }
