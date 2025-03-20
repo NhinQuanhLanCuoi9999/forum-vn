@@ -81,9 +81,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="text" id="user" name="user" class="form-control" value="root" required>
                     </div>
                     <div class="mb-3">
+                        <label for="pass" class="form-label">Tên cơ sở dữ liệu</label>
+                        <input type="text" id="database" name="database" class="form-control">
+                    </div>
+                    <div class="mb-3">
                         <label for="pass" class="form-label">Mật khẩu</label>
                         <input type="password" id="pass" name="pass" class="form-control">
                     </div>
+                    
                     <button type="button" class="btn btn-primary w-100 next-step">Tiếp theo</button>
                 </div>
 

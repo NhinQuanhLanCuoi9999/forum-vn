@@ -1,7 +1,3 @@
--- Tạo cơ sở dữ liệu
-CREATE DATABASE IF NOT EXISTS forum_db;
-USE forum_db;
-
 -- Bảng users
 CREATE TABLE IF NOT EXISTS users (
     id VARCHAR(36) PRIMARY KEY DEFAULT (UUID()), -- Sử dụng UUID làm giá trị mặc định

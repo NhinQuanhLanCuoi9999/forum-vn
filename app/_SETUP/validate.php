@@ -47,7 +47,7 @@ function getInstallationData($post) {
     $data['ipinfo_api_key']     = trim($post['ipinfo_api_key']);
     $data['smtp_account']       = trim($post['account_smtp']);
     $data['smtp_password']      = trim($post['password_smtp']);
-    $data['db']                 = 'forum_db'; // Tên database cố định
+    $data['db']                 = trim($post['database']);
 
     return $data;
 }
