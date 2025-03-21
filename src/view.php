@@ -2,6 +2,7 @@
 session_start();
 include '../config.php'; // Kết nối database từ file config
 include '../app/_USERS_LOGIC/view/php.php';
+
 /*
 ##############################################################
 #                                                            #
@@ -16,21 +17,25 @@ Original Author: NhinQuanhLanCuoi9999
 License: GNU General Public License v3.0  
 
 You are free to use, modify, and distribute this software under the terms of the GPL v3.  
-However, if you redistribute the source code, you must retain this license.  */
+However, if you redistribute the source code, you must retain this license.
+*/
 
-
-// Kiểm tra trạng thái xác minh của tài khoản
-$isVerified = true;
-if (isset($_SESSION['username'])) {
+// Kiểm tra trạng thái đăng nhập
+if (!isset($_SESSION['username'])) {
+    // Nếu chưa có session username => chưa đăng nhập
+    $userLoggedIn = false;
+    $isVerified = false;
+} else {
+    $userLoggedIn = true;
+    // Kiểm tra trạng thái xác minh của tài khoản
     $stmt = $conn->prepare("SELECT is_active FROM users WHERE username = ?");
     $stmt->bind_param("s", $_SESSION['username']);
     $stmt->execute();
     $result = $stmt->get_result()->fetch_assoc();
     $stmt->close();
-    if (!$result || $result['is_active'] != 1) {$isVerified = false;}} 
-    else {$isVerified = false;}
+    $isVerified = ($result && $result['is_active'] == 1);
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -46,18 +51,22 @@ if (isset($_SESSION['username'])) {
   <h1>Bài viết</h1>
   <div class="post">
     <!-- Nút về trang index -->
-  <div class="mt-3">
-    <a href="index.php" class="btn btn-primary">Về trang chủ</a>
-  </div>
+    <div class="mt-3">
+      <a href="index.php" class="btn btn-primary">Về trang chủ</a>
+    </div>
     <h2><?php echo htmlspecialchars($post['content'], ENT_QUOTES, 'UTF-8'); ?></h2>
     <p><strong>Mô tả:</strong> <?php echo htmlspecialchars($post['description'], ENT_QUOTES, 'UTF-8'); ?></p>
     <p><strong>Tác giả:</strong> <?php echo htmlspecialchars($post['username'], ENT_QUOTES, 'UTF-8'); ?></p>
     <p><strong>Ngày tạo:</strong> <?php echo htmlspecialchars($post['created_at'], ENT_QUOTES, 'UTF-8'); ?></p>
     <?php if ($post['file']): ?>
-      <p><strong>Tệp đính kèm: </strong><a href="../uploads/<?php echo htmlspecialchars($post['file'], ENT_QUOTES, 'UTF-8'); ?>" download><?php echo htmlspecialchars($post['file'], ENT_QUOTES, 'UTF-8'); ?></a></p>
+      <p><strong>Tệp đính kèm: </strong>
+        <a href="../uploads/<?php echo htmlspecialchars($post['file'], ENT_QUOTES, 'UTF-8'); ?>" download>
+          <?php echo htmlspecialchars($post['file'], ENT_QUOTES, 'UTF-8'); ?>
+        </a>
+      </p>
     <?php endif; ?>
     <?php if ($isOwner): ?>
-        <a href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&delete_post=1" class="btn btn-danger btn-delete" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">Xóa bài viết</a>
+      <a href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&delete_post=1" class="btn btn-danger btn-delete" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">Xóa bài viết</a>
     <?php endif; ?>
   </div>
 
@@ -108,8 +117,14 @@ if (isset($_SESSION['username'])) {
     <p class="success"><?php echo htmlspecialchars($_SESSION['success'], ENT_QUOTES, 'UTF-8'); unset($_SESSION['success']); ?></p>
   <?php endif; ?>
 
-  <?php if ($isVerified): ?>
-    <!-- Nếu user đã được xác minh, hiển thị form bình luận và danh sách bình luận -->
+  <?php if (!$userLoggedIn): ?>
+    <!-- Nếu user chưa đăng nhập -->
+    <p class="alert alert-warning">Bạn chưa đăng nhập. Vui lòng <a href="/">đăng nhập</a>!</p>
+  <?php elseif (!$isVerified): ?>
+    <!-- Nếu user đăng nhập nhưng chưa xác minh -->
+    <p class="alert alert-warning">Tài khoản của bạn chưa được xác minh. Vui lòng <a href="/src/verify.php">vào đây</a> để xác minh!</p>
+  <?php else: ?>
+    <!-- Nếu user đã đăng nhập và xác minh -->
     <?php if ($isLoggedIn): ?>
       <form action="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>" method="POST">
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
@@ -217,9 +232,6 @@ if (isset($_SESSION['username'])) {
         </div>
       <?php endwhile; ?>
     </div>
-  <?php else: ?>
-    <!-- Nếu user chưa xác minh, ẩn mọi thao tác bình luận và hiển thị thông báo -->  
-    <p class="alert alert-warning">Tài khoản của bạn chưa được xác minh. Vui lòng <a href="/src/verify.php">vào đây</a> để xác minh!</p>
   <?php endif; ?>
 
 </div>
@@ -228,10 +240,20 @@ if (isset($_SESSION['username'])) {
 <script src="/asset/js/Bootstrap.bundle.min.js"></script>
 <script src="/asset/js/jquery.min.js"></script>
 <script>
-$(document).ready(function() {$(".collapse").each(function() {var id = $(this).attr("id");
-    if (localStorage.getItem("collapse-" + id) === "open") {$(this).addClass("show");}
-    $(this).on("shown.bs.collapse", function() {localStorage.setItem("collapse-" + id, "open");});
-    $(this).on("hidden.bs.collapse", function() {localStorage.setItem("collapse-" + id, "closed");});});});
+$(document).ready(function() {
+  $(".collapse").each(function() {
+    var id = $(this).attr("id");
+    if (localStorage.getItem("collapse-" + id) === "open") {
+      $(this).addClass("show");
+    }
+    $(this).on("shown.bs.collapse", function() {
+      localStorage.setItem("collapse-" + id, "open");
+    });
+    $(this).on("hidden.bs.collapse", function() {
+      localStorage.setItem("collapse-" + id, "closed");
+    });
+  });
+});
 </script>
 </body>
 </html>
