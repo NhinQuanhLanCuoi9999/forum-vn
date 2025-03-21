@@ -7,23 +7,7 @@ include '../app/_MAIL_LOGIC/verify/Auth.php';
 include '../app/_MAIL_LOGIC/verify/Declare.php';
 include '../app/_MAIL_LOGIC/verify/Finale_Verify.php';
 include '../app/_MAIL_LOGIC/verify/Handle.php';
-
-/*
-##############################################################
-#                                                            #
-# This is the LICENSE file of Forum VN                       #
-# Copyright belongs to Forum VN, Original Author:            #
-# NhinQuanhLanCuoi9999                                       #
-#                                                            #
-##############################################################
-
-Copyright © 2025 Forum VN  
-Original Author: NhinQuanhLanCuoi9999  
-License: GNU General Public License v3.0  
-
-You are free to use, modify, and distribute this software under the terms of the GPL v3.  
-However, if you redistribute the source code, you must retain this license.  */
-
+include '../app/_MAIL_LOGIC/verify/CheckGmail.php';
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -31,45 +15,77 @@ However, if you redistribute the source code, you must retain this license.  */
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Xác minh Gmail</title>
-    <!-- Bootstrap CSS -->
+    <link href="/asset/css/Poppins.css" rel="stylesheet">
     <link href="/asset/css/Bootstrap.min.css" rel="stylesheet">
     <style>
-        body {background-color: #f8f9fa;}
+        body {font-family: 'Poppins', sans-serif;}
         .verification-container {max-width: 600px;margin: 50px auto;}
-        form {background: #fff;padding: 30px;border-radius: 10px;box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);}
     </style>
 </head>
-<body>
+<body class="bg-light">
     <div class="container verification-container">
-        <h2 class="text-center">Xác minh Gmail</h2>
-        <?php
-        if (isset($activation_status)) {
-            echo "<div class='alert alert-info'>" . htmlspecialchars($activation_status) . "</div>";
-        }
-        if (isset($mail_status)) {
-            echo "<div class='alert alert-info'>" . $mail_status . "</div>";
-        }
-        if (isset($_SESSION['username'])) {
-            if (!empty($gmail)) {
-                echo "<p>Email được đăng ký: <strong>" . htmlspecialchars($gmail) . "</strong></p>";
-            } 
-        } else {
-            echo "<p>Không có thông tin người dùng.</p>";
-        }
-        ?>
-        <?php if (!isset($_GET['code'])): ?>
-        <form method="POST" action="">
-            <div class="d-grid gap-2">
-                <button type="submit" name="verify" class="btn btn-primary">Gửi email xác minh</button>
+        <div class="card shadow-sm">
+            <div class="card-header text-center bg-primary text-white">
+                Xác minh Gmail
             </div>
-        </form>
-        <?php endif; ?>
+            <div class="card-body">
+                <?php
+                if (isset($activation_status)) {
+                    echo "<div class='alert alert-info'>" . htmlspecialchars($activation_status) . "</div>";
+                }
+                if (isset($mail_status)) {
+                    echo "<div class='alert alert-info'>" . $mail_status . "</div>";
+                }
+                if (isset($_SESSION['username'])) {
+                    // Nếu gmail trống, hiện form nhập gmail
+                    if (empty($gmail)) {
+                        if (isset($error)) {
+                            echo "<div class='alert alert-danger'>" . htmlspecialchars($error) . "</div>";
+                        }
+                        ?>
+                        <form method="POST" action="">
+                            <div class="mb-3">
+                                <label for="gmail" class="form-label">Nhập Gmail của bạn:</label>
+                                <input type="email" name="gmail" id="gmail" class="form-control" placeholder="example@gmail.com" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" name="submit_gmail" class="btn btn-primary">Lưu Gmail</button>
+                            </div>
+                        </form>
+                        <?php
+                    } else {
+                        ?>
+                        <p class="mb-3">Email được đăng ký: <strong><?= htmlspecialchars($gmail) ?></strong></p>
+                        <!-- Khung thông báo quyền sau khi kích hoạt -->
+                        <div class="card mb-3">
+                            <div class="card-header bg-info text-white">
+                                Thông Báo Quan Trọng
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    - Sau khi xác minh tài khoản, bạn sẽ được cấp quyền bình luận và trả lời trên hệ thống.<br>
+                                    - Đồng thời, tài khoản của bạn sẽ được kích hoạt sử dụng cơ chế xác thực 2FA nhằm bảo đảm an toàn tối đa cho thông tin cá nhân. <br>
+                                    - Vui lòng hoàn thành quá trình xác minh qua email để trải nghiệm đầy đủ các tính năng bảo mật và tương tác của hệ thống.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Hiển thị nút gửi email xác minh nếu có gmail -->
+                        <?php if (!isset($_GET['code'])): ?>
+                            <form method="POST" action="">
+                                <div class="d-grid">
+                                    <button type="submit" name="verify" class="btn btn-primary">Gửi email xác minh</button>
+                                </div>
+                            </form>
+                        <?php endif; ?>
+                        <?php
+                    }
+                } else {
+                    echo "<p>Không có thông tin người dùng.</p>";
+                }
+                ?>
+            </div>
+        </div>
     </div>
-
-    
-    
-    <!-- Bootstrap JS Bundle (bao gồm Popper) -->
-    <script src="/asset/js/Bootstrap.bundle.min.js"></script>
 </body>
 </html>
 
