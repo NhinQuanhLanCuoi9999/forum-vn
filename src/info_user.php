@@ -17,114 +17,204 @@ Original Author: NhinQuanhLanCuoi9999
 License: GNU General Public License v3.0  
 
 You are free to use, modify, and distribute this software under the terms of the GPL v3.  
-However, if you redistribute the source code, you must retain this license.  */
-
-
+However, if you redistribute the source code, you must retain this license.
+*/
 ?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <!-- Nhúng font Poppins -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="/asset/css/Bootstrap.min.css" rel="stylesheet">
+    <link href="/app/_USERS_LOGIC/info/styles.css" rel="stylesheet">
+    <!-- Font Poppins -->
     <link rel="stylesheet" href="../asset/css/Poppins.css">
-    <link rel="stylesheet" type="text/css" href="/app/_USERS_LOGIC/info/styles.css">
-    <script src="/app/_USERS_LOGIC/info/desc_switch.js"></script>
-
+    <script src="/app/_USERS_LOGIC/info/gmail_and_desc.js"></script>
+    <title>Thông tin tài khoản</title>
 </head>
 <body>
-<div class="container">
-    <h1>THÔNG TIN TÀI KHOẢN</h1>
-    <div class="user-info">
-        <p><span>Tên người dùng:</span> <strong><?php echo htmlspecialchars($username); ?></strong></p>
-        <div class="line"></div>
-        <p><span>ID:</span> <strong><?php echo $row['id']; ?></strong></p>
-        <div class="line"></div>
-        <p><span>Ngày tạo:</span> <strong><?php echo htmlspecialchars(date('d-m-Y H:i:s', strtotime($createdAt))); ?></strong></p>
-        <div class="line"></div>
-        <p><span>Vai trò:</span> <strong><?php echo htmlspecialchars($userRole); ?></strong></p>
-        <div class="line"></div>
-        <p><span>IPv4:</span><strong><?php $ip = $_SERVER['REMOTE_ADDR']; echo htmlspecialchars($ip); ?></strong></p>
-        <div class="line"></div>
-        <p><span>IPv6:</span><strong><?php echo htmlspecialchars($ipv6); ?></strong></p>
-        <div class="line"></div>
-        <p><span>User Agent:</span><strong><?php $agent = $_SERVER['HTTP_USER_AGENT']; echo htmlspecialchars($agent); ?></strong></p>
-        <div class="line"></div>
-        <!-- Hiển thị mô tả bản thân và nút sửa mô tả bên cạnh -->
-        <div class="desc-container">
-            <p><span>Mô tả bản thân:</span> <strong><?php echo htmlspecialchars($userDesc ?: 'Chưa có mô tả.'); ?></strong></p>
-            <button class="button" onclick="toggleDescForm()">Cập nhật mô tả</button>
+  <div class="container my-5">
+    <div class="custom-card">
+      <h1 class="card-title mb-4">THÔNG TIN TÀI KHOẢN</h1>
+      
+      <!-- Tên người dùng -->
+      <div class="info-group row">
+        <div class="col-6">Tên người dùng:</div>
+        <div class="col-6 text-end">
+          <strong><?php echo htmlspecialchars($username); ?></strong>
         </div>
-        <div class="line"></div>
+      </div>
+      <hr>
 
+      <!-- ID -->
+      <div class="info-group row">
+        <div class="col-6">ID:</div>
+        <div class="col-6 text-end">
+          <strong><?php echo $row['id']; ?></strong>
+        </div>
+      </div>
+      <hr>
 
-<!-- Hiển thị thông tin Gmail và trạng thái kích hoạt -->
-<p>
-  <span>Gmail hiện tại:</span>
-  <strong id="gmailText"><?php echo htmlspecialchars($currentGmail ?: 'Chưa có Gmail'); ?></strong>
-  <button id="editGmailBtn" class="button">Chỉnh sửa</button>
-</p>
-<p>
-  <span>Trạng thái Gmail:</span>
-  <strong><?php echo $isActive == '1' ? 'Đã kích hoạt' : 'Chưa kích hoạt'; ?></strong>
-</p>
+      <!-- Ngày tạo -->
+      <div class="info-group row">
+        <div class="col-6">Ngày tạo:</div>
+        <div class="col-6 text-end">
+          <strong><?php echo htmlspecialchars(date('d-m-Y H:i:s', strtotime($createdAt))); ?></strong>
+        </div>
+      </div>
+      <hr>
 
+      <!-- Vai trò -->
+      <div class="info-group row">
+        <div class="col-6">Vai trò:</div>
+        <div class="col-6 text-end">
+          <strong><?php echo htmlspecialchars($userRole); ?></strong>
+        </div>
+      </div>
+      <hr>
 
+      <!-- IPv4 -->
+      <div class="info-group row">
+        <div class="col-6">IPv4:</div>
+        <div class="col-6 text-end">
+          <strong>
+            <?php
+              $ip = $_SERVER['REMOTE_ADDR'];
+              echo htmlspecialchars($ip);
+            ?>
+          </strong>
+        </div>
+      </div>
+      <hr>
 
-<!-- Form sửa Gmail (ẩn mặc định) -->
-<div id="gmailForm" style="display: none; margin-top: 10px;">
-  <form method="POST" action="">
-    <label for="gmail">Cập nhật Gmail:</label>
-    <input type="email" id="gmail" name="gmail" value="<?php echo htmlspecialchars($currentGmail ?: ''); ?>" required>
-    <button type="submit" class="button">Lưu</button>
-    <button type="button" id="cancelEdit" class="button">Hủy</button>
-  </form>
-</div>
+      <!-- IPv6 -->
+      <div class="info-group row">
+        <div class="col-6">IPv6:</div>
+        <div class="col-6 text-end">
+          <strong><?php echo htmlspecialchars($ipv6); ?></strong>
+        </div>
+      </div>
+      <hr>
 
+      <!-- User Agent -->
+      <div class="info-group row">
+        <div class="col-6">User Agent:</div>
+        <div class="col-6 text-end">
+          <strong>
+            <?php
+              $agent = $_SERVER['HTTP_USER_AGENT'];
+              echo htmlspecialchars($agent);
+            ?>
+          </strong>
+        </div>
+      </div>
+      <hr>
 
-<script src="/app/_USERS_LOGIC/info/gmail_switch.js"></script>
+      <!-- Mô tả bản thân -->
+      <div class="info-group row align-items-center">
+        <div class="col-6">Mô tả bản thân:</div>
+        <div class="col-6 text-end">
+          <strong><?php echo htmlspecialchars($userDesc ?: 'Chưa có mô tả.'); ?></strong>
+          <button class="btn btn-primary ms-2" onclick="toggleDescForm()">Cập nhật mô tả</button>
+        </div>
+      </div>
+      <hr>
 
+      <!-- Gmail hiện tại -->
+      <div class="info-group row align-items-center">
+        <div class="col-6">Gmail hiện tại:</div>
+        <div class="col-6 text-end">
+          <strong id="gmailText"><?php echo htmlspecialchars($currentGmail ?: 'Chưa có Gmail'); ?></strong>
+          <!-- Ẩn nút "Chỉnh sửa" nếu có lỗi để hiển thị form luôn -->
+          <button id="editGmailBtn" class="btn btn-primary ms-2" <?php echo isset($_SESSION['error']) ? 'style="display:none;"' : ''; ?>>Chỉnh sửa</button>
+        </div>
+      </div>
 
-        <!-- Form sửa mô tả (ẩn mặc định) -->
-        <form id="update-desc-form" method="POST" action="" style="display:none;">
-            <label for="desc">Cập nhật mô tả bản thân:</label>
-            <textarea id="desc" name="desc" rows="4" cols="50" placeholder="Nhập mô tả của bạn..." maxlength="255"><?php echo htmlspecialchars($userDesc); ?></textarea>
-            <br>
-            <button type="submit" class="button">Lưu thay đổi</button>
-        </form>
+      <!-- Trạng thái Gmail -->
+      <div class="info-group row">
+        <div class="col-6">Trạng thái Gmail:</div>
+        <div class="col-6 text-end">
+          <strong><?php echo $isActive == '1' ? 'Đã kích hoạt' : 'Chưa kích hoạt'; ?></strong>
+        </div>
+      </div>
 
-        <div class="line"></div>
-
-<link href="/asset/css/Bootstrap.min.css" rel="stylesheet">
-
-<form method="post">
-    <div class="d-flex align-items-center">
-        <label class="me-2" for="switch2fa">Kích hoạt 2FA:</label>
-        <?php if ($user['gmail'] !== null && $user['is_active'] == 1): ?>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="switch2fa" name="switch2fa" value="1" 
-                    onchange="this.form.submit()" <?php echo ($user['2fa'] == 1 ? 'checked' : ''); ?>
-                    style="transform: scale(1.3);">
+      <!-- Form sửa Gmail (bao gồm thông báo lỗi) -->
+      <div class="row mt-2" id="gmailForm" <?php echo isset($_SESSION['error']) ? 'style="display: block;"' : 'style="display: none;"'; ?>>
+        <div class="col-12">
+          <?php if(isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger">
+              <?php 
+                echo htmlspecialchars($_SESSION['error']); 
+                unset($_SESSION['error']);
+              ?>
             </div>
-        <?php else: ?>
-            <span class="text-danger">Bạn không đủ điều kiện để kích hoạt, vui lòng xác thực gmail.</span>
-        <?php endif; ?>
+          <?php endif; ?>
+          <form method="POST" action="">
+            <div class="mb-2">
+              <label for="gmail" class="form-label">Cập nhật Gmail:</label>
+              <input type="email" class="form-control" id="gmail" name="gmail" 
+                     value="<?php echo htmlspecialchars($currentGmail ?: ''); ?>" required>
+            </div>
+            <div>
+              <button type="submit" class="btn btn-success">Lưu</button>
+              <button type="button" id="cancelEdit" class="btn btn-secondary">Hủy</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <hr>
+
+      <!-- Form sửa mô tả -->
+      <div class="row mt-3" id="update-desc-form" style="display: none;">
+        <div class="col-12">
+          <form method="POST" action="">
+            <div class="mb-2">
+              <label for="desc" class="form-label">Cập nhật mô tả bản thân:</label>
+              <textarea id="desc" name="desc" rows="4" class="form-control"
+                        placeholder="Nhập mô tả của bạn..." maxlength="255"><?php echo htmlspecialchars($userDesc); ?></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Lưu thay đổi</button>
+          </form>
+        </div>
+      </div>
+      <hr>
+
+      <!-- Kích hoạt 2FA -->
+      <div class="info-group row align-items-center">
+        <div class="col-6">
+          <form method="post">
+            <div class="form-check form-switch">
+              <label class="form-check-label" for="switch2fa">Kích hoạt 2FA:</label>
+              <?php if ($user['gmail'] !== null && $user['is_active'] == 1): ?>
+                <input class="form-check-input ms-2" type="checkbox" id="switch2fa"
+                       name="switch2fa" value="1" onchange="this.form.submit()" 
+                       <?php echo ($user['2fa'] == 1 ? 'checked' : ''); ?>>
+              <?php else: ?>
+                <span class="text-danger ms-2">Bạn không đủ điều kiện để kích hoạt, vui lòng xác thực gmail.</span>
+              <?php endif; ?>
+            </div>
+          </form>
+        </div>
+      </div>
+      <hr>
+
+      <!-- Đổi mật khẩu -->
+      <div class="info-group row align-items-center">
+        <div class="col-6">Đổi mật khẩu:</div>
+        <div class="col-6 text-end">
+          <a href="change_password.php" class="btn btn-danger">Click vào đây</a>
+        </div>
+      </div>
+      <hr>
+
+      <!-- Về trang chủ -->
+      <div class="row">
+        <div class="col text-center">
+          <button class="btn btn-primary" onclick="window.location.href='index.php'">Trang chủ</button>
+        </div>
+      </div>
     </div>
-</form>
-
-
-<div class="line"></div>
-        <!-- Đổi mật khẩu -->
-        <p>
-            <span>Đổi mật khẩu:</span>
-            <strong>
-                <a href="change_password.php" class="btn-red">Click vào đây</a>
-            </strong>
-        </p>
-        <div class="line"></div>
-        <button class="button" onclick="window.location.href='index.php'">Trang chủ</button>
-    </div>
-</div>
-
+  </div>
 </body>
 </html>
