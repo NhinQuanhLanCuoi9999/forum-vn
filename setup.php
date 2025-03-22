@@ -117,12 +117,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="text" id="name" name="name" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="hcaptcha_api_key" class="form-label">Hcaptcha API Key</label>
-                        <input type="text" id="hcaptcha_api_key" name="hcaptcha_api_key" class="form-control" required>
+                        <label for="turnstile_api_key" class="form-label">Turnstile API Key</label>
+                        <input type="text" id="turnstile_api_key" name="turnstile_api_key" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="hcaptcha_site_key" class="form-label">hCaptcha Site Key</label>
-                        <input type="text" id="hcaptcha_site_key" name="hcaptcha_site_key" class="form-control" required>
+                        <label for="turnstile_site_key" class="form-label">Turnstile Site Key</label>
+                        <input type="text" id="turnstile_site_key" name="turnstile_site_key" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="ipinfo_api_key" class="form-label">Ipinfo API Key</label>

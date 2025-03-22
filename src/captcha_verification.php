@@ -1,7 +1,5 @@
 <?php
-include('../app/_USERS_LOGIC/captcha/Auth.php');
-
-
+include '../app/_USERS_LOGIC/captcha/Auth.php';
 /*
 ##############################################################
 #                                                            #
@@ -17,9 +15,8 @@ License: GNU General Public License v3.0
 
 You are free to use, modify, and distribute this software under the terms of the GPL v3.  
 However, if you redistribute the source code, you must retain this license.  */
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -38,19 +35,22 @@ However, if you redistribute the source code, you must retain this license.  */
             <?php if (!empty($error)): ?>
                 <div class="error-message"><?php echo $error; ?></div>
             <?php endif; ?>
-            <?php if (!empty($successMessage)): ?>
-                <div class="success-message"><?php echo $successMessage; ?></div>
-            <?php endif; ?>
-            <form action="captcha_verification.php" method="POST">
+            <form action="" method="POST">
                 <div class="captcha-container">
-                <div class="h-captcha" data-sitekey="<?php echo htmlspecialchars($sitekey); ?>"></div>
+                    <div class="cf-turnstile" data-sitekey="<?php echo htmlspecialchars($sitekey); ?>" data-callback="onSuccess"></div>
                 </div>
-                <button type="submit" class="btn-submit">Xác minh</button>
+                <input type="hidden" name="cf-turnstile-response" id="cf-turnstile-response">
             </form>
         </div>
     </div>
 
-    <!-- Nhúng script hCaptcha -->
-    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    <!-- Nhúng script Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script>
+        function onSuccess(token) {
+            document.getElementById('cf-turnstile-response').value = token;
+            document.forms[0].submit();
+        }
+    </script>
 </body>
 </html>

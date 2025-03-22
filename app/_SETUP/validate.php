@@ -10,7 +10,7 @@ function getInstallationData($post) {
     // Danh sách các trường bắt buộc
     $required = [
        'host', 'user', 'admin_pass', 'title', 'name', 
-       'hcaptcha_api_key', 'hcaptcha_site_key', 'ipinfo_api_key', 
+       'turnstile_api_key', 'turnstile_site_key', 'ipinfo_api_key', 
        'account_smtp', 'password_smtp'
     ];
     foreach ($required as $field) {
@@ -42,8 +42,8 @@ function getInstallationData($post) {
     $data['admin_pass']         = password_hash($data['admin_pass_plain'], PASSWORD_BCRYPT);
     $data['title']              = trim($post['title']);
     $data['name']               = trim($post['name']);
-    $data['hcaptcha_api_key']   = trim($post['hcaptcha_api_key']);
-    $data['hcaptcha_site_key']  = trim($post['hcaptcha_site_key']);
+    $data['turnstile_api_key']   = trim($post['turnstile_api_key']);
+    $data['turnstile_site_key']  = trim($post['turnstile_site_key']);
     $data['ipinfo_api_key']     = trim($post['ipinfo_api_key']);
     $data['smtp_account']       = trim($post['account_smtp']);
     $data['smtp_password']      = trim($post['password_smtp']);

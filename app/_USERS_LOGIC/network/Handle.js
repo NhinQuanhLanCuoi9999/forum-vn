@@ -43,12 +43,6 @@ if (!apiKey) {
     // Bắt đầu đồng hồ đếm ngược
     const countdownInterval = setInterval(updateCountdown, 1000);
 
-    // Kiểm tra đăng nhập (giả định bằng biến isLoggedIn)
-    const isLoggedIn = true; // Thay đổi theo logic của bạn
-    if (!isLoggedIn) {
-        window.location.href = "index.php";
-    }
-
     // Ghi log IP
     function logIP(ip) {
         const currentTime = new Date().getTime();

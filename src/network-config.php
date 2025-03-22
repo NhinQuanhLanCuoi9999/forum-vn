@@ -26,26 +26,10 @@ if ($result->num_rows > 0) {
     <link rel="icon" href="/favicon.png" type="image/png">
     <link rel="stylesheet" type="text/css" href="/app/_USERS_LOGIC/network/styles.css">
     <style>
-        /* Style cho bảng kết quả đo mạng */
-        .network-test {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            display: inline-block;
-            vertical-align: top;
-        }
-        .network-test table {
-            border-collapse: collapse;
-        }
-        .network-test th, .network-test td {
-            border: 1px solid #ddd;
-            padding: 8px 12px;
-            text-align: center;
-        }
-        .network-test th {
-            background-color: #f4f4f4;
-        }
+        .network-test {margin-top: 20px;padding: 10px;border: 1px solid #ccc;border-radius: 8px;display: inline-block;vertical-align: top;}
+        .network-test table {border-collapse: collapse;}
+        .network-test th, .network-test td {border: 1px solid #ddd;padding: 8px 12px;text-align: center;}
+        .network-test th {background-color: #f4f4f4;}
     </style>
 </head>
 <body data-apikey="<?php echo htmlspecialchars($apiKey); ?>">
@@ -90,87 +74,7 @@ if ($result->num_rows > 0) {
 
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script src="/app/_USERS_LOGIC/network/Handle.js"></script>
-<script>
-async function measurePing(iterations = 5) {
-    const url = "/app/_USERS_LOGIC/network/mbps.dat?" + new Date().getTime(); // Tránh cache
-    let pings = [];
-
-    for (let i = 0; i < iterations; i++) {
-        let start = performance.now();
-        try {
-            await fetch(url, { method: "HEAD", cache: "no-store" });
-            let end = performance.now();
-            pings.push(end - start);
-        } catch {
-            pings.push(1000); // Nếu lỗi, gán ping cao
-        }
-    }
-
-    const avgPing = pings.reduce((sum, val) => sum + val, 0) / pings.length;
-    const jitter = pings.reduce((acc, ping) => acc + Math.abs(ping - avgPing), 0) / pings.length;
-
-    return { avgPing: avgPing.toFixed(2), jitter: jitter.toFixed(2) };
-}
-
-async function measureDownloadSpeed() {
-    return new Promise((resolve) => {
-        const fileUrl = "/app/_USERS_LOGIC/network/mbps.dat?" + new Date().getTime();
-        let totalBytes = 0;
-        let startTime = performance.now();
-        let fetchCount = 0;
-
-        async function fetchLoop() {
-            if (fetchCount >= 100) { // Chạy đúng 10 giây (100 lần)
-                let elapsed = (performance.now() - startTime) / 1000;
-                let speedMbps = (totalBytes * 8 / elapsed) / (1024 * 1024);
-                return resolve(speedMbps.toFixed(2));
-            }
-
-            try {
-                let response = await fetch(fileUrl, { cache: "no-store" });
-                let reader = response.body.getReader();
-                let done = false;
-
-                while (!done) {
-                    let { value, done: readerDone } = await reader.read();
-                    if (value) totalBytes += value.length;
-                    done = readerDone;
-                }
-            } catch (error) {
-                console.error("Lỗi khi tải:", error);
-            }
-
-            fetchCount++;
-            let elapsed = (performance.now() - startTime) / 1000;
-            let speedMbps = (totalBytes * 8 / elapsed) / (1024 * 1024);
-
-            document.getElementById("downloadResult").textContent = speedMbps.toFixed(2) + " Mbps";
-
-            setTimeout(fetchLoop, 100); // Lặp lại mỗi 100ms
-        }
-
-        fetchLoop();
-    });
-}
-
-async function runNetworkTests() {
-    const pingResultElem = document.getElementById("pingResult");
-    const jitterResultElem = document.getElementById("jitterResult");
-    const downloadResultElem = document.getElementById("downloadResult");
-
-    // Đo ping & jitter
-    const { avgPing, jitter } = await measurePing();
-    pingResultElem.textContent = avgPing + " ms";
-    jitterResultElem.textContent = jitter + " ms";
-
-    // Đo download speed real-time
-    downloadResultElem.textContent = "Đang đo...";
-    const downloadSpeed = await measureDownloadSpeed();
-    downloadResultElem.textContent = downloadSpeed + " Mbps";
-}
-
-window.addEventListener("load", runNetworkTests);
-</script>
+<script src="/app/_USERS_LOGIC/network/SpeedTest.js"></script>
 
 
 </body>
