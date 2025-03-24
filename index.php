@@ -27,20 +27,15 @@ However, if you redistribute the source code, you must retain this license.  */
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../asset/css/Poppins.css">
   <link rel="stylesheet" href="/asset/css/FontAwesome.min.css">
+  <link rel="stylesheet" href="/asset/css/Bootstrap.min.css">
   <title><?php echo htmlspecialchars($page_title); ?></title>
   <link rel="icon" href="/favicon.png" type="image/png">
   <link rel="stylesheet" type="text/css" href="app/_USERS_LOGIC/index/styles.css">
   <script src="app/_USERS_LOGIC/index/Toogle.js"></script>
   <script src="app/_USERS_LOGIC/index/Refersh.js"></script>
   <script src="app/_USERS_LOGIC/index/Spoil.js"></script>
-  <style>
- .fixed-buttons{position:sticky;top:0;background:#fff;padding:10px;display:flex;align-items:center;gap:10px;border-top:1px solid #ccc;margin-top:10px;z-index:500}
- .fixed-buttons button,.fixed-buttons .search{padding:8px 12px;background-color:#f8f8f8;border:none;border-radius:5px;box-shadow:0 2px 4px rgba(0,0,0,0.1);transition:background-color .3s ease;cursor:pointer}
- .fixed-buttons button:hover,.fixed-buttons .search:hover{background-color:#e0e0e0}
- .dropdown-content{display:none;position:absolute;background-color:#fff;min-width:160px;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:1000;top:45px;left:0}
- .dropdown-content a{display:block;padding:8px 12px;text-decoration:none;color:#333}
- .dropdown-content a:hover{background-color:#f1f1f1}
-  </style>
+  <script src="/asset/js/Bootstrap.bundle.min.js"></script>
+
 </head>
 <body>
   <div id="mobile-warning">
@@ -48,6 +43,27 @@ However, if you redistribute the source code, you must retain this license.  */
   </div>
   <script src="app/_USERS_LOGIC/index/Size.js"></script>
   <div class="container">
+ <?php if (!empty($misc_name)) :    ?>
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="alertModalLabel">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?= $misc_name; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeAlert()">Đóng trong 2 giờ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app/_USERS_LOGIC/index/Alert.js"></script>
+<?php endif; ?>
+
+
     <h1 class="text-center mb-4 fade-in"><?php echo htmlspecialchars($forum_name); ?></h1>
 
     <?php if (!isset($_SESSION['username'])): ?>
@@ -87,37 +103,7 @@ However, if you redistribute the source code, you must retain this license.  */
   </div>
 </form>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const agreeCheckbox = document.getElementById('agreeCheckbox');
-  const registerBtn = document.getElementById('registerBtn');
-  const registrationForm = document.getElementById('register-form');
-
-  if (!agreeCheckbox || !registerBtn || !registrationForm) {
-    console.error("❌ Missing element(s) in the form!");
-    return;
-  }
-
-  function toggleSubmitButton() {
-    registerBtn.disabled = !agreeCheckbox.checked;
-    registerBtn.style.backgroundColor = agreeCheckbox.checked ? '#4CAF50' : '#9e9e9e';
-  }
-
-  // Gán sự kiện cho checkbox
-  agreeCheckbox.addEventListener('change', toggleSubmitButton);
-
-  // Kiểm tra trạng thái trước khi submit
-  registrationForm.addEventListener('submit', function(event) {
-    if (!agreeCheckbox.checked) {
-      event.preventDefault();
-      alert("Bạn chưa tick vào checkbox.");
-    }
-  });
-
-  // Thiết lập trạng thái ban đầu của nút đăng ký
-  toggleSubmitButton();
-});
-</script>
+<script src="app/_USERS_LOGIC/index/checkBox.js"></script>
 
         <?php if (isset($_SESSION['error'])): ?>
           <div class="error"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
