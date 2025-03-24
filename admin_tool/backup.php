@@ -65,7 +65,7 @@ However, if you redistribute the source code, you must retain this license.  */
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Hệ thống Backup & Import Database [BETA]</title>
+  <title>Hệ thống Backup & Import Database</title>
   <link rel="stylesheet" href="/asset/css/Bootstrap.min.css">
   <link href="/asset/css/Poppins.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/app/backup/style.css">

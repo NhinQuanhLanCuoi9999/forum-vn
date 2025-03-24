@@ -7,6 +7,11 @@ namespace Composer\Autoload;
 class ComposerStaticInit2185d2f99bcd56787481d9357a5972d3
 {
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Component\\Process\\' => 26,
+            'Spatie\\DbDumper\\' => 16,
+        ),
         'P' => 
         array (
             'Pc\\App\\' => 7,
@@ -15,6 +20,14 @@ class ComposerStaticInit2185d2f99bcd56787481d9357a5972d3
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Component\\Process\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/process',
+        ),
+        'Spatie\\DbDumper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/db-dumper/src',
+        ),
         'Pc\\App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',

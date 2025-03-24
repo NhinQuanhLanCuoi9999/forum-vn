@@ -43,7 +43,7 @@ However, if you redistribute the source code, you must retain this license.  */
   </div>
   <script src="app/_USERS_LOGIC/index/Size.js"></script>
   <div class="container">
- <?php if (!empty($misc_name)) :    ?>
+  <?php if (!empty($misc_name)) :    ?>
     <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
