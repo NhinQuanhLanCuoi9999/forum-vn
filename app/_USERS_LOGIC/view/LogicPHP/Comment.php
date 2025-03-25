@@ -50,8 +50,8 @@ if (isset($_GET['id'])) {
         // Kiểm tra nếu nội dung bình luận bị rỗng hoặc toàn khoảng trắng
         if (empty($content) || preg_match('/^\s*$/', $content)) {
             $_SESSION['error'] = "Bình luận không được để trống hoặc chỉ chứa khoảng trắng!";
-        } elseif (strlen($content) > 222) {
-            $_SESSION['error'] = "Bình luận không được vượt quá 222 ký tự!";
+        } elseif (strlen($content) > 2048) {
+            $_SESSION['error'] = "Bình luận không được vượt quá 2048 ký tự!";
         } else {
             // Định dạng nội dung bình luận
             $formatted_content = htmlspecialchars($content, ENT_QUOTES, 'UTF-8');

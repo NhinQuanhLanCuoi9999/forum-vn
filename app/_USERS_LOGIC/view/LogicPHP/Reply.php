@@ -1,5 +1,6 @@
 <?php
 include_once 'RateLimit.php';
+
 // Xử lý xóa reply nếu được chủ sở hữu yêu cầu
 if (isset($_GET['delete_reply'])) {
     $replyId = intval($_GET['delete_reply']);
@@ -15,7 +16,7 @@ if (isset($_GET['delete_reply'])) {
         $stmt->execute();
         $stmt->close();
     }
-    
+
     $postId = isset($_GET['id']) ? intval($_GET['id']) : 0;
     header("Location: view.php?id=" . $postId);
     exit;
@@ -43,6 +44,13 @@ if (isset($_POST['submit_reply'])) {
 
     if (empty($reply_content)) {
         $_SESSION['error'] = 'Nội dung trả lời không được để trống đâu, viết chút đi!';
+        header("Location: view.php?id=" . $postId);
+        exit;
+    }
+
+    // Kiểm tra giới hạn 2048 ký tự
+    if (mb_strlen($reply_content, 'UTF-8') > 2048) {
+        $_SESSION['error'] = 'Reply không được vượt quá 2048 ký tự, viết ngắn gọn chút nhé!';
         header("Location: view.php?id=" . $postId);
         exit;
     }

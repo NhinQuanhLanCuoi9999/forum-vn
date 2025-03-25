@@ -56,8 +56,11 @@ if (!isset($_SESSION['username'])) {
     <div class="mt-3">
       <a href="index.php" class="btn btn-primary">Về trang chủ</a>
     </div>
+    <div class="post-wrapper">
     <h2><?php echo htmlspecialchars($post['content'], ENT_QUOTES, 'UTF-8'); ?></h2>
     <p><strong>Mô tả:</strong> <?php echo htmlspecialchars($post['description'], ENT_QUOTES, 'UTF-8'); ?></p>
+</div>
+
     <p><strong>Tác giả:</strong> <?php echo htmlspecialchars($post['username'], ENT_QUOTES, 'UTF-8'); ?></p>
     <p><strong>Ngày tạo:</strong> <?php echo htmlspecialchars($post['created_at'], ENT_QUOTES, 'UTF-8'); ?></p>
     <?php if ($post['file']): ?>

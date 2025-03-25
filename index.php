@@ -31,9 +31,10 @@ However, if you redistribute the source code, you must retain this license.  */
   <title><?php echo htmlspecialchars($page_title); ?></title>
   <link rel="icon" href="/favicon.png" type="image/png">
   <link rel="stylesheet" type="text/css" href="app/_USERS_LOGIC/index/styles.css">
-  <script src="app/_USERS_LOGIC/index/Toogle.js"></script>
-  <script src="app/_USERS_LOGIC/index/Refersh.js"></script>
-  <script src="app/_USERS_LOGIC/index/Spoil.js"></script>
+  <script src="app/_USERS_LOGIC/index/js/Toogle.js"></script>
+  <script src="app/_USERS_LOGIC/index/js/Refersh.js"></script>
+  <script src="app/_USERS_LOGIC/index/js/Spoil.js"></script>
+  <script src="app/_USERS_LOGIC/index/js/TextScale.js"></script>
   <script src="/asset/js/Bootstrap.bundle.min.js"></script>
 
 </head>
@@ -41,7 +42,7 @@ However, if you redistribute the source code, you must retain this license.  */
   <div id="mobile-warning">
     Vui lòng bật chế độ xem trên máy tính
   </div>
-  <script src="app/_USERS_LOGIC/index/Size.js"></script>
+  <script src="app/_USERS_LOGIC/index/js/Size.js"></script>
   <div class="container">
   <?php if (!empty($misc_name)) :    ?>
     <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
@@ -60,7 +61,7 @@ However, if you redistribute the source code, you must retain this license.  */
             </div>
         </div>
     </div>
-    <script src="app/_USERS_LOGIC/index/Alert.js"></script>
+    <script src="app/_USERS_LOGIC/index/js/Alert.js"></script>
 <?php endif; ?>
 
 
@@ -93,7 +94,7 @@ However, if you redistribute the source code, you must retain this license.  */
   <label>
     <!-- Đã xóa inline onclick -->
     <input type="checkbox" id="agreeCheckbox"> 
-    Bằng cách nhấn, bạn đồng ý <a href="/docs/tos.html" target="_blank"><strong>Điều khoản dịch vụ</strong></a>
+    Bằng cách nhấn vào nút này, bạn đồng ý <a href="/docs/tos.html" target="_blank"><strong>Điều khoản dịch vụ</strong> của chúng tôi.</a>
   </label>
   <button type="submit" name="register" id="registerBtn" disabled style="background-color: #9e9e9e;">Đăng ký</button>
   <p>Đã có tài khoản? <span class="toggle-link" style="color: red;" onclick="toggleForms()">Đăng nhập</span></p>
@@ -103,7 +104,7 @@ However, if you redistribute the source code, you must retain this license.  */
   </div>
 </form>
 
-<script src="app/_USERS_LOGIC/index/checkBox.js"></script>
+<script src="app/_USERS_LOGIC/index/js/checkBox.js"></script>
 
         <?php if (isset($_SESSION['error'])): ?>
           <div class="error"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
@@ -125,8 +126,17 @@ However, if you redistribute the source code, you must retain this license.  */
         <?php if (isset($_SESSION['success'])): ?>
           <div style="color: green;"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
         <?php endif; ?>
-        <textarea name="content" placeholder="Nội dung bài viết" required maxlength="200"></textarea>
-        <input type="text" name="description" placeholder="Mô tả ngắn" required maxlength="500">
+<!-- Ô nhập giới hạn 222 ký tự -->
+<div id="postContent" contenteditable="true" class="editable-input" placeholder="Nội dung bài viết (222 ký tự)"></div>
+<input type="hidden" name="content" id="hiddenInput">
+<p id="charCount">0/222</p>
+
+<!-- Ô nhập giới hạn 500 ký tự -->
+<div id="postDescription" contenteditable="true" class="editable-input" placeholder="Mô tả ngắn (500 ký tự)"></div>
+<input type="hidden" name="description" id="hiddenDescription">
+<p id="descCharCount">0/500</p>
+
+
         <label for="file">Chọn tệp để tải lên:</label>
         <input type="file" name="file" id="file">
         <input type="hidden" name="csrf_token2" value="<?php echo $_SESSION['csrf_token2']; ?>">
@@ -151,8 +161,11 @@ However, if you redistribute the source code, you must retain this license.  */
     <?php if ($posts->num_rows > 0): ?>
       <?php while ($post = $posts->fetch_assoc()): ?>
         <div class="post">
-          <h3><?php echo htmlspecialchars($post['content']); ?></h3>
-          <p><?php echo htmlspecialchars($post['description']); ?></p>
+        <div class="post-container">
+    <h3><?php echo htmlspecialchars($post['content']); ?></h3>
+    <p><?php echo htmlspecialchars($post['description']); ?></p>
+</div>
+
           <?php if (!empty($post['file'])): ?>
             <p>Tệp đính kèm: 
               <a href="uploads/<?php echo rawurlencode(basename($post['file'])); ?>" 
@@ -192,6 +205,6 @@ However, if you redistribute the source code, you must retain this license.  */
       <p class="no-posts">Chưa có bài viết nào.</p> <br> <br>
     <?php endif; ?>
   </div>
-  <script src="app/_USERS_LOGIC/index/taskBar.js"></script>
+  <script src="app/_USERS_LOGIC/index/js/taskBar.js"></script>
 </body>
 </html>
