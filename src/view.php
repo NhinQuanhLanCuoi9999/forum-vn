@@ -41,11 +41,13 @@ if (!isset($_SESSION['username'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>View Post</title>
+  <title><?php echo htmlspecialchars($post['content'], ENT_QUOTES, 'UTF-8'); ?></title>
+  <meta name="description" content="<?php echo htmlspecialchars($post['description'], ENT_QUOTES, 'UTF-8'); ?>">
   <link rel="stylesheet" href="../asset/css/Poppins.css">
   <link rel="stylesheet" href="../asset/css/Bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="../app/_USERS_LOGIC/view/styles.css">
 </head>
+
 <body>
 <div class="container">
   <h1>Bài viết</h1>
