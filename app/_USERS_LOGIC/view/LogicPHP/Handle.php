@@ -1,5 +1,4 @@
 <?php
-include_once 'badWord.php';
 
 // Kiểm tra CSRF token (Bảo vệ chống CSRF)
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_comment'])) {
@@ -27,12 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_comment'])) {
         exit();
     }
 
-    // Kiểm tra từ cấm
-    if (containsBadWords($newContent)) {
-        $_SESSION['error'] = "Bình luận không được chứa từ cấm!";
-        header("Location: view.php?id=$postId");
-        exit();
-    }
+
 
     // Kiểm tra nếu người dùng là chủ của bình luận
     $sql = "SELECT * FROM comments WHERE id = ? AND username = ?";

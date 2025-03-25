@@ -7,8 +7,6 @@ ErrorDocument 404 /404.php
 # Tắt hiển thị danh sách thư mục
 Options -Indexes
 
-# Ngăn chặn truy cập vào file badwords.txt
-RewriteRule ^badwords\.txt$ /404.php [L]
 
 # Điều kiện: Kiểm tra xem URL có thư mục lặp lại hay không
 RewriteCond %{REQUEST_URI} ^/([^/]+)/\1/(.*)$

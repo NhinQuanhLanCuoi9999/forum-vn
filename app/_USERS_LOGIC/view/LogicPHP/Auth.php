@@ -1,6 +1,5 @@
 <?php
 include '../app/_USERS_LOGIC/view/LogicPHP/Auth2.php';
-include 'badWord.php';
 
 // Kiểm tra nếu có id trong URL
 if (isset($_GET['id'])) {
@@ -45,9 +44,7 @@ if (isset($_GET['id'])) {
             $_SESSION['error'] = "Bình luận không được để trống hoặc chỉ chứa khoảng trắng!";
         } elseif (strlen($content) > 222) {
             $_SESSION['error'] = "Bình luận không được vượt quá 222 ký tự!";
-        } elseif (containsBadWords($content)) {
-            $_SESSION['error'] = "Nội dung không phù hợp, vui lòng kiểm tra lại.";
-        } else {
+        }  else {
             // Định dạng nội dung bình luận
             $formatted_content = htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
 

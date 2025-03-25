@@ -33,13 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post'])) {
         $hasError = true;
     }
 
-    // Kiểm tra từ cấm
-    if ((!empty($content) && containsBadWords($content)) || 
-        (!empty($description) && containsBadWords($description))) {
-        $errorMessages[] = "❌ Nội dung không phù hợp, vui lòng kiểm tra lại.";
-        $hasError = true;
-    }
-
     // Kiểm tra cooldown 10 phút
     if (isset($_SESSION['post_cooldown'])) {
         $remaining_time = $_SESSION['post_cooldown'] - time();
