@@ -1,22 +1,22 @@
 <?php
 function checkRateLimit($postId) {
-    // Khởi tạo block_time nếu chưa tồn tại
-    if (!isset($_SESSION['block_time'])) {
-        $_SESSION['block_time'] = time();
+    // Bắt đầu session nếu chưa có
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
     }
 
-    // Kiểm tra nếu đã qua 5 phút kể từ block_time -> Reset count & block_time
-    if (time() - $_SESSION['block_time'] >= 5 * 60) {
+    // Kiểm tra nếu block_time không tồn tại hoặc đã qua 5 phút thì reset count
+    if (!isset($_SESSION['block_time']) || (time() - $_SESSION['block_time'] >= 5 * 60)) {
         $_SESSION['count'] = 0;
-        $_SESSION['block_time'] = time(); // Reset lại thời gian bắt đầu
+        $_SESSION['block_time'] = time(); // Cập nhật lại thời gian block
     }
 
-    // Khởi tạo count nếu chưa tồn tại
+    // Khởi tạo count nếu chưa có
     if (!isset($_SESSION['count'])) {
         $_SESSION['count'] = 0;
     }
 
-    // Nếu đã bị chặn
+    // Nếu đã vượt quá giới hạn thao tác
     if ($_SESSION['count'] >= 5) {
         $remaining = max(0, (5 * 60) - (time() - $_SESSION['block_time']));
         $minutes = floor($remaining / 60);
@@ -29,11 +29,8 @@ function checkRateLimit($postId) {
         exit();
     }
 
-    // Nếu chưa bị chặn, tăng số lần thao tác và cập nhật block_time
+    // Nếu chưa bị chặn, tăng số lần thao tác
     $_SESSION['count']++;
-    if ($_SESSION['count'] < 5) {
-        $_SESSION['block_time'] = time();
-    }
 }
 
 ?>

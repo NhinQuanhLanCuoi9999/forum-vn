@@ -2,7 +2,7 @@ document.addEventListener("input", function (e) {
     let target = e.target;
 
     if (target.classList.contains("editable-input")) {
-        let maxLength = target.id === "postContent" ? 222 : 500;
+        let maxLength = target.id === "postContent" ? 500 : 4096;
         let hiddenInput = target.id === "postContent" ? 
             document.getElementById("hiddenInput") : 
             document.getElementById("hiddenDescription");

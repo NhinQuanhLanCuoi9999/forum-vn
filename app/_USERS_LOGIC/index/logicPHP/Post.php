@@ -15,21 +15,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post'])) {
     $username = $_SESSION['username'];
     $ip_address = $_SERVER['REMOTE_ADDR'];
 
-    // Kiểm tra content (không rỗng, tối đa 222 ký tự)
+    // Kiểm tra content (không rỗng, tối đa 500 ký tự)
     if (empty($content)) {
         $errorMessages[] = "❌ Lỗi: Nội dung không được để trống.";
         $hasError = true;
-    } elseif (strlen($content) > 222) {
-        $errorMessages[] = "❌ Lỗi: Nội dung không được quá 222 ký tự (Hiện tại: " . strlen($content) . ").";
+    } elseif (strlen($content) > 500) {
+        $errorMessages[] = "❌ Lỗi: Nội dung không được quá 500 ký tự (Hiện tại: " . strlen($content) . ").";
         $hasError = true;
     }
 
-    // Kiểm tra description (không rỗng, tối đa 525 ký tự)
+    // Kiểm tra description (không rỗng, tối đa 4096 ký tự)
     if (empty($description)) {
         $errorMessages[] = "❌ Lỗi: Mô tả không được để trống.";
         $hasError = true;
-    } elseif (strlen($description) > 525) {
-        $errorMessages[] = "❌ Lỗi: Mô tả không được quá 525 ký tự (Hiện tại: " . strlen($description) . ").";
+    } elseif (strlen($description) > 4096) {
+        $errorMessages[] = "❌ Lỗi: Mô tả không được quá 4096 ký tự (Hiện tại: " . strlen($description) . ").";
         $hasError = true;
     }
 

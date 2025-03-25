@@ -126,15 +126,15 @@ However, if you redistribute the source code, you must retain this license.  */
         <?php if (isset($_SESSION['success'])): ?>
           <div style="color: green;"><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
         <?php endif; ?>
-<!-- Ô nhập giới hạn 222 ký tự -->
-<div id="postContent" contenteditable="true" class="editable-input" placeholder="Nội dung bài viết (222 ký tự)"></div>
-<input type="hidden" name="content" id="hiddenInput">
-<p id="charCount">0/222</p>
-
 <!-- Ô nhập giới hạn 500 ký tự -->
-<div id="postDescription" contenteditable="true" class="editable-input" placeholder="Mô tả ngắn (500 ký tự)"></div>
+<div id="postContent" contenteditable="true" class="editable-input" placeholder="Nội dung bài viết"></div>
+<input type="hidden" name="content" id="hiddenInput">
+<p id="charCount">0/500</p>
+
+<!-- Ô nhập giới hạn 4096 ký tự -->
+<div id="postDescription" contenteditable="true" class="editable-input" placeholder="Mô tả ngắn"></div>
 <input type="hidden" name="description" id="hiddenDescription">
-<p id="descCharCount">0/500</p>
+<p id="descCharCount">0/4096</p>
 
 
         <label for="file">Chọn tệp để tải lên:</label>
