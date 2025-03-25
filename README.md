@@ -1,6 +1,6 @@
 ## Cách cài đặt
 
-1. Chạy Laragon và khởi động Apache/MySQL.
+1. Chạy Laragon/XAMPP và khởi động Apache/MySQL.
 2. Sử dụng lệnh `git clone` để sao chép repository này về, sau đó di chuyển vào thư mục host Apache của server bạn.
 
 ### Cách chạy
