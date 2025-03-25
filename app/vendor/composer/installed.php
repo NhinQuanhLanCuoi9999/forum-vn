@@ -3,7 +3,7 @@
         'name' => 'pc/app',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '1b3c5c114e07356bd3ca0b6bf912ed0b776a737a',
+        'reference' => '2fd17ba70a1533bd9e7ed6c572ec1ea574fb3c53',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'pc/app' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '1b3c5c114e07356bd3ca0b6bf912ed0b776a737a',
+            'reference' => '2fd17ba70a1533bd9e7ed6c572ec1ea574fb3c53',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

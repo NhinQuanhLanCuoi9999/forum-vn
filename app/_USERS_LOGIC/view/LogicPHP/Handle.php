@@ -1,16 +1,27 @@
 <?php
+include_once 'RateLimit.php';
 
-// Kiểm tra CSRF token (Bảo vệ chống CSRF)
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_comment'])) {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("Invalid CSRF Token");
+
+    $postId = intval($_GET['id']); // Lấy ID bài viết để redirect
+
+    // Gọi hàm kiểm tra rate limit (định nghĩa trong RateLimit.php)
+    checkRateLimit($postId);
+
+    // Kiểm tra CSRF token (cải tiến: regenerate sau mỗi request)
+    if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        echo "<script>
+                alert('Invalid CSRF Token');
+                window.location.href='view.php?id=$postId';
+              </script>";
         exit();
     }
+    // Regenerate token mới cho lần request tiếp theo
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
     // Lấy dữ liệu từ form
     $commentId = $_POST['comment_id'];
     $newContent = trim($_POST['comment_content']);
-    $postId = $_GET['id'];  
 
     // Kiểm tra nếu nội dung rỗng hoặc chỉ toàn khoảng trắng
     if (empty($newContent) || preg_match('/^\s*$/', $newContent)) {
@@ -25,8 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_comment'])) {
         header("Location: view.php?id=$postId");
         exit();
     }
-
-
 
     // Kiểm tra nếu người dùng là chủ của bình luận
     $sql = "SELECT * FROM comments WHERE id = ? AND username = ?";

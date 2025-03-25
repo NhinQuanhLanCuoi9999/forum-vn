@@ -1,5 +1,7 @@
 <?php
-include '../app/_USERS_LOGIC/view/LogicPHP/Auth2.php';
+include '../app/_USERS_LOGIC/view/LogicPHP/Comment2.php';
+include_once 'RateLimit.php';
+
 
 // Kiểm tra nếu có id trong URL
 if (isset($_GET['id'])) {
@@ -33,9 +35,15 @@ if (isset($_GET['id'])) {
         $content = trim($_POST['comment']);
         $post_id = $postId;
 
+        // Gọi hàm kiểm tra rate limit (được định nghĩa trong RateLimit.php)
+        checkRateLimit($postId);
+
         // Kiểm tra CSRF token
         if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-            die("Invalid CSRF Token");
+            echo "<script>
+                    alert('Invalid CSRF Token');
+                    window.location.href='view.php?id=$postId';
+                  </script>";
             exit();
         }
 
@@ -44,7 +52,7 @@ if (isset($_GET['id'])) {
             $_SESSION['error'] = "Bình luận không được để trống hoặc chỉ chứa khoảng trắng!";
         } elseif (strlen($content) > 222) {
             $_SESSION['error'] = "Bình luận không được vượt quá 222 ký tự!";
-        }  else {
+        } else {
             // Định dạng nội dung bình luận
             $formatted_content = htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
 
