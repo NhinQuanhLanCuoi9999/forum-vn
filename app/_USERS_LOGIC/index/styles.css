@@ -2,7 +2,8 @@ body{font-family:'Poppins',sans-serif;background:linear-gradient(90deg,lavender,
 
 h1,h2{color:#333;text-shadow:2px 2px 5px rgba(0,0,0,.3);text-transform:uppercase}
 
-.container{width:95%;margin:auto;overflow:hidden;border:2px solid #ddd;padding:20px;background:rgba(255,255,255,.9);border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.2)}
+.container{width:100vw;max-width:100%;margin:0;padding:20px;border:2px solid #ddd;background:rgba(255,255,255,0.9);border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.2)}
+
 
 form{background:#fff;padding:30px;margin:30px 0;border-radius:10px;box-shadow:0 0 15px rgba(0,0,0,.2)}
 
