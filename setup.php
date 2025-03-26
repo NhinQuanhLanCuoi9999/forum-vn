@@ -7,11 +7,6 @@ if (file_exists('config.php')) {
     exit;
 }
 
-// Tạo token CSRF nếu chưa có
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    header("Refresh: 0");
-}
 
 // Load autoload của Composer
 require 'app/vendor/autoload.php';
@@ -19,7 +14,14 @@ require 'app/vendor/autoload.php';
 // Nếu gửi form POST, xử lý cài đặt
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // File validate.php sẽ kiểm tra CSRF và validate input
+
+    // Kiểm tra xác nhận mật khẩu admin
+    if (!isset($_POST['admin_pass'], $_POST['admin_pass_confirm']) || $_POST['admin_pass'] !== $_POST['admin_pass_confirm']) {
+        echo "<script>alert('Mật khẩu admin không khớp. Vui lòng nhập lại từ đầu.'); window.location.href = window.location.href;</script>";
+        exit;
+    }
+
+    // File validate.php sẽ kiểm tra validate input
     require 'app/_SETUP/validate.php';
     $data = getInstallationData($_POST);
     
@@ -49,8 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -68,8 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="card-body">
             <h3 class="text-center mb-4 fade-in">Cấu hình CSDL</h3>
             <form method="POST">
-                <!-- Thêm token bảo vệ CSRF -->
-                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                 <!-- Bước 1: Cấu hình cơ sở dữ liệu -->
                 <div class="step" id="step-1">
                     <div class="mb-3">
@@ -81,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="text" id="user" name="user" class="form-control" value="root" required>
                     </div>
                     <div class="mb-3">
-                        <label for="pass" class="form-label">Tên cơ sở dữ liệu</label>
+                        <label for="database" class="form-label">Tên cơ sở dữ liệu</label>
                         <input type="text" id="database" name="database" class="form-control">
                     </div>
                     <div class="mb-3">
@@ -98,6 +96,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="mb-3">
                         <label for="admin_pass" class="form-label">Mật khẩu Admin</label>
                         <input type="password" id="admin_pass" name="admin_pass" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="admin_pass_confirm" class="form-label">Nhập lại mật khẩu Admin</label>
+                        <input type="password" id="admin_pass_confirm" name="admin_pass_confirm" class="form-control" required>
                     </div>
                     <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary prev-step">Quay lại</button>
@@ -157,9 +159,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="../asset/js/jquery.min.js"></script>
     <script src="../asset/js/Bootstrap.bundle.min.js"></script>
     <script>
-        $(document).ready(function() {let currentStep = 1;const totalSteps = $(".step").length;function showStep(step) {$(".step").addClass("d-none");$("#step-" + step).removeClass("d-none").addClass("fade-in");}
-            $(".next-step").click(function() {if (currentStep < totalSteps) {currentStep++;showStep(currentStep);}});
-            $(".prev-step").click(function() {if (currentStep > 1) {currentStep--;showStep(currentStep);}});showStep(currentStep);});
+        $(document).ready(function() {
+            let currentStep = 1;
+            const totalSteps = $(".step").length;
+            function showStep(step) {
+                $(".step").addClass("d-none");
+                $("#step-" + step).removeClass("d-none").addClass("fade-in");
+            }
+            $(".next-step").click(function() {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            });
+            $(".prev-step").click(function() {
+                if (currentStep > 1) {
+                    currentStep--;
+                    showStep(currentStep);
+                }
+            });
+            showStep(currentStep);
+        });
     </script>
 </body>
 </html>

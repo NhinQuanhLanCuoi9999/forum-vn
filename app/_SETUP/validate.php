@@ -1,11 +1,6 @@
 <?php
 function getInstallationData($post) {
-    // Kiểm tra CSRF token
-    if (!isset($post['csrf_token']) || !isset($_SESSION['csrf_token']) || $post['csrf_token'] !== $_SESSION['csrf_token']) {
-        exit('Yêu cầu không hợp lệ.');
-    }
-    // Xóa token sau khi dùng
-    unset($_SESSION['csrf_token']);
+   
 
     // Danh sách các trường bắt buộc
     $required = [
