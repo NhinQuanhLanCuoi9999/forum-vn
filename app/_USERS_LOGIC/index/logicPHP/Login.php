@@ -47,6 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
             // Reset số lần thử đăng nhập
             $_SESSION['failed_attempts'] = 0;
 
+            // Cập nhật thời gian đăng nhập cuối cùng
+            $update_stmt = $conn->prepare("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE username = ?");
+            $update_stmt->bind_param("s", $username);
+            $update_stmt->execute();
+            $update_stmt->close();
+
             // Log hành động
             logAction("Đăng nhập thành công: $username");
 

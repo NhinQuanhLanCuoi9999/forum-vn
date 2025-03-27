@@ -5,4 +5,5 @@ if (!isset($_SESSION['captcha_verified'])) {
     header("Location: ../src/captcha_verification.php"); // Chuyển hướng đến trang xác thực captcha
     exit();
 }
+
 ?>

@@ -14,11 +14,11 @@ if (isset($_GET['id'])) {
     $result = $stmt->get_result();
     $post = $result->fetch_assoc();
 
-    // Nếu bài viết không tồn tại
-    if (!$post) {
-        echo "Bài viết không tồn tại.";
-        exit;
-    }
+// Nếu bài viết không tồn tại
+if (!$post) {
+    $error_message = "Bài viết không tồn tại. Có thể bài viết đã bị xóa hoặc bạn nhập sai đường dẫn.";
+}
+
 
     // Lấy danh sách bình luận của bài viết
     $stmt_comments = $conn->prepare("SELECT * FROM comments WHERE post_id = ? ORDER BY created_at DESC");
@@ -28,7 +28,8 @@ if (isset($_GET['id'])) {
 
     // Kiểm tra nếu người dùng đã đăng nhập
     $isLoggedIn = isset($_SESSION['username']);
-    $isOwner = $isLoggedIn && $_SESSION['username'] === $post['username']; // Kiểm tra nếu người dùng là chủ bài đăng
+    $isOwner = $isLoggedIn && isset($post['username']) && $_SESSION['username'] === $post['username'];
+
 
     // Thêm bình luận
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['comment'])) {

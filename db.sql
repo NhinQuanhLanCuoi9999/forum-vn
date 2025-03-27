@@ -4,11 +4,12 @@ CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     gmail VARCHAR(255) NULL UNIQUE,
-    is_active CHAR(1) DEFAULT '0', -- 1 là đã active , 0 là chưa
+    is_active CHAR(1) DEFAULT '0', -- 1 là đã active, 0 là chưa
     2fa CHAR(1) DEFAULT '0',
     description TEXT,
     role VARCHAR(20) DEFAULT 'member',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Mặc định là lúc tạo tài khoản
 );
 
 -- Bảng posts

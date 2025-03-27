@@ -18,13 +18,15 @@ if (isset($_GET['delete_reply'])) {
     }
 
     $postId = isset($_GET['id']) ? intval($_GET['id']) : 0;
-    header("Location: view.php?id=" . $postId);
+    $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+    header("Location: view.php?id=" . $postId . "&page=" . $page);
     exit;
 }
 
 // Xử lý khi gửi reply (trả lời bình luận)
 if (isset($_POST['submit_reply'])) {
     $postId = intval($_GET['id']); // Lấy ID bài viết để redirect
+    $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 
     // Gọi hàm kiểm tra rate limit
     checkRateLimit($postId);
@@ -32,7 +34,7 @@ if (isset($_POST['submit_reply'])) {
     // Kiểm tra CSRF token
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         $_SESSION['error'] = 'CSRF token không hợp lệ, đừng hack nhé!';
-        header("Location: view.php?id=" . $postId);
+        header("Location: view.php?id=" . $postId . "&page=" . $page);
         exit;
     }
     // Regenerate token mới sau mỗi request
@@ -44,14 +46,14 @@ if (isset($_POST['submit_reply'])) {
 
     if (empty($reply_content)) {
         $_SESSION['error'] = 'Nội dung trả lời không được để trống đâu, viết chút đi!';
-        header("Location: view.php?id=" . $postId);
+        header("Location: view.php?id=" . $postId . "&page=" . $page);
         exit;
     }
 
     // Kiểm tra giới hạn 2048 ký tự
     if (mb_strlen($reply_content, 'UTF-8') > 2048) {
         $_SESSION['error'] = 'Reply không được vượt quá 2048 ký tự, viết ngắn gọn chút nhé!';
-        header("Location: view.php?id=" . $postId);
+        header("Location: view.php?id=" . $postId . "&page=" . $page);
         exit;
     }
 
@@ -61,7 +63,7 @@ if (isset($_POST['submit_reply'])) {
     $stmt->execute();
     if (!$stmt->get_result()->fetch_assoc()) {
         $_SESSION['error'] = 'Bình luận không tồn tại!';
-        header("Location: view.php?id=" . $postId);
+        header("Location: view.php?id=" . $postId . "&page=" . $page);
         exit;
     }
     $stmt->close();
@@ -72,7 +74,7 @@ if (isset($_POST['submit_reply'])) {
     $stmt->execute();
     $stmt->close();
 
-    header("Location: view.php?id=" . $postId);
+    header("Location: view.php?id=" . $postId . "&page=" . $page);
     exit;
 }
 ?>

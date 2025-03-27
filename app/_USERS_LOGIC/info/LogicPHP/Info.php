@@ -7,9 +7,11 @@ $username = $_SESSION['username'] ?? null;
 $userId = null;
 $createdAt = null;
 $userDesc = '';
+$userRole = 'Không xác định';
+$lastLogin = null; // Khởi tạo biến last_login
 
 if ($username) {
-    $query = "SELECT id, created_at, role , description FROM users WHERE username = ?";
+    $query = "SELECT id, created_at, role, description, last_login FROM users WHERE username = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -20,7 +22,8 @@ if ($username) {
         $userId = $row['id'] ?? null;
         $createdAt = $row['created_at'] ?? null;
         $userDesc = $row['description'] ?? '';
-        $userRole= $row['role'] ?? 'Không xác định';
+        $userRole = $row['role'] ?? 'Không xác định';
+        $lastLogin = $row['last_login'] ?? null; // Lấy giá trị last_login từ DB
     }
     $stmt->close();
 }

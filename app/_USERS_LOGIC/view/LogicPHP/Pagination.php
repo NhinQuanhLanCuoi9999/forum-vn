@@ -26,5 +26,6 @@ $post = $postQuery->fetch_assoc();
 
 // Kiểm tra người dùng đã đăng nhập hay chưa
 $isLoggedIn = isset($_SESSION['username']);
-$isOwner = $isLoggedIn && $_SESSION['username'] === $post['username'];
+$isOwner = $isLoggedIn && isset($post['username']) && $_SESSION['username'] === $post['username'];
+
 ?>

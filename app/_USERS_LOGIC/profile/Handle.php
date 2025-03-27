@@ -1,4 +1,5 @@
 <?php
+// =================== GIỮ NGUYÊN CẤU TRÚC TRUY VẤN ===================
 // Lấy tên người dùng từ URL (hoặc có thể lấy từ session nếu đã đăng nhập)
 $user = isset($_GET['username']) ? $_GET['username'] : '';
 
@@ -9,12 +10,11 @@ $stmt_user->bind_param("s", $user);
 $stmt_user->execute();
 $result_user = $stmt_user->get_result();
 
-// Kiểm tra nếu người dùng tồn tại
+// -------- SỬA: Thay vì exit, ta gán biến báo lỗi nếu không có user --------
 if ($result_user->num_rows > 0) {
     $user_info = $result_user->fetch_assoc();
 } else {
-    echo "<p>Người dùng không tồn tại.</p>";
-    exit;
+    $error_message = "Người dùng không tồn tại.";
 }
 
 // Truy vấn các bài đăng của người dùng

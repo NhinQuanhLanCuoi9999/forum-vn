@@ -2,7 +2,8 @@
 session_start(); // Bắt đầu phiên
 include '../config.php';
 include '../app/_USERS_LOGIC/info/php.php';
-
+include('../app/_USERS_LOGIC/profile/TimeFormat.php');
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 /*
 ##############################################################
 #                                                            #
@@ -199,6 +200,16 @@ However, if you redistribute the source code, you must retain this license.
       </div>
       <hr>
 
+<!-- Trạng thái -->
+<div class="info-group row">
+    <div class="col-6">Lần cuối đăng nhập:</div>
+    <div class="col-6 text-end">
+        <strong>
+            <?= !empty($lastLogin) ? formatTimeDiff($lastLogin) : 'Không xác định' ?>
+        </strong>
+    </div>
+</div>
+<hr>
       <!-- Đổi mật khẩu -->
       <div class="info-group row align-items-center">
         <div class="col-6">Đổi mật khẩu:</div>
