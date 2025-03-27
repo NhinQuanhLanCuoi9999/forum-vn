@@ -9,6 +9,7 @@ if (isset($_GET['logout'])) {
     unset($_SESSION['username']);
     unset($_SESSION['2fa']);
     unset($_SESSION['role']);
+    unset($_SESSION['captcha_verified']);
     unset($_SESSION['verification_code']);
     unset($_SESSION['verification_time']);
 

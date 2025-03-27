@@ -2,6 +2,9 @@
 session_start();
 include('config.php');
 include('app/_USERS_LOGIC/index/php.php');
+
+
+
 /*
 ##############################################################
 #                                                            #
@@ -44,6 +47,7 @@ However, if you redistribute the source code, you must retain this license.  */
   </div>
   <script src="app/_USERS_LOGIC/index/js/Size.js"></script>
   <div class="container">
+    
   <?php if (!empty($misc_name)) :    ?>
     <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -117,6 +121,7 @@ However, if you redistribute the source code, you must retain this license.  */
       <!-- Nếu đã đăng nhập: hiển thị form đăng bài -->
       <form action="index.php" method="POST" enctype="multipart/form-data">
         <h2>Đăng bài viết</h2>
+        
         <?php if (isset($_SESSION['error_message'])): ?>
           <div class="error"><?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?></div>
         <?php endif; ?>

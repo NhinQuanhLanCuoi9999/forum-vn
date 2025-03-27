@@ -1,13 +1,37 @@
 <?php
 include_once 'RateLimit.php';
 // Lấy giới hạn post_max_size từ php.ini (đổi sang bytes)
-$maxPostSize = (int)(ini_get('post_max_size')) * 1024 * 1024;
+function convertToBytes($value) {
+    $unit = strtoupper(substr($value, -1));
+    $bytes = (int) $value;
+    $multipliers = ['K' => 1024, 'M' => 1024 ** 2, 'G' => 1024 ** 3];
+    
+    return isset($multipliers[$unit]) ? $bytes * $multipliers[$unit] : $bytes;
+}
+
+function formatSize($bytes) {
+    if ($bytes >= 1073741824) {
+        return number_format($bytes / 1073741824, 2, ',', '') . ' GB';
+    } elseif ($bytes >= 1048576) {
+        return number_format($bytes / 1048576, 2, ',', '') . ' MB';
+    } elseif ($bytes >= 1024) {
+        return number_format($bytes / 1024, 2, ',', '') . ' KB';
+    } else {
+        return $bytes . ' bytes';
+    }
+}
+
+$maxPostSize = convertToBytes(ini_get('post_max_size'));
 
 // Kiểm tra nếu tổng nội dung POST vượt quá giới hạn
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > $maxPostSize) {
-    $_SESSION['error'] = "File tải lên vượt quá giới hạn của server. Vui lòng chọn file nhỏ hơn.";
-    header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
-    exit;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_LENGTH'])) {
+    $uploadedSize = (int)$_SERVER['CONTENT_LENGTH'];
+    
+    if ($uploadedSize > $maxPostSize) {
+        $_SESSION['error'] = "File tải lên vượt quá giới hạn của server. Dung lượng file: " . formatSize($uploadedSize) . ". Giới hạn tối đa: " . formatSize($maxPostSize) . ".";
+        header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
+        exit;
+    }
 }
 
 /**

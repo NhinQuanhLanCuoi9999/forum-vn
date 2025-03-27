@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../config.php'; // Kết nối database từ file config
+include '../config.php'; 
 include '../app/_USERS_LOGIC/view/php.php';
 
 ?>
