@@ -171,20 +171,44 @@ However, if you redistribute the source code, you must retain this license.  */
     <p><?php echo htmlspecialchars($post['description']); ?></p>
 </div>
 
-          <?php if (!empty($post['file'])): ?>
-            <p>Tệp đính kèm: 
-              <a href="uploads/<?php echo rawurlencode(basename($post['file'])); ?>" 
-                 download 
-                 onclick="return confirmDownload('<?php echo htmlspecialchars(basename($post['file'])); ?>')">
-                <?php echo htmlspecialchars(basename($post['file'])); ?>
-              </a>
-            </p>
-          <?php endif; ?>
-          <script>
-            function confirmDownload(fileName) {
-              return confirm(`Cảnh báo: Tệp "${fileName}" có thể không an toàn. Bạn có chắc muốn tải xuống không?`);
-            }
-          </script>
+<?php if (!empty($post['file'])): ?>
+  <p>Tệp đính kèm: 
+    <a href="uploads/<?php echo rawurlencode(basename($post['file'])); ?>" 
+       download 
+       class="file-link">
+      <?php echo htmlspecialchars(basename($post['file'])); ?>
+    </a>
+  </p>
+<?php endif; ?>
+
+<script>
+  // Hàm xóa phần random ký tự trước dấu chấm mở rộng
+  function cleanFileName(fileName) {
+    return fileName.replace(/_[A-Za-z0-9]{10}(?=\.[^.]+$)/, '');
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    let fileLinks = document.querySelectorAll("a.file-link"); // Chọn tất cả thẻ <a> có class 'file-link'
+
+    fileLinks.forEach(fileLink => {
+      let originalFileName = fileLink.textContent.trim();
+      let cleanName = cleanFileName(originalFileName);
+      
+      // Cập nhật nội dung hiển thị
+      fileLink.textContent = cleanName;
+
+      // Cập nhật href nếu có tên file cũ
+      fileLink.href = fileLink.href.replace(originalFileName, cleanName);
+
+      // Xác nhận tải xuống với tên file đã sửa
+      fileLink.onclick = function () {
+        return confirm(`Cảnh báo: Tệp "${cleanName}" có thể không an toàn. Bạn có chắc muốn tải xuống không?`);
+      };
+    });
+  });
+</script>
+
+
           <?php
             $createdAt = DateTime::createFromFormat('Y-m-d H:i:s', $post['created_at']);
             $formattedDate = $createdAt ? $createdAt->format('d/n/Y | H:i:s') : 'Ngày không hợp lệ';

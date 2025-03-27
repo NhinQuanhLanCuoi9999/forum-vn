@@ -2,7 +2,11 @@
 session_start();
 include '../config.php'; 
 include '../app/_USERS_LOGIC/view/php.php';
-
+function cleanFileName($fileName) {
+  return preg_replace('/_[A-Za-z0-9]{10,}\./', '.', $fileName);
+}
+$safeFileName = htmlspecialchars($post['file'], ENT_QUOTES, 'UTF-8');
+$cleanName = cleanFileName($safeFileName);
 ?>
 
 <!DOCTYPE html>
@@ -72,11 +76,11 @@ include '../app/_USERS_LOGIC/view/php.php';
         <p><strong>Tác giả:</strong> <?php echo htmlspecialchars($post['username'], ENT_QUOTES, 'UTF-8'); ?></p>
         <p><strong>Ngày tạo:</strong> <?php echo htmlspecialchars($post['created_at'], ENT_QUOTES, 'UTF-8'); ?></p>
         <?php if ($post['file']): ?>
-          <p><strong>Tệp đính kèm: </strong>
-            <a href="../uploads/<?php echo htmlspecialchars($post['file'], ENT_QUOTES, 'UTF-8'); ?>" download>
-              <?php echo htmlspecialchars($post['file'], ENT_QUOTES, 'UTF-8'); ?>
-            </a>
-          </p>
+    <p><strong>Tệp đính kèm: </strong>
+        <a href="../uploads/<?php echo $safeFileName; ?>" download onclick="return confirmDownload('<?php echo $cleanName; ?>')">
+            <?php echo $cleanName; ?></a></p>
+<script>function confirmDownload(fileName) {return confirm(`Cảnh báo: Tệp "${fileName}" có thể không an toàn. Bạn có chắc muốn tải xuống không?`);}</script>
+
         <?php endif; ?>
         <?php if ($isOwner): ?>
           <a href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&delete_post=1&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-danger btn-delete" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">Xóa bài viết</a>

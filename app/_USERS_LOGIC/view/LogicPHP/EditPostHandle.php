@@ -49,36 +49,44 @@ if (isset($_POST['edit_post']) && $isOwner) {
     // Kiểm tra giới hạn chỉnh sửa
     checkRateLimit($postId);
 
-    // Lấy dữ liệu từ form
-    $newContent = trim($_POST['content']);
-    $newDescription = trim($_POST['description']);
-    $newFile = $post['file']; // Giữ file cũ nếu không có upload mới
+   // Lấy dữ liệu từ form
+$newContent = trim($_POST['content']);
+$newDescription = trim($_POST['description']);
+$newFile = $post['file']; // Giữ file cũ nếu không có upload mới
 
-    // Nếu có file mới được upload
-    if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
-        $fileSize = $_FILES['file']['size'];
+// Nếu có file mới được upload
+if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
+    $fileSize = $_FILES['file']['size'];
 
-        // Kiểm tra kích thước file so với giới hạn
-        if ($fileSize > $maxFileSize) {
-            $_SESSION['error'] = "File quá lớn! Giới hạn tối đa là " . ($maxFileSize / 1024 / 1024) . "MB.";
-            header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
-            exit;
-        }
-
-        $uploadDir = '../uploads/';
-        $fileTmpPath = $_FILES['file']['tmp_name'];
-        $fileName = basename($_FILES['file']['name']);
-        $filePath = $uploadDir . $fileName;
-        
-        // Di chuyển file từ temp sang thư mục uploads
-        if (move_uploaded_file($fileTmpPath, $filePath)) {
-            $newFile = $fileName;
-        } else {
-            $_SESSION['error'] = "Upload file thất bại.";
-            header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
-            exit;
-        }
+    // Kiểm tra kích thước file so với giới hạn
+    if ($fileSize > $maxFileSize) {
+        $_SESSION['error'] = "File quá lớn! Giới hạn tối đa là " . ($maxFileSize / 1024 / 1024) . "MB.";
+        header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
+        exit;
     }
+
+    $uploadDir = '../uploads/';
+    $fileTmpPath = $_FILES['file']['tmp_name'];
+    $fileExt = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
+    $fileName = pathinfo($_FILES['file']['name'], PATHINFO_FILENAME); // Lấy tên file gốc (không có đuôi)
+
+    // Tạo mã random gồm 10 ký tự a-z, A-Z
+    $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 10);
+
+    // Tạo tên file mới theo format: <tên gốc>_<mã random>.<đuôi file>
+    $newFileName = $fileName . '_' . $randomString . '.' . $fileExt;
+    $filePath = $uploadDir . $newFileName;
+
+    // Di chuyển file từ temp sang thư mục uploads
+    if (move_uploaded_file($fileTmpPath, $filePath)) {
+        $newFile = $newFileName;
+    } else {
+        $_SESSION['error'] = "Upload file thất bại.";
+        header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
+        exit;
+    }
+}
+
     
     // Kiểm tra dữ liệu rỗng
     if (empty($newContent)) {

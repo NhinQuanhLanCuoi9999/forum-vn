@@ -62,38 +62,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post'])) {
         $hasError = true;
     }
 
-    // Kiểm tra nếu có file được upload
-    $newFileName = null; // Khởi tạo biến cho tên tệp mới
-    if (isset($_FILES['file']) && $_FILES['file']['error'] !== UPLOAD_ERR_NO_FILE) {
-        $file = $_FILES['file'];
-        $fileName = $file['name'];
-        $fileTmpName = $file['tmp_name'];
-        $fileSize = $file['size'];
-        $fileError = $file['error'];
-        $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+  // Kiểm tra nếu có file được upload
+$newFileName = null; // Khởi tạo biến cho tên tệp mới
+if (isset($_FILES['file']) && $_FILES['file']['error'] !== UPLOAD_ERR_NO_FILE) {
+    $file = $_FILES['file'];
+    $fileName = pathinfo($file['name'], PATHINFO_FILENAME); // Lấy tên file gốc (không có đuôi)
+    $fileTmpName = $file['tmp_name'];
+    $fileSize = $file['size'];
+    $fileError = $file['error'];
+    $fileExt = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-        // Cho phép upload mọi loại file ngoại trừ .php và .exe
-        if (in_array($fileExt, ['php', 'exe'])) {
-            $errorMessages[] = "❌ Bạn không thể tải lên loại tệp này.";
-            $hasError = true;
-        } elseif ($fileSize > 5 * 1024 * 1024) {
-            $errorMessages[] = "❌ Bạn chỉ có thể tải lên tệp dưới 5 MB.";
-            $hasError = true;
-        } elseif ($fileError !== 0) {
-            $errorMessages[] = "❌ Có lỗi khi tải tệp: $fileError.";
-            $hasError = true;
-        } else {
-            // Tạo tên tệp mới để tránh trùng lặp
-            $newFileName = uniqid('', true) . '.' . $fileExt;
-            $fileDestination = 'uploads/' . $newFileName;
+    // Cho phép upload mọi loại file ngoại trừ .php và .exe
+    if (in_array($fileExt, ['php', 'exe'])) {
+        $errorMessages[] = "❌ Bạn không thể tải lên loại tệp này.";
+        $hasError = true;
+    }
+     elseif ($fileError !== 0) {
+        $errorMessages[] = "❌ Có lỗi khi tải tệp: $fileError.";
+        $hasError = true;
+    } else {
+        // Tạo mã random gồm 10 ký tự a-z, A-Z
+        $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 10);
 
-            // Di chuyển tệp đến thư mục uploads
-            if (!move_uploaded_file($fileTmpName, $fileDestination)) {
-                $errorMessages[] = "❌ Đã xảy ra lỗi khi tải tệp lên.";
-                $hasError = true;
-            }
+        // Đổi tên file theo format: <tên gốc>_<mã random>.<đuôi file>
+        $newFileName = $fileName . '_' . $randomString . '.' . $fileExt;
+        $fileDestination = 'uploads/' . $newFileName;
+
+        // Di chuyển tệp đến thư mục uploads
+        if (!move_uploaded_file($fileTmpName, $fileDestination)) {
+            $errorMessages[] = "❌ Đã xảy ra lỗi khi tải tệp lên.";
+            $hasError = true;
         }
     }
+}
 
     // Nếu có lỗi, in lỗi ra màn hình và không thực thi tiếp
     if ($hasError) {
