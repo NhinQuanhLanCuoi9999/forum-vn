@@ -1,27 +1,7 @@
 <?php
 include_once 'RateLimit.php';
-// Lấy giới hạn post_max_size từ php.ini (đổi sang bytes)
-function convertToBytes($value) {
-    $unit = strtoupper(substr($value, -1));
-    $bytes = (int) $value;
-    $multipliers = ['K' => 1024, 'M' => 1024 ** 2, 'G' => 1024 ** 3];
-    
-    return isset($multipliers[$unit]) ? $bytes * $multipliers[$unit] : $bytes;
-}
+require $_SERVER['DOCUMENT_ROOT'] . '/app/_USERS_LOGIC/index/logicPHP/FileSizeHandle.php';
 
-function formatSize($bytes) {
-    if ($bytes >= 1073741824) {
-        return number_format($bytes / 1073741824, 2, ',', '') . ' GB';
-    } elseif ($bytes >= 1048576) {
-        return number_format($bytes / 1048576, 2, ',', '') . ' MB';
-    } elseif ($bytes >= 1024) {
-        return number_format($bytes / 1024, 2, ',', '') . ' KB';
-    } else {
-        return $bytes . ' bytes';
-    }
-}
-
-$maxPostSize = convertToBytes(ini_get('post_max_size'));
 
 // Kiểm tra nếu tổng nội dung POST vượt quá giới hạn
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_LENGTH'])) {
