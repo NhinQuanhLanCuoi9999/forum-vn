@@ -8,4 +8,6 @@ include 'LogicPHP/Handle.php';
 include_once 'LogicPHP/Comment2.php';
 include 'LogicPHP/Pagination.php';
 include 'LogicPHP/Reply.php';
+include 'LogicPHP/EditPostHandle.php';
+
 ?>
