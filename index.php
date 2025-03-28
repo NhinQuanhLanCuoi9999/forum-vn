@@ -41,7 +41,7 @@ if (empty($_SESSION['csrf_token'])) {
   <script src="app/_USERS_LOGIC/index/js/TextScale.js"></script>
   <script src="/asset/js/Bootstrap.bundle.min.js"></script>
   <script src="/asset/js/jquery.min.js"></script>
-
+  <script src="app/_USERS_LOGIC/index/js/FileHandle.js"></script>
 </head>
 <body>
 <?php if (isset($_SESSION['error_message'])): ?>
@@ -191,23 +191,6 @@ if (empty($_SESSION['csrf_token'])) {
               </a>
             </p>
           <?php endif; ?>
-          <script>
-            function cleanFileName(fileName) {
-              return fileName.replace(/_[A-Za-z0-9]{10}(?=\.[^.]+$)/, '');
-            }
-            document.addEventListener("DOMContentLoaded", function () {
-              let fileLinks = document.querySelectorAll("a.file-link");
-              fileLinks.forEach(fileLink => {
-                let originalFileName = fileLink.textContent.trim();
-                let cleanName = cleanFileName(originalFileName);
-                fileLink.textContent = cleanName;
-                fileLink.href = fileLink.href.replace(originalFileName, cleanName);
-                fileLink.onclick = function () {
-                  return confirm(`Cảnh báo: Tệp "${cleanName}" có thể không an toàn. Bạn có chắc muốn tải xuống không?`);
-                };
-              });
-            });
-          </script>
           <?php
             $createdAt = DateTime::createFromFormat('Y-m-d H:i:s', $post['created_at']);
             $formattedDate = $createdAt ? $createdAt->format('d/n/Y | H:i:s') : 'Ngày không hợp lệ';
