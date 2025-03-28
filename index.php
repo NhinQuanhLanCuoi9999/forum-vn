@@ -35,7 +35,7 @@ However, if you redistribute the source code, you must retain this license.  */
   <link rel="icon" href="/favicon.png" type="image/png">
   <link rel="stylesheet" type="text/css" href="app/_USERS_LOGIC/index/styles.css">
   <script src="app/_USERS_LOGIC/index/js/Toogle.js"></script>
-  <script src="app/_USERS_LOGIC/index/js/Refersh.js"></script>
+  <script src="app/_USERS_LOGIC/index/js/URLConvert.js"></script>
   <script src="app/_USERS_LOGIC/index/js/Spoil.js"></script>
   <script src="app/_USERS_LOGIC/index/js/TextScale.js"></script>
   <script src="/asset/js/Bootstrap.bundle.min.js"></script>

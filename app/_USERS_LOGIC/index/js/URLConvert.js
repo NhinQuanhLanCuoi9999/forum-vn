@@ -1,7 +1,7 @@
 function toggleForms() {
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
-    
+
     // Toggle the display of the forms
     if (loginForm.style.display === 'none') {
         loginForm.style.display = 'block';
@@ -22,5 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function convertLinks(text) {
-    return text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+    const regex = /(https?:\/\/[^\s<>()]+(?:\s[^\s<>()]*[._\-/][^\s<>()]*)*)/g;
+
+    return text.replace(regex, (match) => {
+        // Thay thế khoảng trắng trong link thành %20
+        const encoded = match.replace(/\s/g, '%20');
+        return `<a href="${encoded}" target="_blank">${match}</a>`;
+    });
 }
