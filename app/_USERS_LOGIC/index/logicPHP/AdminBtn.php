@@ -11,11 +11,5 @@ if (isset($_SESSION['username'])) {
         $_SESSION['role'] = $row['role']; // Lưu role vào session
     }
 
-
-   // Kiểm tra nếu role là admin hoặc owner thì hiển thị nút Admin Panel
-if (isset($_SESSION['role']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'owner')) {
-    echo '<a href="admin_tool/admin.php" class="admin-button">Admin Panel</a>';
-}
-
 }
 ?>
