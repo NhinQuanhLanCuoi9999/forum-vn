@@ -27,12 +27,13 @@ However, if you redistribute the source code, you must retain this license.  */
     <title>Admin Panel</title>
     <link rel="stylesheet" type="text/css" href="/app/_ADMIN_TOOLS/admin/styles.css">
     <link rel="stylesheet" href="../asset/css/Poppins.css">
+    <link rel="stylesheet" href="../asset/css/Bootstrap.min.css">
     <link rel="stylesheet" href="/asset/css/FontAwesome.min.css">
     <link rel="stylesheet" type="text/css" href="/app/_ADMIN_TOOLS/admin/Pagination.css">
     <link rel="stylesheet" type="text/css" href="/app/_ADMIN_TOOLS/admin/configsys.css">
-
+    <script src="/asset/js/chart.js"></script>
+    <script src = "/app/_ADMIN_TOOLS/admin/taskbar.js"></script>
 </head>
-<body>
 <body>
 <div class="container">
     <h1>Admin Panel</h1>
@@ -106,42 +107,159 @@ However, if you redistribute the source code, you must retain this license.  */
 
 
 
-     <?php elseif (isset($_GET['section']) && $_GET['section'] === 'info'): ?>
-            <div class="in4">   <h2>Thông tin</h2> </div>
-            <div class="info-section">
-                <p><strong>Tổng bài viết:</strong> <br> <?php echo $total_posts; ?></p>
-                <p><strong>Tổng bình luận:</strong> <br> <?php echo $total_comments; ?></p>
-                <p><strong>Tổng người dùng:</strong> <br> <?php echo $total_users; ?></p>
-                <p><strong>Tổng người dùng / IP đang bị cấm :</strong> <br> <?php echo $total_bans; ?></p>
+    <?php elseif (isset($_GET['section']) && $_GET['section'] === 'info'): ?>
+<div class="container mt-4">
+    <h3 class="fw-bold">Dashboard</h3>
+    <div class="row g-3">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0 rounded-3" style="background-color: #E0ECFF;">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h6 class="fw-bold text-primary">Users</h6>
+                        <h2 class="fw-bold"><?php echo $total_users; ?></h2>
+                        <p class="small text-secondary mb-0">Total Users</p>
+                    </div>
+                    <div class="p-3 bg-white rounded-circle shadow-sm">
+                        <i class="fa-solid fa-users text-primary fs-2"></i>
+                    </div>
+                </div>
             </div>
-            <?php elseif (isset($_GET['section']) && $_GET['section'] === 'api'): ?>
-                <div class="in4">   <h2>Thông tin về API</h2> </div>
-                <div class="info-section">
-                <p><strong>Các bài viết:</strong> <br> <a href=/api/Post.php>/api/Post.php?api=[api key]</a></p>
-                <p><strong>Các bình luận:</strong> <br> <a href=/api/Comment.php>/api/Comment.php?api=[api key]</a></p>
-                <p><strong>Các người dùng:</strong> <br> <a href=/api/User.php>/api/User.php?api=[api key]</a> </p>
-                <p><strong>Các người dùng / IP đang bị cấm :</strong> <br> <a href=/api/Bans.php>/api/Bans.php?api=[api key]</a></p>
-                <h2>Bạn có thể tạo API Keys <a href="admin_tool/api.php">tại đây</a></h2>
-                <h3>Hướng dẫn chi tiết : <strong><a href="/docs/api_docs.html">Tại đây.</a></strong></h3>
+        </div>
 
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0 rounded-3" style="background-color: #DDF5E1;">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h6 class="fw-bold text-success">Posts</h6>
+                        <h2 class="fw-bold"><?php echo $total_posts; ?></h2>
+                        <p class="small text-secondary mb-0">Total Posts</p>
+                    </div>
+                    <div class="p-3 bg-white rounded-circle shadow-sm">
+                        <i class="fa-solid fa-file-alt text-success fs-2"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0 rounded-3" style="background-color: #FFE6E6;">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h6 class="fw-bold text-danger">Comments</h6>
+                        <h2 class="fw-bold"><?php echo $total_comments; ?></h2>
+                        <p class="small text-secondary mb-0">Total Comments</p>
+                    </div>
+                    <div class="p-3 bg-white rounded-circle shadow-sm">
+                        <i class="fa-solid fa-comments text-danger fs-2"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0 rounded-3" style="background-color: #FFF3CD;">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h6 class="fw-bold text-warning">Banned Users</h6>
+                        <h2 class="fw-bold"><?php echo $total_bans; ?></h2>
+                        <p class="small text-secondary mb-0">Total Bans</p>
+                    </div>
+                    <div class="p-3 bg-white rounded-circle shadow-sm">
+                        <i class="fa-solid fa-user-slash text-warning fs-2"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Biểu đồ thống kê người dùng theo tháng -->
+<div class="container-fluid mt-4">
+  <h4 class="fw-bold text-center">Số người dùng tạo tài khoản vào năm nay</h4>
+  <!-- Container flex chính -->
+  <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+    <!-- Khung chứa biểu đồ, cho phép co giãn theo chiều ngang -->
+    <div style="flex: 1 1 100%; max-width: 1200px; padding: 0 15px;">
+      <!-- Wrapper Chart.js: position relative và responsive height -->
+      <div style="position: relative; height: 60vh; width: 100%;">
+        <canvas id="userChart" style="width: 100%; height: 100%;"></canvas>
+      </div>
+    </div>
+  </div>
 </div>
-
 
 <script>
-    // Lấy domain hiện tại
-    const domain = window.location.origin;
+document.addEventListener("DOMContentLoaded", function () {
+  const ctx = document.getElementById("userChart").getContext("2d");
 
-    // Cập nhật các URL API động
-    document.getElementById('post-api').href = domain + '/api/Post.php';
-    document.getElementById('bans-api').href = domain + '/api/Bans.php';
-    document.getElementById('comments-api').href = domain + '/api/Comments.php';
-    document.getElementById('user-api').href = domain + '/api/User.php';
+  // Hủy biểu đồ cũ nếu có
+  if (window.userChartInstance) {
+    window.userChartInstance.destroy();
+  }
+
+  // Tạo biểu đồ mới
+  window.userChartInstance = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      datasets: [{label: "Số người dùng mỗi tháng",data: <?php echo json_encode($user_data); ?>,borderColor: "#007bff",backgroundColor: "rgba(0, 123, 255, 0.2)",borderWidth: 4,pointRadius: 8,pointBackgroundColor: "#007bff",fill: true,tension: 0.3}]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {y: {beginAtZero: true,ticks: { font: { size: 18 } }},x: {ticks: { font: { size: 18 } }}},plugins: {legend: {labels: { font: { size: 18 } }},tooltip: {titleFont: { size: 18 },bodyFont: { size: 16 }}}}});});
 </script>
 
-        <?php endif; ?>
+
+
+
+
+
+<?php elseif (isset($_GET['section']) && $_GET['section'] === 'api'): ?>
+    <div class="container mt-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0"><i class="fa-solid fa-code"></i> Thông tin về API</h2>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a id="post-api" href="#" class="list-group-item list-group-item-action">
+                        <i class="fa-solid fa-newspaper"></i> <strong>Các bài viết:</strong>  
+                        <br><span class="text-muted">/api/Post.php?api=[api key]</span>
+                    </a>
+                    
+                    <a id="comments-api" href="#" class="list-group-item list-group-item-action">
+                        <i class="fa-solid fa-comments"></i> <strong>Các bình luận:</strong>  
+                        <br><span class="text-muted">/api/Comment.php?api=[api key]</span>
+                    </a>
+                    
+                    <a id="user-api" href="#" class="list-group-item list-group-item-action">
+                        <i class="fa-solid fa-users"></i> <strong>Các người dùng:</strong>  
+                        <br><span class="text-muted">/api/User.php?api=[api key]</span>
+                    </a>
+                    
+                    <a id="bans-api" href="#" class="list-group-item list-group-item-action">
+                        <i class="fa-solid fa-ban"></i> <strong>Các người dùng / IP đang bị cấm:</strong>  
+                        <br><span class="text-muted">/api/Bans.php?api=[api key]</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h2><i class="fa-solid fa-key"></i> Bạn có thể tạo API Keys  
+                <a href="admin_tool/api.php" class="text-primary fw-bold">tại đây</a>
+            </h2>
+            <h3><i class="fa-solid fa-book"></i> Hướng dẫn chi tiết:  
+                <strong><a href="/docs/api_docs.html" class="text-danger">Tại đây.</a></strong>
+            </h3>
+        </div>
+    </div>
+    <script src = "/app/_ADMIN_TOOLS/admin/url.js"></script>
+<?php endif; ?>
+
+
     </div>
 </div>
-<script src = "/app/_ADMIN_TOOLS/admin/taskbar.js"></script>
 
 
 </body>

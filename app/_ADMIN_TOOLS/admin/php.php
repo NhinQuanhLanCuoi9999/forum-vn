@@ -9,5 +9,6 @@ include('logicPHP/SearchUser.php');
 include('logicPHP/SystemConfig.php');
 include('logicPHP/MessageCheck.php');
 include('logicPHP/Check2FA.php');
+include('logicPHP/ChartUser.php');
 
 ?>

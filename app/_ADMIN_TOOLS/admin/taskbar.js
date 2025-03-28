@@ -3,18 +3,18 @@ document.addEventListener("DOMContentLoaded", function() {
     const sidebar = document.getElementById("sidebar");
     const mainContent = document.querySelector(".main-content");
     const contentDiv = document.getElementById("content");
-    const welcomeDiv = document.querySelector(".welcome"); // Thêm dòng này
+    const welcomeDiv = document.querySelector(".welcome"); 
 
     // Sự kiện click để mở/đóng sidebar
     openBtn.addEventListener("click", () => {
         if (sidebar.classList.contains("show-sidebar")) {
             sidebar.classList.remove("show-sidebar");
             mainContent.classList.remove("show-content");
-            openBtn.textContent = "☰ Mở Menu"; // Đổi chữ về "Mở Menu"
+            openBtn.textContent = "☰ Mở Menu"; 
         } else {
             sidebar.classList.add("show-sidebar");
             mainContent.classList.add("show-content");
-            openBtn.textContent = "✖ Đóng Menu"; // Đổi chữ thành "Đóng Menu"
+            openBtn.textContent = "✖ Đóng Menu";
         }
     });
 
