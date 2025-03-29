@@ -43,7 +43,7 @@ However, if you redistribute the source code, you must retain this license.  */
   <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card shadow" style="max-width: 400px; width: 100%;">
       <div class="card-body">
-        <h2 class="card-title text-center mb-4">Admin - Cấu Hình SMTP</h2>
+        <h2 class="card-title text-center mb-4">Thay đổi cấu hình SMTP</h2>
         <form method="POST" action="">
           <div class="mb-3">
             <label for="account_smtp" class="form-label">Account SMTP:</label>

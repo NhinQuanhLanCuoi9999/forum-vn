@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="pass" class="form-label">Mật khẩu</label>
                         <input type="password" id="pass" name="pass" class="form-control">
                     </div>
-                    
+
                     <button type="button" class="btn btn-primary w-100 next-step">Tiếp theo</button>
                 </div>
 
@@ -149,13 +149,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary prev-step">Quay lại</button>
+                        <button type="button" class="btn btn-primary next-step">Tiếp theo</button>
+                    </div>
+                </div>
+
+                <!-- Bước 5: Cấu hình Google API -->
+                <div class="step d-none" id="step-5">
+                    <h5 class="text-center mb-3">Cấu hình Google API</h5>
+                    <div class="mb-3">
+                        <label for="google_client_id" class="form-label">Google Client ID</label>
+                        <input type="text" id="google_client_id" name="google_client_id" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="google_client_secret" class="form-label">Google Client Secret</label>
+                        <input type="text" id="google_client_secret" name="google_client_secret" class="form-control" required>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary prev-step">Quay lại</button>
                         <button type="submit" class="btn btn-success">Hoàn tất</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-
     <script src="../asset/js/jquery.min.js"></script>
     <script src="../asset/js/Bootstrap.bundle.min.js"></script>
     <script>

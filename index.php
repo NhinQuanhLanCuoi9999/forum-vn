@@ -100,14 +100,42 @@ if (empty($_SESSION['csrf_token'])) {
         <button id="tabRegister" class="btn btn-outline-success">Đăng ký</button>
       </div>
       <div id="loginFormContainer" style="display: none; margin-top:20px;">
-        <form id="login-form" method="post" action="index.php">
-          <h2>Đăng nhập</h2>
-          <input type="text" name="username" placeholder="Tên đăng nhập" required maxlength="50">
-          <input type="password" name="password" placeholder="Mật khẩu" required>
-          <a href="/src/forget_pass.php">Quên mật khẩu?</a><br>
-          <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-          <button type="submit" name="login" class="btn btn-primary mt-2">Đăng nhập</button>
-        </form>
+      <form id="login-form" method="post" action="index.php" style="text-align: center;">
+    <h2>Đăng nhập</h2>
+    
+    <div style="margin-bottom: 10px;">
+        <input type="text" name="username" placeholder="Tên đăng nhập" required maxlength="50" 
+               style="width: 80%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+    </div>
+    
+    <div style="margin-bottom: 10px;">
+        <input type="password" name="password" placeholder="Mật khẩu" required 
+               style="width: 80%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <a href="/src/forget_pass.php" style="text-decoration: none; color: #007bff;">Quên mật khẩu?</a>
+    </div>
+    
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+    
+    <button type="submit" name="login" class="btn btn-primary" 
+            style="width: 80%; padding: 10px; border-radius: 5px; font-weight: bold;">
+        Đăng nhập
+    </button>
+
+    <!-- Hoặc -->
+    <div style="margin: 15px 0; font-weight: bold;">HOẶC</div>
+    
+    <!-- Nút đăng nhập bằng Google -->
+    <a href="/src/google_auth/google_login.php" class="btn btn-danger" 
+       style="width: 80%; padding: 10px; border-radius: 5px; font-weight: bold; display: inline-block;">
+        <img src="https://developers.google.com/identity/images/g-logo.png" width="20px" 
+             style="vertical-align: middle; margin-right: 8px;" alt="Google Logo">
+        Đăng nhập với Google
+    </a>
+</form>
+
       </div>
       <div id="registerFormContainer" style="display: none; margin-top:20px;">
         <form id="register-form" method="post" action="index.php">

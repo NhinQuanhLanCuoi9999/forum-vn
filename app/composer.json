@@ -13,7 +13,8 @@
     ],
     "require": {
     "phpmailer/phpmailer": "^6.0",
-        "spatie/db-dumper": "^3.8"
+        "spatie/db-dumper": "^3.8",
+        "google/auth": "^1.46"
 }
 
 }

@@ -70,6 +70,8 @@ CREATE TABLE IF NOT EXISTS misc (
     title VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     info VARCHAR(255) NULL,
+    google_client_id VARCHAR(255) NOT NULL,
+    google_client_secret VARCHAR(255) NOT NULL,
     turnstile_api_key VARCHAR(255) NOT NULL,
     turnstile_site_key VARCHAR(255) NOT NULL,
     ipinfo_api_key VARCHAR(255) NOT NULL,

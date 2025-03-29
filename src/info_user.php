@@ -181,24 +181,23 @@ However, if you redistribute the source code, you must retain this license.
       </div>
       <hr>
 
-      <!-- Kích hoạt 2FA -->
-      <div class="info-group row align-items-center">
-        <div class="col-6">
-          <form method="post">
-            <div class="form-check form-switch">
-              <label class="form-check-label" for="switch2fa">Kích hoạt 2FA:</label>
-              <?php if ($user['gmail'] !== null && $user['is_active'] == 1): ?>
-                <input class="form-check-input ms-2" type="checkbox" id="switch2fa"
-                       name="switch2fa" value="1" onchange="this.form.submit()" 
-                       <?php echo ($user['2fa'] == 1 ? 'checked' : ''); ?>>
-              <?php else: ?>
-                <span class="text-danger ms-2">Bạn không đủ điều kiện để kích hoạt, vui lòng xác thực gmail.</span>
-              <?php endif; ?>
-            </div>
-          </form>
+    <!-- Kích hoạt 2FA -->
+<div class="info-group row align-items-center">
+  <div class="col-6">
+    <form method="post">
+      <div class="d-flex align-items-center" style="gap: 10px;">
+        <label for="switch2fa" style="margin-bottom: 0;">Kích hoạt 2FA:</label>
+        <div class="form-check form-switch" style="margin-bottom: 0;">
+          <input class="form-check-input" type="checkbox" id="switch2fa"
+                 name="switch2fa" value="1" onchange="this.form.submit()"
+                 <?php echo ($user['2fa'] == 1 ? 'checked' : ''); ?>>
         </div>
       </div>
-      <hr>
+    </form>
+  </div>
+</div>
+<hr>
+
 
 <!-- Trạng thái -->
 <div class="info-group row">

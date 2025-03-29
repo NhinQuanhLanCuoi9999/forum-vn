@@ -38,14 +38,16 @@ function setupAdmin($conn, $adminPass) {
 }
 
 function setupMisc($conn, $data) {
-    $stmt = $conn->prepare("INSERT INTO misc (id, title, name, turnstile_api_key, turnstile_site_key, ipinfo_api_key, account_smtp, password_smtp)
-                            VALUES (1, ?, ?, ?, ?, ?, ?, ?)
+    $stmt = $conn->prepare("INSERT INTO misc (id, title, name, turnstile_api_key, turnstile_site_key, ipinfo_api_key, account_smtp, password_smtp, google_client_id, google_client_secret)
+                            VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                             ON DUPLICATE KEY UPDATE title = VALUES(title), name = VALUES(name), 
                             turnstile_api_key = VALUES(turnstile_api_key), turnstile_site_key = VALUES(turnstile_site_key),
                             ipinfo_api_key = VALUES(ipinfo_api_key), account_smtp = VALUES(account_smtp), 
-                            password_smtp = VALUES(password_smtp)");
-    $stmt->bind_param("sssssss", $data['title'], $data['name'], $data['turnstile_api_key'], $data['turnstile_site_key'], $data['ipinfo_api_key'], $data['smtp_account'], $data['smtp_password']);
+                            password_smtp = VALUES(password_smtp), google_client_id = VALUES(google_client_id), 
+                            google_client_secret = VALUES(google_client_secret)");
+    $stmt->bind_param("sssssssss", $data['title'], $data['name'], $data['turnstile_api_key'], $data['turnstile_site_key'], $data['ipinfo_api_key'], $data['smtp_account'], $data['smtp_password'], $data['google_client_id'], $data['google_client_secret']);
     $stmt->execute();
     $stmt->close();
 }
+
 ?>
