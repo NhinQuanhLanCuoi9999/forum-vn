@@ -94,7 +94,6 @@ progress {width: 100%;height: 20px;}
  .modal-auth{position:fixed;z-index:999;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.5);opacity:0;visibility:hidden;transition:opacity 0.3s ease,visibility 0.3s}
  .modal-auth.show{opacity:1;visibility:visible}
 
- .modal-auth-content{background:#fff;margin:10% auto;padding:20px;border-radius:5px;width:90%;max-width:500px;position:relative}
 
  .modal-close{position:absolute;right:10px;top:10px;font-size:20px;cursor:pointer}
 

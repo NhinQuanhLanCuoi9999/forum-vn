@@ -57,13 +57,24 @@ However, if you redistribute the source code, you must retain this license.
             </div>
 
             <div class="profile-info">
-                <h2>Thông tin người dùng</h2>
-                <p><strong>Tên người dùng:</strong> <?= htmlspecialchars($user_info['username'] ?? 'Không xác định') ?></p>
-                <p><strong>Mô tả:</strong> <?= nl2br(htmlspecialchars($user_info['description'] ?? 'Chưa có mô tả')) ?></p>
-                <p><strong>Lần cuối đăng nhập:</strong>
-                    <?= !empty($user_info['last_login']) ? formatTimeDiff($user_info['last_login']) : 'Không xác định' ?>
-                </p>
-            </div>
+    <h2>Thông tin người dùng</h2>
+    <p><strong>Tên người dùng:</strong> <?= htmlspecialchars($user_info['username'] ?? 'Không xác định') ?></p>
+    <p><strong>Mô tả:</strong> <?= nl2br(htmlspecialchars($user_info['description'] ?? 'Chưa có mô tả')) ?></p>
+    <p><strong>Vai trò:</strong> 
+        <?php
+            $roles = [
+                'owner' => 'Chủ sở hữu',
+                'admin' => 'Quản trị viên',
+                'member' => 'Thành viên'
+            ];
+            echo htmlspecialchars($roles[$user_info['role']] ?? 'Không xác định');
+        ?>
+    </p>
+    <p><strong>Lần cuối đăng nhập:</strong>
+        <?= !empty($user_info['last_login']) ? formatTimeDiff($user_info['last_login']) : 'Không xác định' ?>
+    </p>
+</div>
+
 
             <?php if ($result_posts->num_rows > 0): ?>
                 <div class="posts">

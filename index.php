@@ -92,7 +92,8 @@ if (empty($_SESSION['csrf_token'])) {
   <!-- Modal cho Đăng nhập/Đăng ký -->
   <?php if (!isset($_SESSION['username'])): ?>
   <div id="authModal" class="modal-auth">
-    <div class="modal-auth-content">
+  <div class="modal-auth-content" style="width: 95%; max-width: 1000px; margin: 5% auto; padding: 20px; border-radius: 5px; background: #fff; position: relative; filter: none !important; backdrop-filter: none !important; z-index: 10000;">
+
       <span class="modal-close" id="authClose">&times;</span>
       <!-- 2 tab: Login và Register -->
       <div id="authTabs">
@@ -150,10 +151,6 @@ if (empty($_SESSION['csrf_token'])) {
             Bằng cách nhấn vào nút này, bạn đồng ý <a href="/docs/tos.html" target="_blank"><strong>Điều khoản dịch vụ</strong></a>
           </label>
           <button type="submit" name="register" id="registerSubmit" class="btn btn-success mt-2" disabled>Đăng ký</button>
-          <div id="passwordStrengthContainer" style="display:none;">
-            <progress id="passwordStrength" value="0" max="100"></progress>
-            <span id="passwordStrengthText"></span>
-          </div>
         </form>
       </div>
     </div>
