@@ -10,7 +10,7 @@ function formatText($text) {
 // Hàm ghi lại hành động (log)
 function logAction($action) {
     // Ghi lại vào file log hoặc database nếu cần
-    file_put_contents('../logs/log.txt', $action . PHP_EOL, FILE_APPEND);
+    file_put_contents('../logs/users/log.txt', $action . PHP_EOL, FILE_APPEND);
 }
 // Kiểm tra trạng thái cấm trước khi cho phép truy cập vào index.php
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;

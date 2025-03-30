@@ -5,7 +5,7 @@ include '../app/_USERS_LOGIC/view/php.php';
 function cleanFileName($fileName) {
   return preg_replace('/_[A-Za-z0-9]{10,}\./', '.', $fileName);
 }
-$safeFileName = htmlspecialchars($post['file'], ENT_QUOTES, 'UTF-8');
+$safeFileName = htmlspecialchars($post['file'] ?? '', ENT_QUOTES, 'UTF-8');
 $cleanName = cleanFileName($safeFileName);
 ?>
 
@@ -41,27 +41,45 @@ $cleanName = cleanFileName($safeFileName);
     </div>
   <?php else: ?>
     <?php if (isset($_POST['show_edit_post']) && $isOwner): ?>
-      <!-- Form chỉnh sửa bài đăng -->
-      <h1>Sửa bài đăng</h1>
-      <form action="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-        <!-- Giữ lại mode sửa -->
-        <input type="hidden" name="show_edit_post" value="1">
-        <div class="mb-3">
-          <label for="content" class="form-label">Nội dung bài đăng</label>
-          <textarea name="content" id="content" class="form-control" required><?php echo htmlspecialchars($post['content'], ENT_QUOTES, 'UTF-8'); ?></textarea>
+  <!-- Form chỉnh sửa bài đăng -->
+<h1>Sửa bài đăng</h1>
+<form action="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+    <input type="hidden" name="show_edit_post" value="1">
+
+    <div class="mb-3">
+        <label for="content" class="form-label">Nội dung bài đăng</label>
+        <textarea name="content" id="content" class="form-control" required><?php echo htmlspecialchars($post['content'], ENT_QUOTES, 'UTF-8'); ?></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="description" class="form-label">Mô tả</label>
+        <textarea name="description" id="description" class="form-control"><?php echo htmlspecialchars($post['description'], ENT_QUOTES, 'UTF-8'); ?></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="file" class="form-label">Tệp đính kèm (nếu cần thay đổi)</label>
+        <input type="file" name="file" id="file" class="form-control">
+    </div>
+
+   <!-- Switch kích hoạt/vô hiệu hóa -->
+<div class="mb-3">
+    <label class="form-label">Phần bình luận</label>
+    <?php if ($post['status'] == 2): ?>
+        <p class="text-danger fw-bold">Bạn không thể thay đổi mục này vì đã bị chặn bởi Quản trị viên.</p>
+    <?php else: ?>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="statusSwitch" name="status" value="1" <?php echo ($post['status'] == '1') ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="statusSwitch">Vô hiệu hóa</label>
         </div>
-        <div class="mb-3">
-          <label for="description" class="form-label">Mô tả</label>
-          <textarea name="description" id="description" class="form-control"><?php echo htmlspecialchars($post['description'], ENT_QUOTES, 'UTF-8'); ?></textarea>
-        </div>
-        <div class="mb-3">
-          <label for="file" class="form-label">Tệp đính kèm (nếu cần thay đổi)</label>
-          <input type="file" name="file" id="file" class="form-control">
-        </div>
-        <button type="submit" name="edit_post" class="btn btn-success">Cập nhật bài đăng</button>
-        <a href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-secondary">Hủy</a>
-      </form>
+    <?php endif; ?>
+</div>
+
+
+    <button type="submit" name="edit_post" class="btn btn-success">Cập nhật bài đăng</button>
+    <a href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-secondary">Hủy</a>
+</form>
+
     <?php else: ?>
       <h1>Bài viết</h1>
       <div class="post">
@@ -141,19 +159,31 @@ $cleanName = cleanFileName($safeFileName);
         <p class="success"><?php echo htmlspecialchars($_SESSION['success'], ENT_QUOTES, 'UTF-8'); unset($_SESSION['success']); ?></p>
       <?php endif; ?>
 
-      <!-- Phần bình luận và reply-->
-      <?php if (!$userLoggedIn): ?>
-        <p class="alert alert-warning">Bạn chưa đăng nhập. Vui lòng <a href="/">đăng nhập</a>!</p>
-      <?php elseif (!$isVerified): ?>
-        <p class="alert alert-warning">Tài khoản của bạn chưa được xác minh. Vui lòng <a href="/src/verify.php">vào đây</a> để xác minh!</p>
-      <?php else: ?>
-        <?php if ($isLoggedIn): ?>
-          <form action="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>" method="POST">
+   <!-- Phần bình luận và reply-->
+<?php if (!$userLoggedIn): ?>
+    <p class="alert alert-warning">Bạn chưa đăng nhập. Vui lòng <a href="/">đăng nhập</a>!</p>
+<?php elseif (!$isVerified): ?>
+    <p class="alert alert-warning">Tài khoản của bạn chưa được xác minh. Vui lòng <a href="/src/verify.php">vào đây</a> để xác minh!</p>
+<?php else: ?>
+    <?php 
+        // Kiểm tra trạng thái của bài post
+        if ($postStatus == 1): ?>
+            <p class="alert alert-danger">Bình luận đã bị tắt bởi chủ bài viết.</p>
+            <?php exit; ?>
+    <?php elseif ($postStatus == 2): ?>
+            <p class="alert alert-danger">Bình luận đã bị tắt bởi Quản trị viên.</p>
+            <?php exit; ?>
+    <?php endif; ?>
+
+    <!-- Nếu không bị chặn, hiển thị form bình luận -->
+    <?php if ($userLoggedIn): ?>
+        <form action="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>" method="POST">
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <textarea name="comment" placeholder="Viết bình luận..." required></textarea>
             <button type="submit">Bình luận</button>
-          </form>
-        <?php endif; ?>
+        </form>
+    <?php endif; ?>
+
 
         <div class="comments mt-4">
           <?php while ($comment = $commentsQuery->fetch_assoc()): ?>

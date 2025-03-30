@@ -40,9 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_permission']))
                         } else {
                             $message = "<div class='alert alert-success'>Đã $action quyền admin cho tài khoản '{$user['username']}' thành công.</div>";
                             
-                            // Lưu log vào /logs/admin-log.txt
+                            // Lưu log vào /logs/admin/admin-log.txt
                             $log_dir = $_SERVER['DOCUMENT_ROOT'] . "/logs/";
-                            $log_file = $log_dir . "admin-log.txt";
+                            $log_file = $log_dir . "admin/admin-log.txt";
 
                             if (!is_dir($log_dir)) {
                                 mkdir($log_dir, 0777, true);

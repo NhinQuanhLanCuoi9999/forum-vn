@@ -7,7 +7,7 @@ function generateApiKey($length = 32) {
 
 // Hàm ghi log vào file
 function writeLog($action, $apiKey, $ipAddress) {
-    $logFile = '../logs/api.txt'; // Đảm bảo đường dẫn đúng
+    $logFile = '../logs/admin/api.txt'; // Đảm bảo đường dẫn đúng
     if (!file_exists($logFile)) {
         if (!touch($logFile)) {
             echo "Error creating log file.";

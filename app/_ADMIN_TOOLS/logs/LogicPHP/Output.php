@@ -1,6 +1,12 @@
 <?php
-// Đường dẫn đến thư mục logs trong htdocs
-$filePath = $_SERVER['DOCUMENT_ROOT'] . '/logs/' . basename($selectedLog);
+// Các file log dành cho admin
+$adminLogs = ['admin/admin-log.txt', 'admin/api.txt', 'admin/backup.txt', 'admin/ban-logs.txt'];
+
+// Kiểm tra file có nằm trong danh sách admin không
+$logDir = in_array($selectedLog, $adminLogs) ? '/logs/admin/' : '/logs/users/';
+
+// Đường dẫn chính xác đến file log
+$filePath = $_SERVER['DOCUMENT_ROOT'] . $logDir . basename($selectedLog);
 
 // Số dòng mỗi trang
 $linesPerPage = 15;

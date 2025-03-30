@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_user'])) {
                 $adminUser = $_SESSION['username'] ?? 'unknown';
                 $ipAddress = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
                 $timestamp = date("d/m/Y | H:i:s");
-                $logFile = $_SERVER['DOCUMENT_ROOT'] . "/logs/admin-log.txt";
+                $logFile = $_SERVER['DOCUMENT_ROOT'] . "/logs/admin/admin-log.txt";
 
                 if ($session_role === 'admin') {
                     if ($user['role'] !== 'member') {

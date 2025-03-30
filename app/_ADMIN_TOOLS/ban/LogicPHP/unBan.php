@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['unban'])) {
             $success_message = "Đã hủy cấm thành công.";
 
             // Ghi log hủy cấm vào file
-            $log_file = $_SERVER['DOCUMENT_ROOT'] . '/logs/ban-logs.txt';
+            $log_file = $_SERVER['DOCUMENT_ROOT'] . '/logs/admin/ban-logs.txt';
             $log_message = "[" . date('Y-m-d H:i:s') . "] Hủy cấm IP: $ip_address, Username: $username";
 
             // Tạo thư mục logs nếu chưa có

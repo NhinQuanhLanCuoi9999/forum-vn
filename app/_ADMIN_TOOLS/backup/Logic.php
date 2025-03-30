@@ -11,7 +11,7 @@ if (!is_dir($backupFolder)) {
 }
 
 $randomHex = bin2hex(random_bytes(28));
-$logFile = $_SERVER['DOCUMENT_ROOT'] . '/logs/backup.txt';
+$logFile = $_SERVER['DOCUMENT_ROOT'] . '/logs/admin/backup.txt';
 
 
 if (isset($_POST['backup'])) {

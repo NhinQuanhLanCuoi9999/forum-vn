@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ban'])) {
 
     // Nếu có log, lưu vào file
     if (!empty($log_message)) {
-        $log_file = $_SERVER['DOCUMENT_ROOT'] . '/logs/ban-logs.txt';
+        $log_file = $_SERVER['DOCUMENT_ROOT'] . '/logs/admin/ban-logs.txt';
 
         // Tạo thư mục logs nếu chưa có
         if (!file_exists(dirname($log_file))) {

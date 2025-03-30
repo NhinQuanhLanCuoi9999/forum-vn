@@ -9,11 +9,12 @@ include '../app/_ADMIN_TOOLS/post/Pagination/PaginationBtn.php';
 include '../app/_ADMIN_TOOLS/post/ReplyHandle.php';
 include '../app/_ADMIN_TOOLS/post/Pagination/Pagination.php';
 include '../app/_ADMIN_TOOLS/post/Search.php';
+include '../app/_ADMIN_TOOLS/post/ActiveComment.php';
 
 if (isset($_SESSION['alert'])) { echo $_SESSION['alert']; unset($_SESSION['alert']); }
 
 function writeLog($id, $content, $type) {
-    $log_dir = $_SERVER['DOCUMENT_ROOT'] . "/logs/";
+    $log_dir = $_SERVER['DOCUMENT_ROOT'] . "/logs/admin/";
     $log_file = $log_dir . "admin-log.txt";
 
     if (!is_dir($log_dir)) {
@@ -139,20 +140,39 @@ function getRepliesPagination($conn, $comment_id) {
                     <p><strong>Tác giả:</strong> <?= htmlspecialchars($row['username'] ?? '') ?></p>
                     <p><small class="text-muted"><strong>Thời gian:</strong> <?= htmlspecialchars($row['created_at'] ?? '') ?></small></p>
                     
-                    <!-- Gom nút "Xem bài đăng" và "Xem Bình Luận" trong cùng một container -->
-                    <div class="mb-2 d-flex gap-2">
-                        <a href="/src/view.php?id=<?= $row['id'] ?>" class="btn btn-info btn-sm">Xem bài đăng</a>
-                        <?php if ($_SESSION['role'] === 'owner' || ($_SESSION['role'] === 'admin' && ($row['role'] ?? 'member') === 'member')): ?>
-                            <a href="?delete=<?= $row['id'] ?>" 
-                               class="btn btn-danger btn-sm" 
-                               onclick="return confirm('Bạn có chắc chắn muốn xóa bài đăng này không?');">
-                               Xóa
-                            </a>
-                        <?php endif; ?>
-                        <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseComments<?= $row['id'] ?>" role="button" aria-expanded="false" aria-controls="collapseComments<?= $row['id'] ?>">
+                    <div class="dropdown mb-2">
+
+
+      <!-- Dropdown với các tùy chọn -->
+      <div class="dropdown mb-2">
+                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton<?= $row['id'] ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                    Tùy chọn
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?= $row['id'] ?>">
+                    <li>
+                        <a class="dropdown-item" href="/src/view.php?id=<?= $row['id'] ?>">Xem bài đăng</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" data-bs-toggle="collapse" href="#collapseComments<?= $row['id'] ?>" role="button" aria-expanded="false" aria-controls="collapseComments<?= $row['id'] ?>">
                             Xem Bình Luận
                         </a>
-                    </div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item text-warning" href="?toggle_status=<?= $row['id'] ?>" onclick="return confirm('Bạn có chắc chắn muốn <?= ($row['status'] == '2') ? 'bật comment section' : 'vô hiệu hóa comment section' ?> bài đăng này không?');">
+                            <?= ($row['status'] == '2') ? 'Kích hoạt phần bình luận' : 'Vô hiệu hóa phần bình luận' ?>
+                        </a>
+                    </li>
+                    <?php if ($_SESSION['role'] === 'owner' || ($_SESSION['role'] === 'admin' && ($row['role'] ?? 'member') === 'member')): ?>
+                        <li>
+                            <a class="dropdown-item text-danger" href="?delete=<?= $row['id'] ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa bài đăng này không?');">
+                                Xóa
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+
+
                     
                     <!-- PHÂN TRANG CHO BÌNH LUẬN (theo mỗi bài đăng) -->
                     <div class="collapse" id="collapseComments<?= $row['id'] ?>">

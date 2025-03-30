@@ -8,7 +8,7 @@ function logAction($action) {
 
     // Đường dẫn tới file log
     $log_dir = $_SERVER['DOCUMENT_ROOT'] . '/logs';
-    $log_file = $log_dir . '/logs.txt';
+    $log_file = $log_dir . '/users/log.txt';
 
     // Kiểm tra xem thư mục logs có tồn tại không, nếu không thì tạo mới
     if (!file_exists($log_dir)) {

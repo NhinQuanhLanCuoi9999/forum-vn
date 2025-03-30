@@ -2,7 +2,7 @@
 include($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
 $backupFolder = $_SERVER['DOCUMENT_ROOT'] . '/backup/';
-$logFile = $_SERVER['DOCUMENT_ROOT'] . '/logs/backup.txt';
+$logFile = $_SERVER['DOCUMENT_ROOT'] . '/logs/admin/backup.txt';
 
 // Kiểm tra quyền hạn: Chỉ owner mới được phép xóa file
 if (isset($_GET['delete'])) { 

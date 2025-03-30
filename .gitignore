@@ -5,8 +5,12 @@
 /uploads/*
 /backup/*
 /logs/*
+/logs/admin/*
+/logs/users/*
 
 # Nhưng vẫn cho phép các file .readme.bat trong các thư mục đó
 !/uploads/.readme.bat
 !/backup/.readme.bat
 !/logs/.readme.bat
+!/logs/admin/.readme.bat
+!/logs/users/.readme.bat

@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS posts (
     username VARCHAR(50) NOT NULL,
     description TEXT, -- Thêm mô tả
     file VARCHAR(255), -- Sửa cột hình ảnh thành cột file
+    status CHAR(1) NOT NULL DEFAULT '0', -- Thêm cột trạng thái, mặc định là '0'
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
 );
