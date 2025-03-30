@@ -4,7 +4,6 @@
 # Chặn toàn bộ file trong các thư mục này
 /uploads/*
 /backup/*
-/logs/*
 /logs/admin/*
 /logs/users/*
 
