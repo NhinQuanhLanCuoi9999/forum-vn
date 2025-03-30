@@ -89,13 +89,26 @@ if (isset($_POST['edit_post']) && $isOwner) {
         }
     }
 
-    // Kiểm tra dữ liệu rỗng
-    if (empty($newContent)) {
-        $_SESSION['error'] = "Nội dung bài đăng không được để trống.";
-        header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
-        exit;
-    }
-    
+  // Kiểm tra dữ liệu rỗng
+if (empty($newContent)) {
+    $_SESSION['error'] = "Nội dung bài đăng không được để trống.";
+    header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
+    exit;
+}
+
+// Kiểm tra độ dài tiêu đề và mô tả
+if (strlen($newContent) > 500) {
+    $_SESSION['error'] = "Tiêu đề không được vượt quá 500 ký tự.";
+    header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
+    exit;
+}
+
+if (strlen($newDescription) > 4096) {
+    $_SESSION['error'] = "Mô tả không được vượt quá 4096 ký tự.";
+    header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
+    exit;
+}
+
 // Nếu status của bài đăng là 2, không cho phép cập nhật
 if ($post['status'] == 2) {
     echo "<script>alert('Bạn không thể chỉnh sửa bài viết bị chặn bởi quản trị viên!'); window.location.href = '/';</script>";

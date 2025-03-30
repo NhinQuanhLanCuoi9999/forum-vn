@@ -9,9 +9,10 @@ $createdAt = null;
 $userDesc = '';
 $userRole = 'Không xác định';
 $lastLogin = null; // Khởi tạo biến last_login
+$isVerified = false; // Thêm biến này
 
 if ($username) {
-    $query = "SELECT id, created_at, role, description, last_login FROM users WHERE username = ?";
+    $query = "SELECT id, created_at, role, description, last_login, is_active FROM users WHERE username = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -24,20 +25,23 @@ if ($username) {
         $userDesc = $row['description'] ?? '';
         $userRole = $row['role'] ?? 'Không xác định';
         $lastLogin = $row['last_login'] ?? null; // Lấy giá trị last_login từ DB
+        $isVerified = ($row['is_active'] == 1); // Gán giá trị xác minh từ DB
     }
     $stmt->close();
 }
+
+// Đưa vào session để đảm bảo biến này tồn tại trên toàn trang
+$_SESSION['isVerified'] = $isVerified;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['desc'])) {
     $newDesc = trim($_POST['desc']);
     $stmt = $conn->prepare("UPDATE users SET description = ? WHERE username = ?");
     $stmt->bind_param("ss", $newDesc, $username);
     if ($stmt->execute()) {
-        // Có thể reload lại trang hoặc thông báo cập nhật thành công
+        // Reload lại trang sau khi cập nhật
         header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     }
     $stmt->close();
 }
-
 ?>

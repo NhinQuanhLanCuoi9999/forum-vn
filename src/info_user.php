@@ -181,7 +181,8 @@ However, if you redistribute the source code, you must retain this license.
       </div>
       <hr>
 
-    <!-- Kích hoạt 2FA -->
+
+<!-- Kích hoạt 2FA -->
 <div class="info-group row align-items-center">
   <div class="col-6">
     <form method="post">
@@ -190,13 +191,19 @@ However, if you redistribute the source code, you must retain this license.
         <div class="form-check form-switch" style="margin-bottom: 0;">
           <input class="form-check-input" type="checkbox" id="switch2fa"
                  name="switch2fa" value="1" onchange="this.form.submit()"
-                 <?php echo ($user['2fa'] == 1 ? 'checked' : ''); ?>>
+                 <?php echo ($user['2fa'] == 1 ? 'checked' : ''); ?>
+                 <?php echo (!$isVerified ? 'disabled' : ''); ?>>
         </div>
       </div>
+      <?php if (!$isVerified): ?>
+        <small class="text-danger">Bạn cần xác minh tài khoản trước khi bật 2FA.Hãy xác thực <a href="verify.php">tại đây</a> </small>
+      <?php endif; ?>
     </form>
   </div>
 </div>
 <hr>
+
+
 
 
 <!-- Trạng thái -->
