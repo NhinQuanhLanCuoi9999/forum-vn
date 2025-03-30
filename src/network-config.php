@@ -23,7 +23,7 @@ if ($result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IP Address and Network Info</title>
     <link rel="stylesheet" href="../asset/css/leaflet.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
+    <link rel="icon" href="/favicon.ico" type="image/png">
     <link rel="stylesheet" type="text/css" href="/app/_USERS_LOGIC/network/styles.css">
     <style>
         .network-test {margin-top: 20px;padding: 10px;border: 1px solid #ccc;border-radius: 8px;display: inline-block;vertical-align: top;}

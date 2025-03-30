@@ -15,4 +15,5 @@ include('logicPHP/TitleName.php');
 include('LogicPHP/Notify.php');
 include('LogicPHP/GmailAuth.php');
 include($_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Check2FA.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/app/_USERS_LOGIC/view/logicPHP/FileHandle.php');
 ?>

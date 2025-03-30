@@ -24,7 +24,7 @@ However, if you redistribute the source code, you must retain this license.  */
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/favicon.png" type="image/png">
+    <link rel="icon" href="/favicon.ico" type="image/png">
     <title>Quản lý lệnh cấm</title>
     <link href="/asset/css/Bootstrap.min.css" rel="stylesheet">
 </head>

@@ -200,52 +200,87 @@ if (empty($_SESSION['csrf_token'])) {
       
     <?php endif; ?>
 
-    <!-- Hiển thị danh sách các bài viết -->
-    <h2>Các bài viết</h2>
-    <?php if ($posts->num_rows > 0): ?>
-      <?php while ($post = $posts->fetch_assoc()): ?>
+
+<h2>Các bài viết</h2>
+<?php if ($posts->num_rows > 0): ?>
+    <?php while ($post = $posts->fetch_assoc()): ?>
         <div class="post">
-          <div class="post-container">
-            <h3><?php echo htmlspecialchars($post['content']); ?></h3>
-            <p><?php echo htmlspecialchars($post['description']); ?></p>
-          </div>
-          <?php if (!empty($post['file'])): ?>
-            <p>Tệp đính kèm: 
-              <a href="uploads/<?php echo rawurlencode(basename($post['file'])); ?>" download class="file-link">
-                <?php echo htmlspecialchars(basename($post['file'])); ?>
-              </a>
-            </p>
-          <?php endif; ?>
-          <?php
+            <div class="post-container">
+                <h3><?php echo htmlspecialchars($post['content']); ?></h3>
+                <p><?php echo htmlspecialchars($post['description']); ?></p>
+            </div>
+            
+            <?php if (!empty($post['file'])): ?>
+    <div class="media-container" style="display:block;margin-bottom:10px;">
+        <?php 
+        $filePath = 'uploads/' . basename($post['file']);
+        if (shouldDisplayInline($filePath)): ?>
+            <?php if (isImage($filePath)): ?>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="updateModalImage('<?= $filePath ?>')">
+                    <img src="<?= $filePath ?>" style="max-width:100%;height:auto;display:block;">
+                </a>
+            <?php elseif (isVideo($filePath)): ?>
+                <video controls style="max-width:100%;height:auto;display:block;">
+                    <source src="<?= $filePath ?>" type="<?= mime_content_type($filePath) ?>">
+                </video>
+            <?php elseif (isAudio($filePath)): ?>
+                <audio controls style="width:100%;display:block;">
+                    <source src="<?= $filePath ?>" type="<?= mime_content_type($filePath) ?>">
+                </audio>
+            <?php endif; ?>
+        <?php else: ?>
+            <p>Tệp đính kèm: <a href="<?= $filePath ?>" download><?= htmlspecialchars(basename($post['file'])) ?></a></p>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
+
+            <?php
             $createdAt = DateTime::createFromFormat('Y-m-d H:i:s', $post['created_at']);
             $formattedDate = $createdAt ? $createdAt->format('d/n/Y | H:i:s') : 'Ngày không hợp lệ';
-          ?>
-          <small>
-            Đăng bởi: 
-            <a href="src/profile.php?username=<?php echo urlencode($post['username']); ?>" target="_blank">
-              <?php echo htmlspecialchars($post['username']); ?>
-            </a> vào <?php echo htmlspecialchars($formattedDate); ?>
-          </small>
-          <small>
-            <a href="src/view.php?id=<?php echo intval($post['id']); ?>" class="read-more">Xem thêm</a>
-          </small>
-          <?php if (isset($_SESSION['username']) && $post['username'] == $_SESSION['username']): ?>
-            <form method="get" action="index.php" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">
-              <input type="hidden" name="delete" value="<?php echo intval($post['id']); ?>">
-              <button type="submit" class="delete-button btn btn-danger">Xóa bài viết</button>
-            </form>
-          <?php endif; ?>
+            ?>
+            
+            <div class="post-footer">
+                <small>Đăng bởi: 
+                    <a href="src/profile.php?username=<?php echo urlencode($post['username']); ?>" target="_blank">
+                        <?php echo htmlspecialchars($post['username']); ?>
+                    </a> vào <?php echo htmlspecialchars($formattedDate); ?>
+                </small>
+                <small><a href="src/view.php?id=<?php echo intval($post['id']); ?>" class="read-more">Xem thêm</a></small>
+
+                <?php if (isset($_SESSION['username']) && $post['username'] == $_SESSION['username']): ?>
+                    <form method="get" action="index.php" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">
+                        <input type="hidden" name="delete" value="<?php echo intval($post['id']); ?>">
+                        <button type="submit" class="delete-button btn btn-danger" style="margin-left: 10px;">Xóa bài viết</button>
+                    </form>
+                <?php endif; ?>
+            </div>
         </div>
-      <?php endwhile; ?>
-    <?php else: ?>
-      <p class="no-posts">Chưa có bài viết nào.</p>
-    <?php endif; ?>
+    <?php endwhile; ?>
+<?php else: ?>
+    <p class="no-posts">Chưa có bài viết nào.</p>
+<?php endif; ?>
+
+<!-- Modal Bootstrap full screen -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabel">Xem ảnh</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex justify-content-center align-items-center">
+        <img id="modalImage" src="" class="img-fluid" style="max-width: 100vw; max-height: 100vh;">
+      </div>
+    </div>
   </div>
+</div>
+
+
+
+
   <script src="app/_USERS_LOGIC/index/js/taskBar.js"></script>
   <script src="app/_USERS_LOGIC/index/js/Toogle.js"></script>
-  <script>
-   
-  </script>
+  <script>function updateModalImage(src) {document.getElementById('modalImage').src = src;}</script>
   <script src="app/_USERS_LOGIC/index/js/checkBox.js"></script>
 </body>
 </html>

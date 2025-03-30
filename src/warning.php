@@ -23,7 +23,7 @@ However, if you redistribute the source code, you must retain this license.  */
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cấm Truy Cập</title>
     <link rel="stylesheet" href="../asset/css/DancingScript.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
+    <link rel="icon" href="/favicon.ico" type="image/png">
    <link rel="stylesheet" type="text/css" href="/app/_USERS_LOGIC/warning/styles.css">
 </head>
 <body>

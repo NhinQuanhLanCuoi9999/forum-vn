@@ -1,6 +1,5 @@
 <?php
 include 'FileSizeHandle.php';
-
 // Kiểm tra nếu tổng nội dung POST vượt quá giới hạn
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_LENGTH'])) {
     $uploadedSize = (int)$_SERVER['CONTENT_LENGTH'];
