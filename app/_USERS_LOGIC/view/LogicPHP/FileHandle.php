@@ -16,10 +16,15 @@ function isVideo($filePath) {return isFileType($filePath, ['video/mp4', 'video/w
 // Kiểm tra audio
 function isAudio($filePath) {return isFileType($filePath, ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/ogg']);}
 
-// Kiểm tra file có hiển thị inline được không
 function shouldDisplayInline($filePath) {
-    if (!file_exists($filePath) || !isImage($filePath)) return false;
-    list($width, $height) = getimagesize($filePath);
-    return $width <= 1920 && $height <= 1080;
+    if (!file_exists($filePath)) return false;
+    
+    // Cho phép hiển thị nếu là ảnh, video hoặc audio
+    if (isImage($filePath) || isVideo($filePath) || isAudio($filePath)) {
+        return true;
+    }
+    
+    return false;
 }
+
 ?>

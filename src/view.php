@@ -141,40 +141,7 @@ However, if you redistribute the source code, you must retain this license.
       </div>
 
       <!-- Phần phân trang cho bài viết -->
-      <nav>
-        <ul class="pagination">
-          <?php if ($page > 1): ?>
-            <li class="page-item">
-              <a class="page-link" href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&page=1">&laquo; Đầu</a>
-            </li>
-          <?php endif; ?>
-          <?php 
-          if ($page > 4) echo '<li class="page-item"><a class="page-link" href="view.php?id=' . urlencode($postId) . '&page=1">1</a></li>';
-          if ($page > 4) echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
-          for ($i = max(1, $page - 3); $i < $page; $i++): ?>
-            <li class="page-item">
-              <a class="page-link" href="view.php?id=<?php echo urlencode($postId); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
-            </li>
-          <?php endfor; ?>
-          <li class="page-item active">
-            <a class="page-link" href="#"><?php echo $page; ?></a>
-          </li>
-          <?php for ($i = $page + 1; $i <= min($totalPages, $page + 3); $i++): ?>
-            <li class="page-item">
-              <a class="page-link" href="view.php?id=<?php echo urlencode($postId); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
-            </li>
-          <?php endfor; ?>
-          <?php 
-          if ($page < $totalPages - 3) echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
-          if ($page < $totalPages - 3) echo '<li class="page-item"><a class="page-link" href="view.php?id=' . urlencode($postId) . '&page=' . $totalPages . '">' . $totalPages . '</a></li>';
-          ?>
-          <?php if ($page < $totalPages): ?>
-            <li class="page-item">
-              <a class="page-link" href="view.php?id=<?php echo urlencode($postId); ?>&page=<?php echo $totalPages; ?>">Cuối &raquo;</a>
-            </li>
-          <?php endif; ?>
-        </ul>
-      </nav>
+    <?php  renderPagination($postId, $page, $totalPages); ?>
 
       <!-- Hiển thị thông báo lỗi/success nếu có -->
       <?php if (isset($_SESSION['error'])): ?>

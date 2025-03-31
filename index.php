@@ -56,37 +56,40 @@ if (empty($_SESSION['csrf_token'])) {
     </script>
     <?php unset($_SESSION['success']); ?>
 <?php endif; ?>
-<!-- Header -->
-<header class="d-flex align-items-center justify-content-between p-3 bg-light border-bottom shadow-sm sticky-top rounded-3" style="z-index: 999;">
-    <h1 class="h5 mb-0 text-primary fw-bold"><?php echo htmlspecialchars($forum_name); ?></h1>
-    <div class="d-flex align-items-center gap-2">
-        <?php if (!empty($_SESSION['role']) && in_array($_SESSION['role'], ['admin', 'owner'])): ?>
-            <a href="admin_tool/admin.php" class="btn btn-warning fw-semibold px-3">Admin Panel</a>
-        <?php endif; ?>
-        <?php if (empty($_SESSION['username'])): ?>
-            <button id="loginBtn" class="btn btn-primary fw-semibold px-3">Đăng nhập | Đăng ký</button>
-        <?php endif; ?>
+<!-- Header + Menu -->
+<header class="d-flex flex-column align-items-center justify-content-between p-3 bg-light shadow-sm sticky-top rounded-3" style="z-index: 999;">
+    <div class="d-flex w-100 align-items-center justify-content-between">
+        <h1 class="h5 mb-0 text-primary fw-bold"><?php echo htmlspecialchars($forum_name); ?></h1>
+        <div class="d-flex align-items-center gap-2">
+            <?php if (!empty($_SESSION['role']) && in_array($_SESSION['role'], ['admin', 'owner'])): ?>
+                <a href="admin_tool/admin.php" class="btn btn-warning fw-semibold px-3">Admin Panel</a>
+            <?php endif; ?>
+            <?php if (empty($_SESSION['username'])): ?>
+                <button id="loginBtn" class="btn btn-primary fw-semibold px-3">Đăng nhập | Đăng ký</button>
+            <?php endif; ?>
+        </div>
     </div>
+
+    <!-- Menu chỉ hiện nếu đã đăng nhập -->
+    <?php if (!empty($_SESSION['username'])): ?>
+        <nav class="d-flex align-items-center justify-content-center gap-4 w-100 p-3">
+            <?php 
+            $menuItems = [
+                ['src/info_user.php', 'fas fa-user', 'Thông Tin'],
+                ['src/network-config.php', 'fas fa-network-wired', 'Cấu Hình IP'],
+                ['/docs/tos.html', 'fas fa-file-contract', 'Điều khoản dịch vụ'],
+                ['index.php?logout=true', 'fas fa-sign-out-alt', 'Đăng xuất'],
+                ['src/search.php', 'fas fa-search', 'Tìm kiếm']
+            ];
+            foreach ($menuItems as $item): ?>
+                <a href="<?php echo $item[0]; ?>" class="text-dark text-decoration-none fw-semibold d-flex align-items-center gap-1 px-3 py-2 rounded-3 transition-all hover-bg-light">
+                    <i class="<?php echo $item[1]; ?>"></i> <?php echo $item[2]; ?>
+                </a>
+            <?php endforeach; ?>
+        </nav>
+    <?php endif; ?>
 </header>
 
-<!-- Menu chỉ hiện nếu đã đăng nhập -->
-<?php if (!empty($_SESSION['username'])): ?>
-    <nav class="d-flex align-items-center justify-content-center gap-4 p-2 bg-white border-bottom shadow-sm sticky-top rounded-3" style="top: 56px; z-index: 998;">
-        <?php 
-        $menuItems = [
-            ['src/info_user.php', 'fas fa-user', 'Thông Tin'],
-            ['src/network-config.php', 'fas fa-network-wired', 'Cấu Hình IP'],
-            ['/docs/tos.html', 'fas fa-file-contract', 'Điều khoản dịch vụ'],
-            ['index.php?logout=true', 'fas fa-sign-out-alt', 'Đăng xuất'],
-            ['src/search.php', 'fas fa-search', 'Tìm kiếm']
-        ];
-        foreach ($menuItems as $item): ?>
-            <a href="<?php echo $item[0]; ?>" class="text-dark text-decoration-none fw-semibold d-flex align-items-center gap-1 px-3 py-2 rounded-3 transition-all hover-bg-light">
-                <i class="<?php echo $item[1]; ?>"></i> <?php echo $item[2]; ?>
-            </a>
-        <?php endforeach; ?>
-    </nav>
-<?php endif; ?>
 
 
   <!-- Modal cho Đăng nhập/Đăng ký -->
@@ -158,7 +161,6 @@ if (empty($_SESSION['csrf_token'])) {
   <?php endif; ?>
 
   <!-- Phần nội dung chính, có ID để bật hiệu ứng blur -->
-  <div id="mainContainer" class="container" style="margin-top:20px;">
     <?php if (!empty($misc_name)) : ?>
       <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -183,11 +185,9 @@ if (empty($_SESSION['csrf_token'])) {
       <!-- Nếu đã đăng nhập: hiển thị form đăng bài -->
       <form action="index.php" method="POST" enctype="multipart/form-data">
         <h2>Đăng bài viết</h2>
-        <!-- Ô nhập giới hạn 500 ký tự -->
         <div id="postContent" contenteditable="true" class="editable-input" placeholder="Nội dung bài viết"></div>
         <input type="hidden" name="content" id="hiddenInput">
         <p id="charCount">0/500</p>
-        <!-- Ô nhập giới hạn 4096 ký tự -->
         <div id="postDescription" contenteditable="true" class="editable-input" placeholder="Mô tả ngắn"></div>
         <input type="hidden" name="description" id="hiddenDescription">
         <p id="descCharCount">0/4096</p>
@@ -200,7 +200,11 @@ if (empty($_SESSION['csrf_token'])) {
       
     <?php endif; ?>
 
+    <!-- Phần Phân Trang Bài Viết -->
+    <div id="mainContainer" class="container" style="margin-top:20px;">
+   <?php renderPagination($current_section, $total_sections); ?>
 
+<!-- Phần hiển thị bài viết -->
 <h2>Các bài viết</h2>
 <?php if ($posts->num_rows > 0): ?>
     <?php while ($post = $posts->fetch_assoc()): ?>
@@ -210,10 +214,11 @@ if (empty($_SESSION['csrf_token'])) {
                 <p><?php echo htmlspecialchars($post['description']); ?></p>
             </div>
             
-            <?php if (!empty($post['file'])): ?>
+    <?php if (!empty($post['file'])): ?>
     <div class="media-container" style="display:block;margin-bottom:10px;">
         <?php 
         $filePath = 'uploads/' . basename($post['file']);
+
         if (shouldDisplayInline($filePath)): ?>
             <?php if (isImage($filePath)): ?>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="updateModalImage('<?= $filePath ?>')">
@@ -229,7 +234,7 @@ if (empty($_SESSION['csrf_token'])) {
                 </audio>
             <?php endif; ?>
         <?php else: ?>
-            <p>Tệp đính kèm: <a href="<?= $filePath ?>" download><?= htmlspecialchars(basename($post['file'])) ?></a></p>
+            <p>Click vào đây để <a href="<?= $filePath ?>" download>Tải audio/video xuống</a>, hoặc nhấn vào nút Xem thêm bên dưới để phát.</p>
         <?php endif; ?>
     </div>
 <?php endif; ?>

@@ -89,15 +89,9 @@ However, if you redistribute the source code, you must retain this license.  */
             // Mở form với hiệu ứng trượt
             form.style.display = 'block';
             setTimeout(function() {
-                form.style.maxHeight = form.scrollHeight + "px"; // Cập nhật chiều cao tự động
-            }, 10); // Đảm bảo hiệu ứng xảy ra sau khi form được hiển thị
-        } else {
-            // Đóng form với hiệu ứng trượt
-            form.style.maxHeight = '0px';
-            setTimeout(function() {
-                form.style.display = 'none'; // Ẩn hoàn toàn sau khi đóng
-            }, 300); // Đợi cho hiệu ứng hoàn thành
-        }
+                form.style.maxHeight = form.scrollHeight + "px";
+            }, 10); 
+        } else {form.style.maxHeight = '0px';setTimeout(function() {form.style.display = 'none'; }, 300);}
     });
 </script>
 
