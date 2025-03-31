@@ -2,14 +2,8 @@
 session_start();
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 require_once('../config.php');
-include '../app/_ADMIN_TOOLS/admin/logicPHP/Auth.php';
-include '../app/_ADMIN_TOOLS/post/PostHandle.php';
-include '../app/_ADMIN_TOOLS/post/CommentsHandle.php';
-include '../app/_ADMIN_TOOLS/post/Pagination/PaginationBtn.php';
-include '../app/_ADMIN_TOOLS/post/ReplyHandle.php';
-include '../app/_ADMIN_TOOLS/post/Pagination/Pagination.php';
-include '../app/_ADMIN_TOOLS/post/Search.php';
-include '../app/_ADMIN_TOOLS/post/ActiveComment.php';
+include '../app/_ADMIN_TOOLS/post/php.php';
+
 
 if (isset($_SESSION['alert'])) { echo $_SESSION['alert']; unset($_SESSION['alert']); }
 
@@ -17,17 +11,12 @@ function writeLog($id, $content, $type) {
     $log_dir = $_SERVER['DOCUMENT_ROOT'] . "/logs/admin/";
     $log_file = $log_dir . "admin-log.txt";
 
-    if (!is_dir($log_dir)) {
-        mkdir($log_dir, 0777, true);
-    }
+    if (!is_dir($log_dir)) {mkdir($log_dir, 0777, true);}
 
     $user_name = $_SESSION['username'] ?? 'Unknown';
     $user_ip = $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
-
     $log_entry = "[" . date("d/m/Y | H:i:s") . "] Người dùng : [$user_name] (IP: $user_ip) đã thao tác xóa $type có ID [$id] ( nội dung : [$content])\n";
-
-    @file_put_contents($log_file, $log_entry, FILE_APPEND);
-}
+    @file_put_contents($log_file, $log_entry, FILE_APPEND);}
 
 /* Hàm xử lý phân trang cho bình luận của 1 bài đăng */
 function getCommentsPagination($conn, $post_id) {
@@ -103,8 +92,13 @@ function getRepliesPagination($conn, $comment_id) {
 # NhinQuanhLanCuoi9999                                       #
 #                                                            #
 ##############################################################
-...
-*/
+
+Copyright © 2025 Forum VN  
+Original Author: NhinQuanhLanCuoi9999  
+License: GNU General Public License v3.0  
+
+You are free to use, modify, and distribute this software under the terms of the GPL v3.  
+However, if you redistribute the source code, you must retain this license.  */
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -120,7 +114,7 @@ function getRepliesPagination($conn, $comment_id) {
     <div class="mb-3">
         <a href="/admin_tool/admin.php" class="btn btn-warning">Về Trang Admin</a>
     </div>
-    <!-- Form tìm kiếm siêu đẹp -->
+    <!-- Form tìm kiếm  -->
     <form method="get" class="mb-4">
         <div class="input-group">
             <input type="text" class="form-control" name="search" placeholder="Tìm bài viết..." value="<?= htmlspecialchars($search_query) ?>">
@@ -139,38 +133,40 @@ function getRepliesPagination($conn, $comment_id) {
                     <p><strong>Mô tả:</strong> <?= htmlspecialchars($row['description'] ?? '') ?></p>
                     <p><strong>Tác giả:</strong> <?= htmlspecialchars($row['username'] ?? '') ?></p>
                     <p><small class="text-muted"><strong>Thời gian:</strong> <?= htmlspecialchars($row['created_at'] ?? '') ?></small></p>
-                    
-                    <div class="dropdown mb-2">
+                    <?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle'])) {toggle_comment($conn, $_POST['toggle']);header("Location: " . $_SERVER['HTTP_REFERER']);exit;}?>
 
-
-      <!-- Dropdown với các tùy chọn -->
-      <div class="dropdown mb-2">
-                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton<?= $row['id'] ?>" data-bs-toggle="dropdown" aria-expanded="false">
-                    Tùy chọn
+<div class="dropdown mb-2">
+    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton<?= $row['id'] ?>" data-bs-toggle="dropdown" aria-expanded="false">
+        Hành động
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?= $row['id'] ?>">
+        <li>
+            <a class="dropdown-item" href="/src/view.php?id=<?= $row['id'] ?>">Xem bài đăng</a>
+        </li>
+        <li>
+            <a class="dropdown-item" data-bs-toggle="collapse" href="#collapseComments<?= $row['id'] ?>" role="button" aria-expanded="false" aria-controls="collapseComments<?= $row['id'] ?>">
+                Xem Bình Luận
+            </a>
+        </li>
+        <?php if ($_SESSION['role'] === 'owner' || ($_SESSION['role'] === 'admin' && ($row['role'] ?? 'member') === 'member')): ?>
+            <li>
+                <a class="dropdown-item text-danger" href="?delete=<?= $row['id'] ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa bài đăng này không?');">
+                    Xóa
+                </a>
+            </li>
+        <?php endif; ?>
+        <li>
+            <form method="post" action="" style="display:inline;">
+                <input type="hidden" name="toggle" value="<?= $row['id'] ?>">
+                <button type="submit" class="dropdown-item">
+                    <?= ($row['status'] == 2) ? 'Bật bình luận' : 'Tắt bình luận'; ?>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?= $row['id'] ?>">
-                    <li>
-                        <a class="dropdown-item" href="/src/view.php?id=<?= $row['id'] ?>">Xem bài đăng</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" data-bs-toggle="collapse" href="#collapseComments<?= $row['id'] ?>" role="button" aria-expanded="false" aria-controls="collapseComments<?= $row['id'] ?>">
-                            Xem Bình Luận
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item text-warning" href="?toggle_status=<?= $row['id'] ?>" onclick="return confirm('Bạn có chắc chắn muốn <?= ($row['status'] == '2') ? 'bật comment section' : 'vô hiệu hóa comment section' ?> bài đăng này không?');">
-                            <?= ($row['status'] == '2') ? 'Kích hoạt phần bình luận' : 'Vô hiệu hóa phần bình luận' ?>
-                        </a>
-                    </li>
-                    <?php if ($_SESSION['role'] === 'owner' || ($_SESSION['role'] === 'admin' && ($row['role'] ?? 'member') === 'member')): ?>
-                        <li>
-                            <a class="dropdown-item text-danger" href="?delete=<?= $row['id'] ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa bài đăng này không?');">
-                                Xóa
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </div>
+            </form>
+        </li>
+    </ul>
+</div>
+
 
 
                     

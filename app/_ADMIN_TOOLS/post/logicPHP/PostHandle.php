@@ -1,4 +1,21 @@
 <?php
+                    if (!function_exists('toggle_comment')) {
+                        // Hàm cập nhật trạng thái bình luận
+                        function toggle_comment($conn, $post_id) {
+                            $post_id = intval($post_id);
+                            $sql = "SELECT status FROM posts WHERE id = $post_id";
+                            $result = mysqli_query($conn, $sql);
+                            if ($result && mysqli_num_rows($result) > 0) {
+                                $post = mysqli_fetch_assoc($result);
+                                $currentStatus = $post['status'];
+                                // Nếu status bằng 2 (đã tắt) thì bật lại thành 0, còn lại chuyển thành 2 (tắt)
+                                $newStatus = ($currentStatus == 2) ? 0 : 2;
+                                $updateSql = "UPDATE posts SET status = $newStatus WHERE id = $post_id";
+                                mysqli_query($conn, $updateSql);
+                            }
+                        }
+                    }
+                    
 // Xử lý xóa bài đăng
 if (isset($_GET['delete'])) {
     $post_id = intval($_GET['delete']);
