@@ -103,7 +103,7 @@ However, if you redistribute the source code, you must retain this license.  */
 </form>
 
 
-    <strong><a href="smtp_config.php">Click vào đây </a> để cấu hình SMTP.</strong>
+<strong><a href="advanced_config.php">Click vào đây </a> để cấu hình nâng cao.</strong> <br>
 
 
 

@@ -6,6 +6,15 @@ require $_SERVER['DOCUMENT_ROOT'] . '/config.php'; // Kết nối DB có sẵn
 use Google\Auth\OAuth2;
 use Google\Auth\HttpHandler\Guzzle6HttpHandler;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\RequestException;
+
+// Hàm báo lỗi và tự động redirect
+function showErrorAndRedirect($message) {
+    echo "<h2 style='color:red;'>❌ $message</h2>";
+    echo "<p>Đang chuyển hướng...</p>";
+    echo "<script>setTimeout(() => window.location.href = '/', 3000);</script>";
+    exit();
+}
 
 // Lấy Google Client ID & Secret từ database
 $sql = "SELECT google_client_id, google_client_secret FROM misc WHERE id = 1 LIMIT 1";
@@ -15,7 +24,7 @@ if ($result->num_rows > 0) {
     $googleClientId = $row['google_client_id'];
     $googleClientSecret = $row['google_client_secret'];
 } else {
-    die("Lỗi: Không tìm thấy thông tin Google OAuth trong DB");
+    showErrorAndRedirect("Lỗi: Không tìm thấy thông tin Google OAuth trong DB");
 }
 
 // Tạo redirect URI tuyệt đối
@@ -36,30 +45,36 @@ $oauth2 = new OAuth2([
 
 // Kiểm tra mã `code` từ Google
 if (!isset($_GET['code'])) {
-    die("Google login failed!");
+    showErrorAndRedirect("Google login failed!");
 }
 
-// Đổi `code` lấy access token
-$oauth2->setCode($_GET['code']);
-$httpHandler = new Guzzle6HttpHandler(new GuzzleClient());
-$accessToken = $oauth2->fetchAuthToken($httpHandler);
+try {
+    // Đổi `code` lấy access token
+    $oauth2->setCode($_GET['code']);
+    $httpHandler = new Guzzle6HttpHandler(new GuzzleClient());
+    $accessToken = $oauth2->fetchAuthToken($httpHandler);
 
-if (!isset($accessToken['access_token'])) {
-    die("Failed to get access token");
+    if (!isset($accessToken['access_token'])) {
+        showErrorAndRedirect("Failed to get access token");
+    }
+
+    // Lấy thông tin người dùng từ Google
+    $httpClient = new GuzzleClient([
+        'headers' => ['Authorization' => 'Bearer ' . $accessToken['access_token']]
+    ]);
+    $response = $httpClient->get('https://www.googleapis.com/oauth2/v2/userinfo');
+    $userInfo = json_decode($response->getBody(), true);
+
+} catch (RequestException $e) {
+    $responseBody = $e->hasResponse() ? $e->getResponse()->getBody()->getContents() : "Unknown error";
+    showErrorAndRedirect("Lỗi OAuth: " . htmlspecialchars($responseBody));
 }
-
-// Lấy thông tin người dùng từ Google
-$httpClient = new GuzzleClient([
-    'headers' => ['Authorization' => 'Bearer ' . $accessToken['access_token']]
-]);
-$response = $httpClient->get('https://www.googleapis.com/oauth2/v2/userinfo');
-$userInfo = json_decode($response->getBody(), true);
 
 $email = $userInfo['email'] ?? null;
 $name = $userInfo['name'] ?? null;
 
 if (!$email || !$name) {
-    die("Failed to get user info");
+    showErrorAndRedirect("Failed to get user info");
 }
 
 // Kiểm tra nếu user đã tồn tại
@@ -81,7 +96,7 @@ if ($result->num_rows > 0) {
     // Kiểm tra trùng username
     $checkStmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
     if (!$checkStmt) {
-        die("Lỗi SQL: " . $conn->error);
+        showErrorAndRedirect("Lỗi SQL: " . $conn->error);
     }
 
     do {
@@ -110,14 +125,14 @@ if ($result->num_rows > 0) {
     // INSERT user mới
     $stmt = $conn->prepare("INSERT INTO users (username, gmail, password, is_active) VALUES (?, ?, ?, '1')");
     if (!$stmt) {
-        die("Lỗi SQL: " . $conn->error);
+        showErrorAndRedirect("Lỗi SQL: " . $conn->error);
     }
 
     $stmt->bind_param("sss", $newName, $email, $hashedPassword);
     if ($stmt->execute()) {
         $_SESSION['username'] = $newName;
     } else {
-        die("Lỗi khi INSERT: " . $stmt->error);
+        showErrorAndRedirect("Lỗi khi INSERT: " . $stmt->error);
     }
 }
 
