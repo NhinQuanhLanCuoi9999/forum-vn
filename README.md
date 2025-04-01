@@ -33,4 +33,6 @@
 - **Turnstile**: Giải pháp CAPTCHA của Cloudflare để bảo vệ chống spam.
 - **Google Font API**: Sử dụng font **Poppins** cho giao diện.
 - **Font Awesome**: Bộ icon phổ biến để làm đẹp UI.
+- **IPInfo**: Hiện thông số ISP (nhà mạng) từ IP của client.
+- **Leaflet**: Thư viện JavaScript dùng để tạo bản đồ tương tác trên web.
 - **hCaptcha**: Đã từng sử dụng để chống bot nhưng đã loại bỏ

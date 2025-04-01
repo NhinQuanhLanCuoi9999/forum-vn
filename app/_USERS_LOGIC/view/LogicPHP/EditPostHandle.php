@@ -72,6 +72,22 @@ if (isset($_POST['edit_post']) && $isOwner) {
         $fileExt = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
         $fileName = pathinfo($_FILES['file']['name'], PATHINFO_FILENAME); // Lấy tên file gốc (không có đuôi)
 
+// Nếu file thuộc loại video/audio/image thì xử lý xóa emoji, thay dấu cách thành "_" và loại bỏ ký tự "+" cùng các ký tự đặc biệt
+$mediaExtensions = ['mp4', 'avi', 'mov', 'mp3', 'wav', 'jpg', 'jpeg', 'png', 'gif'];
+if (in_array($fileExt, $mediaExtensions)) {
+    // Xóa emoji: cập nhật regex bao gồm khoảng U+1F900 đến U+1F9FF
+    $fileName = preg_replace('/[\x{1F300}-\x{1F5FF}\x{1F600}-\x{1F64F}\x{1F680}-\x{1F6FF}\x{1F900}-\x{1F9FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}]/u', '', $fileName);
+    // Thay dấu cách thành dấu "_" 
+    $fileName = str_replace(' ', '_', $fileName);
+    // Loại bỏ ký tự "+"
+    $fileName = str_replace('+', '', $fileName);
+    // Loại bỏ tất cả ký tự đặc biệt (ngoại trừ chữ cái, số và dấu "_")
+    $fileName = preg_replace('/[^A-Za-z0-9_]/', '', $fileName);
+}
+
+
+
+
         // Tạo mã random gồm 10 ký tự a-z, A-Z
         $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 10);
 
@@ -89,69 +105,69 @@ if (isset($_POST['edit_post']) && $isOwner) {
         }
     }
 
-  // Kiểm tra dữ liệu rỗng
-if (empty($newContent)) {
-    $_SESSION['error'] = "Nội dung bài đăng không được để trống.";
-    header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
-    exit;
-}
-
-// Kiểm tra độ dài tiêu đề và mô tả
-if (strlen($newContent) > 500) {
-    $_SESSION['error'] = "Tiêu đề không được vượt quá 500 ký tự.";
-    header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
-    exit;
-}
-
-if (strlen($newDescription) > 4096) {
-    $_SESSION['error'] = "Mô tả không được vượt quá 4096 ký tự.";
-    header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
-    exit;
-}
-
-// Nếu status của bài đăng là 2, không cho phép cập nhật
-if ($post['status'] == 2) {
-    echo "<script>alert('Bạn không thể chỉnh sửa bài viết bị chặn bởi quản trị viên!'); window.location.href = '/';</script>";
-    exit;
-}
-
-// Thực hiện UPDATE vào database, cập nhật thêm cột status
-$stmt = $conn->prepare("UPDATE posts SET content = ?, description = ?, file = ?, status = ? WHERE id = ? AND username = ?");
-if ($stmt) {
-    $stmt->bind_param("ssssis", $newContent, $newDescription, $newFile, $newStatus, $postId, $_SESSION['username']);
-    if ($stmt->execute()) {
-        // So sánh thay đổi và chuẩn bị log chi tiết
-        $changeDetails = "";
-        if ($newContent !== $post['content']) {
-            $changeDetails .= "Nội dung cập nhật: \"$newContent\". ";
-        }
-        if ($newDescription !== $post['description']) {
-            $changeDetails .= "Mô tả cập nhật: \"$newDescription\". ";
-        }
-        if ($newFile !== $post['file']) {
-            $changeDetails .= "File cập nhật: \"$newFile\". ";
-        }
-        if ($newStatus !== $post['status']) {
-            $statusText = ($newStatus === '1') ? "Vô hiệu hóa" : "Kích hoạt";
-            $changeDetails .= "Trạng thái cập nhật: \"$statusText\". ";
-        }
-        if ($changeDetails === "") {
-            $changeDetails = "Không có thay đổi nào.";
-        }
-
-        // Ghi log chỉnh sửa bài đăng với chi tiết thay đổi
-        logEditPost($postId, $changeDetails);
-        $_SESSION['success'] = "Cập nhật bài đăng thành công!";
-    } else {
-        $_SESSION['error'] = "Lỗi cập nhật bài đăng: " . $stmt->error;
+    // Kiểm tra dữ liệu rỗng
+    if (empty($newContent)) {
+        $_SESSION['error'] = "Nội dung bài đăng không được để trống.";
+        header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
+        exit;
     }
-    $stmt->close();
-} else {
-    $_SESSION['error'] = "Lỗi truy vấn: " . $conn->error;
-}
 
-// Redirect về trang view bài đăng
-header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
-exit;
+    // Kiểm tra độ dài tiêu đề và mô tả
+    if (strlen($newContent) > 500) {
+        $_SESSION['error'] = "Tiêu đề không được vượt quá 500 ký tự.";
+        header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
+        exit;
+    }
+
+    if (strlen($newDescription) > 4096) {
+        $_SESSION['error'] = "Mô tả không được vượt quá 4096 ký tự.";
+        header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
+        exit;
+    }
+
+    // Nếu status của bài đăng là 2, không cho phép cập nhật
+    if ($post['status'] == 2) {
+        echo "<script>alert('Bạn không thể chỉnh sửa bài viết bị chặn bởi quản trị viên!'); window.location.href = '/';</script>";
+        exit;
+    }
+
+    // Thực hiện UPDATE vào database, cập nhật thêm cột status
+    $stmt = $conn->prepare("UPDATE posts SET content = ?, description = ?, file = ?, status = ? WHERE id = ? AND username = ?");
+    if ($stmt) {
+        $stmt->bind_param("ssssis", $newContent, $newDescription, $newFile, $newStatus, $postId, $_SESSION['username']);
+        if ($stmt->execute()) {
+            // So sánh thay đổi và chuẩn bị log chi tiết
+            $changeDetails = "";
+            if ($newContent !== $post['content']) {
+                $changeDetails .= "Nội dung cập nhật: \"$newContent\". ";
+            }
+            if ($newDescription !== $post['description']) {
+                $changeDetails .= "Mô tả cập nhật: \"$newDescription\". ";
+            }
+            if ($newFile !== $post['file']) {
+                $changeDetails .= "File cập nhật: \"$newFile\". ";
+            }
+            if ($newStatus !== $post['status']) {
+                $statusText = ($newStatus === '1') ? "Vô hiệu hóa" : "Kích hoạt";
+                $changeDetails .= "Trạng thái cập nhật: \"$statusText\". ";
+            }
+            if ($changeDetails === "") {
+                $changeDetails = "Không có thay đổi nào.";
+            }
+
+            // Ghi log chỉnh sửa bài đăng với chi tiết thay đổi
+            logEditPost($postId, $changeDetails);
+            $_SESSION['success'] = "Cập nhật bài đăng thành công!";
+        } else {
+            $_SESSION['error'] = "Lỗi cập nhật bài đăng: " . $stmt->error;
+        }
+        $stmt->close();
+    } else {
+        $_SESSION['error'] = "Lỗi truy vấn: " . $conn->error;
+    }
+
+    // Redirect về trang view bài đăng
+    header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
+    exit;
 }
 ?>
