@@ -268,17 +268,20 @@ if (empty($_SESSION['csrf_token'])) {
 <!-- Modal Bootstrap full screen -->
 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-fullscreen">
-    <div class="modal-content">
+    <div class="modal-content" style="background-color: rgba(255, 255, 255, 0.45);">
       <div class="modal-header">
         <h5 class="modal-title" id="imageModalLabel">Xem ảnh</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body d-flex justify-content-center align-items-center">
-        <img id="modalImage" src="" class="img-fluid" style="max-width: 100vw; max-height: 100vh;">
+        <img id="modalImage" src="" class="img-fluid" style="max-width: 100vw; max-height: 100vh; border-radius: 20px;">
       </div>
     </div>
   </div>
 </div>
+
+
+
 
 
 

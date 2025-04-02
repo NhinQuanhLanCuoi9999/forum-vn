@@ -122,11 +122,7 @@ However, if you redistribute the source code, you must retain this license.
                         <?php echo $cleanName; ?>
                     </a>
                 </p>
-                <script>
-                  function confirmDownload(fileName) {
-                    return confirm(`Cảnh báo: Tệp "${fileName}" có thể không an toàn. Bạn có chắc muốn tải xuống không?`);
-                  }
-                </script>
+                <script>function confirmDownload(fileName) {return confirm(`Cảnh báo: Tệp "${fileName}" có thể không an toàn. Bạn có chắc muốn tải xuống không?`);}</script>
             <?php endif; ?>
         <?php endif; ?>
         <?php if ($isOwner): ?>
@@ -184,13 +180,21 @@ However, if you redistribute the source code, you must retain this license.
                   return '<a href="' . htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8') .
                          '" target="_blank">' . htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8') . '</a>';
                 }, htmlspecialchars($comment['content'], ENT_QUOTES, 'UTF-8')); ?></p>
-              <?php if ($isLoggedIn): ?>
-                <button class="btn btn-link p-0" data-bs-toggle="collapse" data-bs-target="#replySection-<?php echo $comment['id']; ?>">Trả lời</button>
-              <?php endif; ?>
-              <?php if ($isLoggedIn && $_SESSION['username'] === $comment['username']): ?>
-                <a href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&delete_comment=<?php echo htmlspecialchars($comment['id'], ENT_QUOTES, 'UTF-8'); ?>&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-danger btn-delete btn-sm">Xóa bình luận</a>
-                <a href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&edit_comment=<?php echo htmlspecialchars($comment['id'], ENT_QUOTES, 'UTF-8'); ?>&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-warning btn-edit btn-sm">Chỉnh sửa</a>
-              <?php endif; ?>
+           <?php if ($isLoggedIn): ?>
+  <div class="dropdown">
+    <button class="btn btn-link p-0 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+      Tùy chọn
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <li><a class="dropdown-item" href="#" data-bs-toggle="collapse" data-bs-target="#replySection-<?php echo $comment['id']; ?>">Trả lời</a></li>
+      <?php if ($_SESSION['username'] === $comment['username']): ?>
+        <li><a class="dropdown-item" href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&delete_comment=<?php echo htmlspecialchars($comment['id'], ENT_QUOTES, 'UTF-8'); ?>&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>">Xóa bình luận</a></li>
+        <li><a class="dropdown-item" href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&edit_comment=<?php echo htmlspecialchars($comment['id'], ENT_QUOTES, 'UTF-8'); ?>&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>">Chỉnh sửa</a></li>
+      <?php endif; ?>
+    </ul>
+  </div>
+<?php endif; ?>
+
               <!-- Phần reply -->
               <div id="replySection-<?php echo $comment['id']; ?>" class="collapse mt-2">
                 <form action="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>#replySection-<?php echo $comment['id']; ?>" method="POST">
@@ -260,17 +264,18 @@ However, if you redistribute the source code, you must retain this license.
 <!-- Modal Bootstrap full screen -->
 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-fullscreen">
-    <div class="modal-content">
+    <div class="modal-content" style="background-color: rgba(255, 255, 255, 0.45);">
       <div class="modal-header">
         <h5 class="modal-title" id="imageModalLabel">Xem ảnh</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body d-flex justify-content-center align-items-center">
-        <img id="modalImage" src="" class="img-fluid" style="max-width: 100vw; max-height: 100vh;">
+        <img id="modalImage" src="" class="img-fluid" style="max-width: 100vw; max-height: 100vh; border-radius: 20px;">
       </div>
     </div>
   </div>
 </div>
+
 
 
 <script>function updateModalImage(src) {document.getElementById('modalImage').src = src;}</script>
