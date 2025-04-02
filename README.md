@@ -15,7 +15,7 @@
 ### Lưu ý
 - Nếu bạn có role "owner" hoặc "admin", sau khi đăng nhập, bạn có thể truy cập trang `admin_tool/admin.php` để quản lý website.
 - Hãy chắc chắn rằng bạn đã bật 2FA tài khoản Google và đã tạo [App Password](https://myaccount.google.com/apppasswords)
-- Để lấy Secret Key và Cilent ID của Google OAuth 2.0 , các bạn vào [Google Cloud Console](https://console.cloud.google.com). Tạo project mới ( nếu chưa có) >> APIs & Services >> Credentials >> Tạo thông tin xác thực mới ( nhớ trỏ domain ở `Authorized redirect URIs` về dưới dạng : "[http/https://]<tên domain>/src/google_auth/google_callback.php")
+- Để lấy Secret Key và Cilent ID của Google OAuth 2.0 , các bạn vào [Google Cloud Console](https://console.cloud.google.com). Tạo project mới ( nếu chưa có) >> APIs & Services >> Credentials >> Tạo thông tin xác thực mới ( nhớ trỏ domain ở `Authorized redirect URIs` về dưới dạng : `[http://]<tên domain>/src/google_auth/google_callback.php`)
 - Dự án này phát hành theo GPLv3, nghĩa là bạn có quyền phân phối, chỉnh sửa tùy ý nhưng phải giữ mã nguồn mở (open source) và ghi credit chủ sở hữu @NhinQuanhLanCuoi9999 trên GitHub.
 
 ### Thư viện & Phụ thuộc

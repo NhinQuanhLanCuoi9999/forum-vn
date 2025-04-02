@@ -13,8 +13,8 @@ if (!isset($_GET['api'])) {
 
 $api_key = $_GET['api'];
 
-// Xác thực API key
-$stmt = $conn->prepare("SELECT id FROM api_keys WHERE api_key = ? AND is_active = 1");
+// Xác thực API key và kiểm tra remaining_uses
+$stmt = $conn->prepare("SELECT id, remaining_uses FROM api_keys WHERE api_key = ? AND is_active = 1");
 $stmt->bind_param("s", $api_key);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -22,6 +22,44 @@ $result = $stmt->get_result();
 if ($result->num_rows === 0) {
     http_response_code(403);
     echo json_encode(["error" => "Invalid or inactive API key."]);
+    exit;
+}
+
+$api_data = $result->fetch_assoc();
+if ($api_data['remaining_uses'] <= 0) {
+    // Xóa bản ghi nếu remaining_uses = 0
+    $delete_stmt = $conn->prepare("DELETE FROM api_keys WHERE id = ?");
+    $delete_stmt->bind_param("i", $api_data['id']);
+    $delete_stmt->execute();
+
+    http_response_code(403);
+    echo json_encode(["error" => "API key has no remaining uses."]);
+    exit;
+}
+
+// Trừ remaining_uses
+$update_stmt = $conn->prepare("UPDATE api_keys SET remaining_uses = remaining_uses - 1 WHERE id = ?");
+$update_stmt->bind_param("i", $api_data['id']);
+$update_stmt->execute();
+
+// Kiểm tra và cập nhật `api_count` trong session
+$current_time = time();
+if (!isset($_SESSION['api_count'])) {
+    $_SESSION['api_count'] = 0;
+    $_SESSION['api_count_reset_time'] = $current_time;
+} else {
+    $elapsed_time = $current_time - $_SESSION['api_count_reset_time'];
+    if ($elapsed_time > 60) {
+        $_SESSION['api_count'] = 0;
+        $_SESSION['api_count_reset_time'] = $current_time;
+    }
+}
+
+$_SESSION['api_count'] += 1;
+
+if ($_SESSION['api_count'] > 10) {
+    http_response_code(429);
+    echo json_encode(["error" => "Too many requests. Please try again later."]);
     exit;
 }
 

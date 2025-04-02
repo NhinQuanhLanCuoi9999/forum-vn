@@ -1,5 +1,4 @@
 <?php
-
 // Hàm tạo API key ngẫu nhiên
 function generateApiKey($length = 32) {
     return bin2hex(random_bytes($length / 2));
@@ -21,15 +20,26 @@ function writeLog($action, $apiKey, $ipAddress) {
     }
 }
 
-// Thêm API key
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate_key'])) {
+// Thêm API key với remaining_uses từ modal
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_generate_key'])) {
+    $remainingUses = isset($_POST['remaining_uses']) ? intval($_POST['remaining_uses']) : 500; // mặc định 500 nếu không có giá trị
+
+    // Kiểm tra backend cho giá trị remaining_uses phải từ 500 đến 2000
+    if ($remainingUses < 500 || $remainingUses > 2000) {
+        $_SESSION['message'] = "Giá trị remaining uses phải nằm trong khoảng từ 500 đến 2000!";
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
+    }
+
     $newApiKey = generateApiKey();
-    $stmt = $conn->prepare("INSERT INTO api_keys (api_key, is_active) VALUES (?, 1)");
-    $stmt->bind_param("s", $newApiKey);
+
+    // Giả sử bảng api_keys đã có cột remaining_uses
+    $stmt = $conn->prepare("INSERT INTO api_keys (api_key, is_active, remaining_uses) VALUES (?, 1, ?)");
+    $stmt->bind_param("si", $newApiKey, $remainingUses);
     if ($stmt->execute()) {
         $ipAddress = $_SERVER['REMOTE_ADDR'];
         writeLog('API Key Created', $newApiKey, $ipAddress);
-        $_SESSION['message'] = "API key created successfully!";
+        $_SESSION['message'] = "API key created successfully with remaining uses: $remainingUses!";
         header("Refresh:1; url=" . $_SERVER['PHP_SELF']);
         exit;
     } else {
@@ -54,7 +64,7 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
         writeLog('API Key Deleted', $apiKey, $ipAddress);
         $_SESSION['message'] = "API key deleted successfully!";
 
-        // Kiểm tra nếu bảng trống và reset auto-increment nếu không có bản ghi nào
+        // Reset auto-increment nếu bảng trống
         $result = $conn->query("SELECT COUNT(*) AS count FROM api_keys");
         $row = $result->fetch_assoc();
         if ($row['count'] == 0) {
@@ -93,12 +103,13 @@ if (isset($_GET['toggle']) && is_numeric($_GET['toggle'])) {
     exit;
 }
 
-// Lấy danh sách API keys
+// Lấy danh sách API keys với sắp xếp theo id giảm dần
 $apiKeys = [];
-$result = $conn->query("SELECT id, api_key, is_active, created_at FROM api_keys");
+$result = $conn->query("SELECT id, api_key, is_active, created_at, remaining_uses FROM api_keys ORDER BY id DESC");
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $apiKeys[] = $row;
     }
 }
+
 ?>

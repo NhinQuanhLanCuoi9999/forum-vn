@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS api_keys (
     id INT AUTO_INCREMENT PRIMARY KEY,
     api_key VARCHAR(255) NOT NULL UNIQUE,
     is_active TINYINT(1) NOT NULL DEFAULT 1, -- 1: active, 0: inactive
+    remaining_uses INT NOT NULL DEFAULT 500,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 -- Bảng misc

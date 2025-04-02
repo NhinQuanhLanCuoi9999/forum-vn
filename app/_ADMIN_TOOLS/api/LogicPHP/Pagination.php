@@ -8,15 +8,15 @@ $page = max(1, $page); // Đảm bảo trang không nhỏ hơn 1
 $offset = ($page - 1) * $limit;
 
 // Truy vấn tổng số bản ghi để tính toán tổng số trang
-$totalQuery = "SELECT COUNT(*) FROM api_keys";  // Thay 'api_keys' bằng tên bảng của bạn
+$totalQuery = "SELECT COUNT(*) FROM api_keys";
 $totalResult = $conn->query($totalQuery);
 $totalRows = $totalResult->fetch_row()[0];
 
 // Tính toán tổng số trang
 $totalPages = ceil($totalRows / $limit);
 
-// Truy vấn lấy các bản ghi theo phân trang
-$query = "SELECT * FROM api_keys LIMIT $limit OFFSET $offset";
+// Truy vấn lấy các bản ghi theo phân trang với sắp xếp theo id giảm dần
+$query = "SELECT * FROM api_keys ORDER BY id DESC LIMIT $limit OFFSET $offset";
 $apiKeysResult = $conn->query($query);
 
 // Chuyển đổi kết quả truy vấn thành mảng
@@ -24,4 +24,5 @@ $apiKeys = [];
 while ($row = $apiKeysResult->fetch_assoc()) {
     $apiKeys[] = $row;
 }
+
 ?>
