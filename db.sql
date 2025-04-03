@@ -19,10 +19,24 @@ CREATE TABLE IF NOT EXISTS posts (
     username VARCHAR(50) NOT NULL,
     description TEXT, -- Thêm mô tả
     file VARCHAR(255), -- Sửa cột hình ảnh thành cột file
-    status CHAR(1) NOT NULL DEFAULT '0', -- Thêm cột trạng thái, mặc định là '0'
+    status CHAR(1) NOT NULL DEFAULT '0', -- Cột trạng thái, mặc định là '0'
+    view INT UNSIGNED NOT NULL DEFAULT 0, -- Cột view, không âm, mặc định là 0
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+-- Bảng react: lưu lại phản ứng (like/dislike) của user cho bài post
+CREATE TABLE IF NOT EXISTS react (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    reaction ENUM('like', 'dislike') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_reaction (post_id, username), -- mỗi user chỉ có thể react 1 lần cho 1 post
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 
 -- Bảng comments
 CREATE TABLE IF NOT EXISTS comments (

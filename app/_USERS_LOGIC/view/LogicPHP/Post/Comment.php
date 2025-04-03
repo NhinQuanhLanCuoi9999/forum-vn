@@ -1,5 +1,5 @@
 <?php
-include '../app/_USERS_LOGIC/view/LogicPHP/Comment2.php';
+include 'Comment2.php';
 include_once 'RateLimit.php';
 
 

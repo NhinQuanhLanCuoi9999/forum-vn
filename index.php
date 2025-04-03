@@ -233,8 +233,6 @@ if (empty($_SESSION['csrf_token'])) {
                     <source src="<?= $filePath ?>" type="<?= mime_content_type($filePath) ?>">
                 </audio>
             <?php endif; ?>
-        <?php else: ?>
-            <p>Click vào đây để <a href="<?= $filePath ?>" download>Tải audio/video xuống</a>, hoặc nhấn vào nút Xem thêm bên dưới để phát.</p>
         <?php endif; ?>
     </div>
 <?php endif; ?>
