@@ -6,8 +6,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/advanced_config/OAuth2.ph
 include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Auth.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Check2FA.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Auth.php';
-
-$message = ""; // Biến chứa thông báo
 ?>
 
 <!DOCTYPE html>
@@ -69,7 +67,7 @@ $message = ""; // Biến chứa thông báo
             </div>
             <div class="mb-3">
               <label for="google_client_secret" class="form-label">Google Client Secret:</label>
-              <input type="text" class="form-control" id="google_client_secret" name="google_client_secret" value="<?php echo htmlspecialchars($google_client_secret); ?>" required>
+              <input type="password" class="form-control" id="google_client_secret" name="google_client_secret" value="<?php echo htmlspecialchars($google_client_secret); ?>" required>
             </div>
             <div class="d-grid">
               <input type="submit" name="submit_google" class="btn btn-primary" value="Gửi">

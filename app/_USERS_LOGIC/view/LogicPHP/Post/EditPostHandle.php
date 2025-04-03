@@ -1,6 +1,6 @@
 <?php
 include_once 'RateLimit.php';
-require $_SERVER['DOCUMENT_ROOT'] . '/app/_USERS_LOGIC/index/logicPHP/FileSizeHandle.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/app/_USERS_LOGIC/index/logicPHP/Handle/FileSizeHandle.php';
 
 // Kiểm tra nếu tổng nội dung POST vượt quá giới hạn
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_LENGTH'])) {

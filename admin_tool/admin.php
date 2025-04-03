@@ -86,19 +86,20 @@ However, if you redistribute the source code, you must retain this license.  */
         </div>
         <div class="form-row">
             <label for="turnstile_site_key">Turnstile Site Key:</label>
-            <input type="text" id="turnstile_site_key" name="turnstile_site_key" value="<?php echo htmlspecialchars($system_config['turnstile_site_key'] ?? ''); ?>" required>
+            <input type="password" id="turnstile_site_key" name="turnstile_site_key" value="<?php echo htmlspecialchars($system_config['turnstile_site_key'] ?? ''); ?>" required>
         </div>
         <div class="form-row">
             <label for="turnstile_api_key">Turnstile API Key:</label>
-            <input type="text" id="turnstile_api_key" name="turnstile_api_key" value="<?php echo htmlspecialchars($system_config['turnstile_api_key'] ?? ''); ?>" required>
+            <input type="password" id="turnstile_api_key" name="turnstile_api_key" value="<?php echo htmlspecialchars($system_config['turnstile_api_key'] ?? ''); ?>" required>
         </div>
         <div class="form-row">
             <label for="ipinfo_api_key">IPInfo API Key:</label>
-            <input type="text" id="ipinfo_api_key" name="ipinfo_api_key" value="<?php echo htmlspecialchars($system_config['ipinfo_api_key']); ?>" required>
+            <input type="password" id="ipinfo_api_key" name="ipinfo_api_key" value="<?php echo htmlspecialchars($system_config['ipinfo_api_key']); ?>" required>
         </div>
         <div class="form-row">
             <button type="submit">Lưu thay đổi</button>
         </div>
+
     </div>
 </form>
 

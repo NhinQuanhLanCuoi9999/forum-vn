@@ -1,6 +1,7 @@
 <?php
 
-require_once 'Log.php';
+require_once($_SERVER['DOCUMENT_ROOT'] . '/app/_USERS_LOGIC/index/logicPHP/Logs/Log.php');
+
 
 // Đăng xuất
 if (isset($_GET['logout'])) {

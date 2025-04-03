@@ -86,11 +86,10 @@ However, if you redistribute the source code, you must retain this license.
           <p><strong>Tác giả:</strong> <?php echo htmlspecialchars($post['username'], ENT_QUOTES, 'UTF-8'); ?></p>
           <p><strong>Ngày tạo:</strong> <?php echo htmlspecialchars($post['created_at'], ENT_QUOTES, 'UTF-8'); ?></p>
           <p><strong>Lượt xem:</strong> <?php echo $viewCount; ?></p>
-
-          <?php 
-          // Hiển thị tệp đính kèm (hình ảnh, video, âm thanh hoặc liên kết tải xuống)
-          echo displayAttachment($post['file'], $safeFileName, $cleanName);
-          ?>
+<?php 
+// Hiển thị tệp đính kèm (hình ảnh, video, âm thanh hoặc liên kết tải xuống)
+echo displayAttachment($post['file'], $safeFileName, $cleanName);
+?>
 
           <?php 
           // Hiển thị các nút phản ứng (like, dislike)

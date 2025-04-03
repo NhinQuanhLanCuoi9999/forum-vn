@@ -1,6 +1,6 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Check2FA.php');
-include($_SERVER['DOCUMENT_ROOT'] . '/app/_USERS_LOGIC/index/logicPHP/Captcha.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/app/_USERS_LOGIC/index/logicPHP/Auth/Captcha.php');
 include 'LogicPHP/Auth/Auth.php';
 include 'LogicPHP/Post/Comment.php';
 include 'LogicPHP/Logs/Logs.php';
