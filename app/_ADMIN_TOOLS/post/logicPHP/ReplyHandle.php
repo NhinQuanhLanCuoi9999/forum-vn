@@ -1,7 +1,7 @@
 <?php
 // Xử lý xóa phản hồi
-if (isset($_GET['delete_reply'])) {
-    $reply_id = intval($_GET['delete_reply']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_reply'])) {
+    $reply_id = intval($_POST['delete_reply']);
 
     // Sử dụng prepared statement để tránh SQL Injection
     $query_reply = "SELECT replies.id, replies.username, replies.content, users.role AS user_role 
@@ -43,7 +43,7 @@ if (isset($_GET['delete_reply'])) {
 
     // Đóng statement
     mysqli_stmt_close($stmt);
-    header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+    header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }
 ?>

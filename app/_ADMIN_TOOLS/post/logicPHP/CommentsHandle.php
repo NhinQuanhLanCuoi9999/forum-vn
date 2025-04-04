@@ -1,7 +1,7 @@
 <?php
 // Xử lý xóa bình luận
-if (isset($_GET['delete_comment'])) {
-    $comment_id = intval($_GET['delete_comment']);
+if (isset($_POST['delete_comment'])) {
+    $comment_id = intval($_POST['delete_comment']);
 
     // Lấy thông tin bình luận cần xóa (chỉ lấy các trường cần thiết)
     $query_comment = "SELECT comments.id, comments.username, comments.content, users.role AS user_role 
@@ -45,7 +45,7 @@ if (isset($_GET['delete_comment'])) {
     mysqli_stmt_close($stmt);
 
     // Reload trang
-    header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+    header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }
 ?>

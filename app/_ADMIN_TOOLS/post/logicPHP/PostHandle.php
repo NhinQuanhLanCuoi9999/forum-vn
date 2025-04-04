@@ -1,24 +1,10 @@
 <?php
-                    if (!function_exists('toggle_comment')) {
-                        // Hàm cập nhật trạng thái bình luận
-                        function toggle_comment($conn, $post_id) {
-                            $post_id = intval($post_id);
-                            $sql = "SELECT status FROM posts WHERE id = $post_id";
-                            $result = mysqli_query($conn, $sql);
-                            if ($result && mysqli_num_rows($result) > 0) {
-                                $post = mysqli_fetch_assoc($result);
-                                $currentStatus = $post['status'];
-                                // Nếu status bằng 2 (đã tắt) thì bật lại thành 0, còn lại chuyển thành 2 (tắt)
-                                $newStatus = ($currentStatus == 2) ? 0 : 2;
-                                $updateSql = "UPDATE posts SET status = $newStatus WHERE id = $post_id";
-                                mysqli_query($conn, $updateSql);
-                            }
-                        }
-                    }
-                    
+include_once 'Logs.php';
+
+
 // Xử lý xóa bài đăng
-if (isset($_GET['delete'])) {
-    $post_id = intval($_GET['delete']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
+    $post_id = intval($_POST['delete']); // Lấy ID bài đăng cần xóa
 
     // Truy vấn để lấy username và content của bài đăng (DÙNG PREPARED STATEMENT)
     $query = "SELECT username, content FROM posts WHERE id = ?";
@@ -73,7 +59,8 @@ if (isset($_GET['delete'])) {
     }
 
     mysqli_stmt_close($stmt);
-    header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+    header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }
+
 ?>

@@ -6,6 +6,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/advanced_config/OAuth2.ph
 include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Auth.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Check2FA.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Auth.php';
+// Kiểm tra quyền hạn, nếu không phải owner thì dừng script và chuyển hướng về admin.php sau 3 giây
+if ($_SESSION['role'] !== 'owner') {
+  header("refresh:3;url=admin.php");
+  die('Bạn không đủ quyền hạn để truy cập trang này. Chuyển hướng về trang quản trị sau 3 giây...');
+  exit;
+}
 ?>
 
 <!DOCTYPE html>
