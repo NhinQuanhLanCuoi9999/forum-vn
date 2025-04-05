@@ -6,8 +6,8 @@ function displayAttachment($fileName, $safeFileName, $cleanName) {
         if (isImage($filePath)) {
             return '
                 <div class="text-center mb-3">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="updateModalImage(\'' . $filePath . '\')">
-                        <img src="' . $filePath . '" alt="' . $cleanName . '" style="max-width:100%; height:auto;">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="updateModalImage(\'' . $filePath . '\')" style="text-decoration: none;">
+                        <img src="' . $filePath . '" alt="' . $cleanName . '" style="max-width:100%; height:auto; border-radius: 15px;">
                     </a>
                 </div>';
         } elseif (isVideo($filePath)) {
@@ -29,7 +29,7 @@ function displayAttachment($fileName, $safeFileName, $cleanName) {
         } else {
             return '
                 <p><strong>Tệp đính kèm: </strong>
-                    <a href="' . $filePath . '" download onclick="return confirmDownload(\'' . $cleanName . '\')">
+                    <a href="' . $filePath . '" download onclick="return confirmDownload(\'' . $cleanName . '\')" style="text-decoration: none;">
                         ' . $cleanName . '
                     </a>
                 </p>

@@ -166,7 +166,9 @@ if($id){
   <?php while($comment = $commentsQuery->fetch_assoc()): ?>
     <div class="comment border p-3 mb-3">
       <p>
-        <strong><?php echo htmlspecialchars($comment['username'], ENT_QUOTES, 'UTF-8'); ?></strong>
+      <a href="profile.php?username=<?php echo urlencode($comment['username']); ?>">
+      <a href="profile.php?username=<?php echo urlencode($comment['username']); ?>" style="text-decoration: none;">
+        <strong><?php echo htmlspecialchars($comment['username'], ENT_QUOTES, 'UTF-8'); ?></strong></a>
         <small>(<?php echo htmlspecialchars($comment['created_at'], ENT_QUOTES, 'UTF-8'); ?>)</small>
       </p>
       <p><?php echo preg_replace_callback('/https?:\\/\\/[^\s]+/', function($matches){
@@ -207,7 +209,9 @@ if($id){
           <div class="reply mb-2">
             <div class="card card-body bg-light">
               <p>
-                <strong><?php echo htmlspecialchars($reply['username'], ENT_QUOTES, 'UTF-8'); ?></strong>
+              <a href="profile.php?username=<?php echo urlencode($reply['username']); ?>">
+              <a href="profile.php?username=<?php echo urlencode($reply['username']); ?>" style="text-decoration: none;">
+                <strong><?php echo htmlspecialchars($reply['username'], ENT_QUOTES, 'UTF-8'); ?></strong></a>
                 <small>(<?php echo htmlspecialchars($reply['created_at'], ENT_QUOTES, 'UTF-8'); ?>)</small>
                 <?php if($isLoggedIn && $_SESSION['username'] === $reply['username']): ?>
                 <a href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&delete_reply=<?php echo $reply['id']; ?>&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-danger btn-delete btn-sm">Xóa</a>
@@ -251,7 +255,6 @@ if($id){
     <?php endif; ?>
   <?php endif; ?>
 </div>
-
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));

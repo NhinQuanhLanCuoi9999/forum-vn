@@ -222,7 +222,8 @@ if (empty($_SESSION['csrf_token'])) {
         if (shouldDisplayInline($filePath)): ?>
             <?php if (isImage($filePath)): ?>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="updateModalImage('<?= $filePath ?>')">
-                    <img src="<?= $filePath ?>" style="max-width:100%;height:auto;display:block;">
+                <img src="<?= $filePath ?>" style="max-width:100%;height:auto;display:block;border-radius: 15px;">
+
                 </a>
             <?php elseif (isVideo($filePath)): ?>
                 <video controls style="max-width:100%;height:auto;display:block;">
@@ -244,11 +245,11 @@ if (empty($_SESSION['csrf_token'])) {
             
             <div class="post-footer">
                 <small>Đăng bởi: 
-                    <a href="src/profile.php?username=<?php echo urlencode($post['username']); ?>" target="_blank">
-                        <?php echo htmlspecialchars($post['username']); ?>
+                <a href="src/profile.php?username=<?php echo urlencode($post['username']); ?>" target="_blank" style="text-decoration: none;">
+                <?php echo htmlspecialchars($post['username']); ?></a>
                     </a> vào <?php echo htmlspecialchars($formattedDate); ?>
                 </small>
-                <small><a href="src/view.php?id=<?php echo intval($post['id']); ?>" class="read-more">Xem thêm</a></small>
+                <small><a href="src/view.php?id=<?php echo intval($post['id']); ?>" class="read-more" style="text-decoration: none;">Xem thêm</a></small>
 
                 <?php if (isset($_SESSION['username']) && $post['username'] == $_SESSION['username']): ?>
                     <form method="get" action="index.php" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">

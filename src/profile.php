@@ -86,7 +86,7 @@ However, if you redistribute the source code, you must retain this license.
                                 <p class="description"><em><?= nl2br(htmlspecialchars($post['description'])) ?></em></p>
                             <?php endif; ?>
                             <p><small>Đăng vào: <?= $post['created_at'] ?></small></p>
-                            <small><a href="src/view.php?id=<?= $post['id'] ?>" class="read-more">Xem thêm</a></small>
+                            <small><a href="src/view.php?id=<?= $post['id'] ?>" class="read-more" style="text-decoration: none;">Xem thêm</a></small>
                         </div>
                     <?php endwhile; ?>
                 </div>
