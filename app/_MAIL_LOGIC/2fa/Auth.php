@@ -31,7 +31,7 @@ if (isset($_SESSION['username'])) {
 
 // Kiểm tra nếu tham số logout được truyền vào URL thì sẽ logout
 if (isset($_GET['logout'])) {
-    if (isset($_SESSION['username'])) {unset($_SESSION['username']);unset($_SESSION['otp']);unset($_SESSION['otp_attempts']);}}
+    if (isset($_SESSION['username'])) {unset($_SESSION['username']);unset($_SESSION['role']);unset($_SESSION['otp']);unset($_SESSION['otp_attempts']);}}
 
 // Kiểm tra số lần nhập sai OTP
 if (!isset($_SESSION['otp_attempts'])) {
