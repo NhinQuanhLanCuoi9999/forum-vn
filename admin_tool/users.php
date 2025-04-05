@@ -3,7 +3,6 @@ session_start();
 include '../config.php';
 include '../app/_ADMIN_TOOLS/usermgr/php.php';
 
-
 /*
 ##############################################################
 #                                                            #
@@ -18,7 +17,8 @@ Original Author: NhinQuanhLanCuoi9999
 License: GNU General Public License v3.0  
 
 You are free to use, modify, and distribute this software under the terms of the GPL v3.  
-However, if you redistribute the source code, you must retain this license.  */
+However, if you redistribute the source code, you must retain this license.
+*/
 ?>
 
 <!DOCTYPE html>
@@ -71,26 +71,73 @@ However, if you redistribute the source code, you must retain this license.  */
                   Hành động
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownActions_<?php echo $user['id']; ?>">
+                  <!-- Dropdown Thông tin -->
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#infoModal_<?php echo $user['id']; ?>">Thông tin</a></li>
                   <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal_<?php echo $user['id']; ?>">Chỉnh sửa tên</a></li>
                   <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal_<?php echo $user['id']; ?>">Xóa tài khoản</a></li>
                   <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#permissionModal_<?php echo $user['id']; ?>">Phân quyền</a></li>
                 </ul>
               </div>
-              <?php elseif ($session_role === 'admin' && $user['role'] === 'member'): ?>
-  <!-- Admin: sử dụng dropdown menu cho member -->
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownActions_<?php echo $user['id']; ?>" data-bs-toggle="dropdown" aria-expanded="false">
-      Hành động
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownActions_<?php echo $user['id']; ?>">
-      <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal_<?php echo $user['id']; ?>">Chỉnh sửa tên</a></li>
-      <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal_<?php echo $user['id']; ?>">Xóa tài khoản</a></li>
-    </ul>
-  </div>
-<?php endif; ?>
-
+            <?php elseif ($session_role === 'admin' && $user['role'] === 'member'): ?>
+              <!-- Admin: sử dụng dropdown menu cho member -->
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownActions_<?php echo $user['id']; ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                  Hành động
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownActions_<?php echo $user['id']; ?>">
+                  <!-- Dropdown Thông tin -->
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#infoModal_<?php echo $user['id']; ?>">Thông tin</a></li>
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal_<?php echo $user['id']; ?>">Chỉnh sửa tên</a></li>
+                  <li><a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal_<?php echo $user['id']; ?>">Xóa tài khoản</a></li>
+                </ul>
+              </div>
+            <?php endif; ?>
           </div>
         </div>
+
+       <!-- Modal Thông tin -->
+<div class="modal fade" id="infoModal_<?php echo $user['id']; ?>" tabindex="-1" aria-labelledby="infoModalLabel_<?php echo $user['id']; ?>" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content shadow-lg rounded">
+      <div class="modal-header" style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);">
+        <h5 class="modal-title text-white" id="infoModalLabel_<?php echo $user['id']; ?>">
+          Thông tin người dùng: <?php echo htmlspecialchars($user['username']); ?> </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle"> <tbody> <tr>
+                <th scope="row" style="width: 30%;">ID</th>
+                <td><?php echo htmlspecialchars($user['id']); ?></td> </tr>
+              <tr> <th scope="row">Tên người dùng</th>
+                <td><?php echo htmlspecialchars($user['username']); ?></td> </tr>
+              <?php if (!empty($user['gmail'])): ?>
+              <tr> <th scope="row">Gmail</th>
+                <td> <?php echo htmlspecialchars($user['gmail']); ?></td> </tr> <?php endif; ?>
+              <tr> <th scope="row">Kích hoạt</th> <td>
+                  <?php echo ($user['is_active'] === '1') ? '<span class="badge bg-success">Đã kích hoạt</span>' : '<span class="badge bg-warning text-dark">Chưa kích hoạt</span>'; ?></td> </tr> 
+                    <tr> <th scope="row">2FA</th> <td>
+                  <?php echo ($user['2fa'] === '1') ? '<span class="badge bg-success">Bật</span>' : '<span class="badge bg-secondary">Tắt</span>'; ?> </td> </tr>
+              <?php if (!empty($user['description'])): ?> <tr>
+                <th scope="row">Mô tả</th>
+                <td><?php echo htmlspecialchars($user['description']); ?></td></tr>       
+                <?php endif; ?> <tr> <th scope="row">Vai trò</th>
+                <td><?php echo htmlspecialchars($user['role']); ?></td> </tr><tr>
+                <th scope="row">Ngày tạo</th>
+                <td><?php echo htmlspecialchars($user['created_at']); ?></td> </tr>
+              <tr> <th scope="row">Lần cuối đăng nhập</th>
+                <td> <?php echo htmlspecialchars($user['last_login']); ?></td> </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
         <!-- Modal chỉnh sửa tên -->
         <div class="modal fade" id="editModal_<?php echo $user['id']; ?>" tabindex="-1" aria-labelledby="editModalLabel_<?php echo $user['id']; ?>" aria-hidden="true">
@@ -192,48 +239,10 @@ However, if you redistribute the source code, you must retain this license.  */
     <?php endif; ?>
   </div>
 
-  <!-- Phân trang qua POST -->
-  <div class="d-flex justify-content-center">
-    <?php if ($page > 1): ?>
-      <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" class="d-inline-block me-2">
-        <?php if (!empty($search_term)): ?>
-          <input type="hidden" name="search" value="<?php echo htmlspecialchars($search_term); ?>">
-          <input type="hidden" name="search_submit" value="1">
-        <?php endif; ?>
-        <input type="hidden" name="page" value="1">
-        <button type="submit" class="btn btn-secondary">&lt;&lt;&lt;</button>
-      </form>
-    <?php endif; ?>
+  <!-- Hàm render phân trang -->
+<?php render_pagination($page, $total_pages, $search_term); ?>
 
-    <?php
-      $start = max(1, $page - 2);
-      $end = min($total_pages, $page + 2);
-      for ($i = $start; $i <= $end; $i++):
-    ?>
-      <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" class="d-inline-block me-2">
-        <?php if (!empty($search_term)): ?>
-          <input type="hidden" name="search" value="<?php echo htmlspecialchars($search_term); ?>">
-          <input type="hidden" name="search_submit" value="1">
-        <?php endif; ?>
-        <input type="hidden" name="page" value="<?php echo $i; ?>">
-        <button type="submit" class="btn <?php echo ($i == $page) ? 'btn-primary' : 'btn-outline-secondary'; ?>"><?php echo $i; ?></button>
-      </form>
-    <?php endfor; ?>
 
-    <?php if ($page < $total_pages): ?>
-      <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" class="d-inline-block me-2">
-        <?php if (!empty($search_term)): ?>
-          <input type="hidden" name="search" value="<?php echo htmlspecialchars($search_term); ?>">
-          <input type="hidden" name="search_submit" value="1">
-        <?php endif; ?>
-        <input type="hidden" name="page" value="<?php echo $total_pages; ?>">
-        <button type="submit" class="btn btn-secondary">&gt;&gt;&gt;</button>
-      </form>
-    <?php endif; ?>
-  </div>
-</div>
-
-<!-- Bootstrap Bundle JS (bao gồm Popper) -->
 <script src="/asset/js/Bootstrap.bundle.min.js"></script>
 </body>
 </html>
