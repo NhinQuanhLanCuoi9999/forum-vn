@@ -78,8 +78,8 @@ if (empty($_SESSION['csrf_token'])) {
                 ['src/info_user.php', 'fas fa-user', 'Thông Tin'],
                 ['src/network-config.php', 'fas fa-network-wired', 'Cấu Hình IP'],
                 ['/docs/tos.html', 'fas fa-file-contract', 'Điều khoản dịch vụ'],
-                ['index.php?logout=true', 'fas fa-sign-out-alt', 'Đăng xuất'],
-                ['src/search.php', 'fas fa-search', 'Tìm kiếm']
+                ['src/search.php', 'fas fa-search', 'Tìm kiếm'],
+                ['index.php?logout=true', 'fas fa-sign-out-alt', 'Đăng xuất']
             ];
             foreach ($menuItems as $item): ?>
                 <a href="<?php echo $item[0]; ?>" class="text-dark text-decoration-none fw-semibold d-flex align-items-center gap-1 px-3 py-2 rounded-3 transition-all hover-bg-light">
