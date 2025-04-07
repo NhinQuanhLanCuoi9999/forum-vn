@@ -72,25 +72,36 @@ if (empty($_SESSION['csrf_token'])) {
 
     <!-- Menu chỉ hiện nếu đã đăng nhập -->
     <?php if (!empty($_SESSION['username'])): ?>
-        <nav class="d-flex align-items-center justify-content-center gap-4 w-100 p-3">
-            <?php 
-            $menuItems = [
-                ['src/info_user.php', 'fas fa-user', 'Thông Tin'],
-                ['src/network-config.php', 'fas fa-network-wired', 'Cấu Hình IP'],
-                ['/docs/tos.html', 'fas fa-file-contract', 'Điều khoản dịch vụ'],
-                ['src/search.php', 'fas fa-search', 'Tìm kiếm'],
-                ['index.php?logout=true', 'fas fa-sign-out-alt', 'Đăng xuất']
-            ];
-            foreach ($menuItems as $item): ?>
-                <a href="<?php echo $item[0]; ?>" class="text-dark text-decoration-none fw-semibold d-flex align-items-center gap-1 px-3 py-2 rounded-3 transition-all hover-bg-light">
-                    <i class="<?php echo $item[1]; ?>"></i> <?php echo $item[2]; ?>
-                </a>
-            <?php endforeach; ?>
-        </nav>
-    <?php endif; ?>
+  <nav class="d-flex align-items-center justify-content-center gap-4 w-100 p-3">
+    <?php 
+    $menuItems = [
+      ['src/info_user.php', 'fas fa-user', 'Thông Tin'],
+      ['src/network-config.php', 'fas fa-network-wired', 'Cấu Hình IP'],
+      ['/docs/tos.html', 'fas fa-file-contract', 'Điều khoản dịch vụ'],
+      ['src/search.php', 'fas fa-search', 'Tìm kiếm'],
+      ['index.php?logout=true', 'fas fa-sign-out-alt', 'Đăng xuất']
+    ];
+
+    foreach ($menuItems as $item):
+      $href = $item[0];
+      $icon = $item[1];
+      $label = $item[2];
+
+      if ($href === 'src/search.php'): ?>
+        <a href="javascript:void(0);" onclick="openSearchModalWithId('search')" class="text-dark text-decoration-none fw-semibold d-flex align-items-center gap-1 px-3 py-2 rounded-3 transition-all hover-bg-light">
+          <i class="<?php echo $icon; ?>"></i> <?php echo $label; ?>
+        </a>
+      <?php else: ?>
+        <a href="<?php echo $href; ?>" class="text-dark text-decoration-none fw-semibold d-flex align-items-center gap-1 px-3 py-2 rounded-3 transition-all hover-bg-light">
+          <i class="<?php echo $icon; ?>"></i> <?php echo $label; ?>
+        </a>
+      <?php endif;
+    endforeach; ?>
+  </nav>
+<?php endif; ?>
 </header>
 
-
+<?php renderIFrame(); ?>
 
   <!-- Modal cho Đăng nhập/Đăng ký -->
   <?php if (!isset($_SESSION['username'])): ?>
@@ -245,11 +256,15 @@ if (empty($_SESSION['csrf_token'])) {
             
             <div class="post-footer">
                 <small>Đăng bởi: 
-                <a href="src/profile.php?username=<?php echo urlencode($post['username']); ?>" target="_blank" style="text-decoration: none;">
-                <?php echo htmlspecialchars($post['username']); ?></a>
+                <a href="javascript:void(0);" onclick="openProfileModal('<?php echo urlencode($post['username']); ?>')" style="text-decoration: none;"><?php echo htmlspecialchars($post['username']); ?></a>
                     </a> vào <?php echo htmlspecialchars($formattedDate); ?>
                 </small>
-                <small><a href="src/view.php?id=<?php echo intval($post['id']); ?>" class="read-more" style="text-decoration: none;">Xem thêm</a></small>
+                <small>
+  <a href="javascript:void(0);" onclick="openSearchModalWithId(<?php echo intval($post['id']); ?>)" class="read-more" style="text-decoration: none;">
+    Xem thêm
+  </a>
+</small>
+
 
                 <?php if (isset($_SESSION['username']) && $post['username'] == $_SESSION['username']): ?>
                     <form method="get" action="index.php" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">

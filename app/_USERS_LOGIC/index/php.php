@@ -14,6 +14,7 @@ include('logicPHP/Account/Logout.php');
 include('logicPHP/Auth/TitleName.php');
 include('LogicPHP/Auth/Notify.php');
 include('LogicPHP/Auth/GmailAuth.php');
+include('LogicPHP/IFrame/RenderIFrame.php');
 include($_SERVER['DOCUMENT_ROOT'] . '/app/_ADMIN_TOOLS/admin/logicPHP/Check2FA.php');
 include($_SERVER['DOCUMENT_ROOT'] . '/app/_USERS_LOGIC/view/logicPHP/Post/FileHandle.php');
 ?>
