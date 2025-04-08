@@ -37,12 +37,18 @@ if (empty($_SESSION['csrf_token'])) {
   <link rel="stylesheet" type="text/css" href="app/_USERS_LOGIC/index/header.css">
   <script src="app/_USERS_LOGIC/index/js/URLConvert.js"></script>
   <script src="app/_USERS_LOGIC/index/js/Spoil.js"></script>
+  <script src="app/_USERS_LOGIC/index/js/Size.js"></script>
   <script src="app/_USERS_LOGIC/index/js/TextScale.js"></script>
   <script src="/asset/js/Bootstrap.bundle.min.js"></script>
   <script src="/asset/js/jquery.min.js"></script>
   <script src="app/_USERS_LOGIC/index/js/FileHandle.js"></script>
 </head>
 <body>
+<div id="mobile-warning" style="display: none;position: fixed;inset: 0;z-index: 2147483647;background: #111;color: #fff;font-size: 10px;align-items: center;justify-content: center;flex-direction: column;text-align: center;padding: 20px;font-family: sans-serif;box-sizing: border-box;overflow: hidden;">
+  <span style="color: orange; font-size: 30px;">⚠️</span>
+  <p style="max-width: 90vw;">Giao diện web này không hỗ trợ hiển thị trên thiết bị di động.<br>Vui lòng sử dụng máy tính hoặc bật chế độ desktop trên trình duyệt.</p></div>
+
+
 <?php if (isset($_SESSION['error_message'])): ?>
           <div class="error"><?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?></div>
         <?php endif; ?>
@@ -50,9 +56,7 @@ if (empty($_SESSION['csrf_token'])) {
           <div style="color: red;"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
         <?php endif; ?>
         <?php if (isset($_SESSION['success'])): ?>
-    <script>
-        alert("<?php echo addslashes($_SESSION['success']); ?>");
-    </script>
+    <script>alert("<?php echo addslashes($_SESSION['success']); ?>");</script>
     <?php unset($_SESSION['success']); ?>
 <?php endif; ?>
 <!-- Header + Menu -->
