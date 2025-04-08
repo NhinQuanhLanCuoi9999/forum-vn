@@ -36,3 +36,4 @@
 - **IPInfo**: Hiện thông số ISP (nhà mạng) từ IP của client.
 - **Leaflet**: Thư viện JavaScript dùng để tạo bản đồ tương tác trên web.
 - **hCaptcha**: Đã từng sử dụng để chống bot nhưng đã loại bỏ
+- **Github Markdown**: Công cụ render Markdown của Github , sử dụng trong /changelog
