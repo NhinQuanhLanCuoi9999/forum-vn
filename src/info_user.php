@@ -216,14 +216,16 @@ However, if you redistribute the source code, you must retain this license.
     </div>
 </div>
 <hr>
+
       <!-- Đổi mật khẩu -->
-      <div class="info-group row align-items-center">
-        <div class="col-6">Đổi mật khẩu:</div>
-        <div class="col-6 text-end">
-          <a href="change_password.php" class="btn btn-danger">Click vào đây</a>
-        </div>
-      </div>
-      <hr>
+<div class="info-group row align-items-center">
+  <div class="col-6">Đổi mật khẩu:</div>
+  <div class="col-6 text-end">
+    <button id="changePasswordBtn" class="btn btn-danger">Click vào đây</button>
+  </div>
+</div>
+<hr>
+
 
       <!-- Về trang chủ -->
       <div class="row">
@@ -234,4 +236,5 @@ However, if you redistribute the source code, you must retain this license.
     </div>
   </div>
 </body>
+<script src="/app/_USERS_LOGIC/index/js/SubWindows.js"></script>
 </html>

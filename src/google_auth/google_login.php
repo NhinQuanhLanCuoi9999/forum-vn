@@ -17,13 +17,11 @@ if ($result->num_rows > 0) {
     die("Lỗi: Không tìm thấy thông tin Google OAuth trong DB");
 }
 
-// Kiểm tra xem HTTP_HOST có tồn tại không, nếu không thì mặc định là 'localhost'
+// Xác định giao thức + host
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
 $host = !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
 
-// Xác định giao thức: nếu HTTPS thì dùng https, ngược lại là http
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
-
-// Đường dẫn tuyệt đối đến google_callback.php trong thư mục src/google_auth
+// Redirect URI KHÔNG CÓ QUERY (Google yêu cầu)
 $redirectUri = "{$protocol}://{$host}/src/google_auth/google_callback.php";
 
 // Cấu hình OAuth2
@@ -36,10 +34,12 @@ $oauth2 = new OAuth2([
     'scope'               => ['email', 'profile']
 ]);
 
-// Tạo URL đăng nhập Google
-$authUrl = $oauth2->buildFullAuthorizationUri();
+// Build auth URL và truyền state=popup để nhận biết là mở trong cửa sổ con
+$authUrl = $oauth2->buildFullAuthorizationUri([
+    'state' => 'popup'
+]);
 
-// Chuyển hướng người dùng đến trang xác thực của Google
+// Redirect tới Google Auth
 header('Location: ' . filter_var($authUrl, FILTER_SANITIZE_URL));
 exit();
 ?>

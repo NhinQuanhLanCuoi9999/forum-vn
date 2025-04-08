@@ -2,7 +2,6 @@
 session_start();
 include('config.php');
 include('app/_USERS_LOGIC/index/php.php');
-
 /*
 ##############################################################
 #                                                            #
@@ -100,7 +99,7 @@ if (empty($_SESSION['csrf_token'])) {
   </nav>
 <?php endif; ?>
 </header>
-
+<!-- Hàm hiển thị IFrame -->
 <?php renderIFrame(); ?>
 
   <!-- Modal cho Đăng nhập/Đăng ký -->
@@ -128,9 +127,12 @@ if (empty($_SESSION['csrf_token'])) {
                style="width: 80%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
     </div>
     
-    <div style="margin-bottom: 15px;">
-        <a href="/src/forget_pass.php" style="text-decoration: none; color: #007bff;">Quên mật khẩu?</a>
-    </div>
+   <!-- Nút quên mật khẩu -->
+<div style="margin-bottom: 15px;">
+    <a href="/src/forget_pass.php" id="forgotPasswordBtn" style="text-decoration: none; color: #007bff;">
+        Quên mật khẩu?
+    </a>
+</div>
     
     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
     
@@ -142,13 +144,14 @@ if (empty($_SESSION['csrf_token'])) {
     <!-- Hoặc -->
     <div style="margin: 15px 0; font-weight: bold;">HOẶC</div>
     
-    <!-- Nút đăng nhập bằng Google -->
-    <a href="/src/google_auth/google_login.php" class="btn btn-danger" 
-       style="width: 80%; padding: 10px; border-radius: 5px; font-weight: bold; display: inline-block;">
-        <img src="https://developers.google.com/identity/images/g-logo.png" width="20px" 
-             style="vertical-align: middle; margin-right: 8px;" alt="Google Logo">
-        Đăng nhập với Google
-    </a>
+<!-- Nút đăng nhập bằng Google -->
+<a href="#" id="googleLoginBtn" class="btn btn-danger" 
+   style="width: 80%; padding: 10px; border-radius: 5px; font-weight: bold; display: inline-block;">
+    <img src="https://developers.google.com/identity/images/g-logo.png" width="20px" 
+         style="vertical-align: middle; margin-right: 8px;" alt="Google Logo">
+    Đăng nhập với Google
+</a>
+<script src="app/_USERS_LOGIC/index/js/SubWindows.js"></script>
 </form>
 
       </div>
