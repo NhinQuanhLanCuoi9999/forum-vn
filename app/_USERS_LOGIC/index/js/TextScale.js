@@ -1,27 +1,59 @@
-document.addEventListener("input", function (e) {
-    let target = e.target;
 
-    if (target.classList.contains("editable-input")) {
-        let maxLength = target.id === "postContent" ? 500 : 4096;
-        let hiddenInput = target.id === "postContent" ? 
-            document.getElementById("hiddenInput") : 
-            document.getElementById("hiddenDescription");
-        let charCount = target.id === "postContent" ? 
-            document.getElementById("charCount") : 
-            document.getElementById("descCharCount");
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('postForm');
+    
+    const config = [
+      {
+        editableId: 'postContent',
+        hiddenId: 'hiddenInput',
+        counterId: 'charCount',
+        maxLength: 500
+      },
+      {
+        editableId: 'postDescription',
+        hiddenId: 'hiddenDescription',
+        counterId: 'descCharCount',
+        maxLength: 4096
+      }
+    ];
 
-        let text = target.innerText.trim();
+    config.forEach(({ editableId, hiddenId, counterId, maxLength }) => {
+      const editableDiv = document.getElementById(editableId);
+      const hiddenInput = document.getElementById(hiddenId);
+      const counterEl = document.getElementById(counterId);
 
-        // Giới hạn ký tự
+      editableDiv.addEventListener('input', () => {
+        let text = editableDiv.innerText;
+
+        // Trim và giới hạn ký tự
         if (text.length > maxLength) {
-            target.innerText = text.substring(0, maxLength);
-            alert(`Chỉ được nhập tối đa ${maxLength} ký tự!`);
+          text = text.substring(0, maxLength);
+          editableDiv.innerText = text;
+          alert(`Chỉ được nhập tối đa ${maxLength} ký tự!`);
+
+          // Reset lại con trỏ về cuối
+          const range = document.createRange();
+          const sel = window.getSelection();
+          range.selectNodeContents(editableDiv);
+          range.collapse(false);
+          sel.removeAllRanges();
+          sel.addRange(range);
         }
 
-        // Cập nhật input ẩn
-        hiddenInput.value = target.innerText.trim();
+        const cleanText = editableDiv.innerText.trim();
 
-        // Hiển thị số ký tự
-        charCount.textContent = `${hiddenInput.value.length}/${maxLength}`;
-    }
-});
+        // Cập nhật hidden input & char count
+        hiddenInput.value = cleanText;
+        counterEl.textContent = `${cleanText.length}/${maxLength}`;
+      });
+    });
+
+    // Trước khi submit thì đồng bộ lại value vào hidden input
+    form.addEventListener('submit', () => {
+      config.forEach(({ editableId, hiddenId }) => {
+        const editableDiv = document.getElementById(editableId);
+        const hiddenInput = document.getElementById(hiddenId);
+        hiddenInput.value = editableDiv.innerText.trim();
+      });
+    });
+  });
