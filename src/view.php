@@ -171,10 +171,10 @@ if($id){
         <strong><?php echo htmlspecialchars($comment['username'], ENT_QUOTES, 'UTF-8'); ?></strong></a>
         <small>(<?php echo htmlspecialchars($comment['created_at'], ENT_QUOTES, 'UTF-8'); ?>)</small>
       </p>
-      <p><?php echo preg_replace_callback('/https?:\\/\\/[^\s]+/', function($matches){
-          return '<a href="'.htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8').'" target="_blank">'
-                 .htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8').'</a>';
-        }, htmlspecialchars($comment['content'], ENT_QUOTES, 'UTF-8')); ?></p>
+      <p><?php echo nl2br(preg_replace_callback('/https?:\\/\\/[^\s]+/', function($matches) {
+        return '<a href="' . htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8') . '" target="_blank">'
+           . htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8') . '</a>';
+      }, htmlspecialchars($comment['content'], ENT_QUOTES, 'UTF-8'))); ?></p>
       <?php if($isLoggedIn): ?>
       <div class="dropdown">
         <button class="btn btn-link p-0 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -217,10 +217,10 @@ if($id){
                 <a href="view.php?id=<?php echo htmlspecialchars($postId, ENT_QUOTES, 'UTF-8'); ?>&delete_reply=<?php echo $reply['id']; ?>&page=<?php echo htmlspecialchars($page, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-danger btn-delete btn-sm">Xóa</a>
                 <?php endif; ?>
               </p>
-              <p><?php echo preg_replace_callback('/https?:\\/\\/[^\s]+/', function($matches){
-                  return '<a href="'.htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8').'" target="_blank">'
-                         .htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8').'</a>';
-                }, htmlspecialchars($reply['content'], ENT_QUOTES, 'UTF-8')); ?></p>
+              <p><?php echo nl2br(preg_replace_callback('/https?:\\/\\/[^\s]+/', function($matches){
+                return '<a href="'.htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8').'" target="_blank">'
+                     .htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8').'</a>';
+                }, htmlspecialchars($reply['content'], ENT_QUOTES, 'UTF-8'))); ?></p>
             </div>
           </div>
           <?php endwhile; ?>
