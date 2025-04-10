@@ -33,7 +33,7 @@ function renderIFrame() {
         return;
       }
 
-      if (url.endsWith("/index.php") || url.endsWith("/index.html")) {
+      if (url.endsWith("/") || url.endsWith("/index.php") || url.endsWith("/index.html")) {
         bsModal.hide();
         setTimeout(() => {
           iframeEl.src = "";

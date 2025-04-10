@@ -26,7 +26,7 @@ if (empty($_SESSION['csrf_token'])) {
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="/asset/css/Bootstrap.min.css">
   <title><?php echo htmlspecialchars($page_title); ?></title>
-  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="icon" href="/favicon.ico" type="image/png">
   <script src="/asset/js/jquery.min.js"></script>
   <script src="/asset/js/Bootstrap.bundle.min.js"></script>
   <script src="app/_USERS_LOGIC/index/js/URLConvert.js"></script>
