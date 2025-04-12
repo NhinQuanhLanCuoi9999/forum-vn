@@ -308,14 +308,14 @@ if (empty($_SESSION['csrf_token'])) {
                 </a> vào <?php echo htmlspecialchars($formattedDate); ?>
               </small>
               <div>
-                <a href="javascript:void(0);" onclick="openSearchModalWithId(<?php echo intval($post['id']); ?>)" class="btn btn-outline-light btn-sm me-2">
-                  Xem thêm
-                </a>
-                <?php if (isset($_SESSION['username']) && $post['username'] == $_SESSION['username']): ?>
-                  <form method="get" action="index.php" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">
-                    <input type="hidden" name="delete" value="<?php echo intval($post['id']); ?>">
-                    <button type="submit" class="btn btn-danger btn-sm">Xóa bài viết</button>
-                  </form>
+                <div class="d-flex align-items-center gap-2">
+                  <a href="javascript:void(0);" onclick="openSearchModalWithId(<?php echo intval($post['id']); ?>)" class="btn btn-outline-dark btn-sm">Xem thêm</a>
+                  <?php if (isset($_SESSION['username']) && $post['username'] == $_SESSION['username']): ?>
+                    <form method="get" action="index.php" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">
+                      <input type="hidden" name="delete" value="<?php echo intval($post['id']); ?>">
+                      <button type="submit" class="btn btn-danger btn-sm">Xóa bài viết</button>
+                    </form>
+                </div>
                 <?php endif; ?>
               </div>
             </div>
