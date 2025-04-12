@@ -23,7 +23,6 @@ if (empty($_SESSION['csrf_token'])) {
   <!-- Các font và icon -->
   <link rel="stylesheet" href="../asset/css/Poppins.css">
   <link rel="stylesheet" href="/asset/css/FontAwesome.min.css">
-  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="/asset/css/Bootstrap.min.css">
   <title><?php echo htmlspecialchars($page_title); ?></title>
   <link rel="icon" href="/favicon.ico" type="image/png">
@@ -34,13 +33,16 @@ if (empty($_SESSION['csrf_token'])) {
   <script src="app/_USERS_LOGIC/index/js/TextScale.js"></script>
   <script src="app/_USERS_LOGIC/index/js/FileHandle.js"></script>
   <script src="app/_USERS_LOGIC/index/js/SubWindows.js" defer></script>
+  <script src="asset/js/Tailwindcss.js"></script>
+
 
 </head>
 <body>
 
 
 <!-- Thông báo lỗi/ thành công -->
-<div class="container mt-3">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
   <?php if (isset($_SESSION['error_message'])): ?>
     <div class="alert alert-danger"><?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?></div>
   <?php endif; ?>
@@ -52,23 +54,27 @@ if (empty($_SESSION['csrf_token'])) {
   <?php endif; ?>
 </div>
 
-<!-- Header + Menu -->
-<header class="bg-light shadow-sm sticky-top rounded-3">
-  <div class="container">
-    <div class="d-flex justify-content-between align-items-center py-3">
-      <h1 class="h5 text-primary fw-bold mb-0"><?php echo htmlspecialchars($forum_name); ?></h1>
-      <div>
+<!-- Header + Menu (Tailwind ver.) -->
+<header class="bg-white shadow-sm sticky top-0 left-0 z-50 w-full rounded-2">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center py-4">
+      <h1 class="text-lg font-bold text-blue-600 m-0"><?php echo htmlspecialchars($forum_name); ?></h1>
+      <div class="flex items-center space-x-2">
         <?php if (!empty($_SESSION['role']) && in_array($_SESSION['role'], ['admin', 'owner'])): ?>
-          <a href="admin_tool/admin.php" class="btn btn-warning fw-semibold me-2">Admin Panel</a>
+          <a href="admin_tool/admin.php" class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded hover:bg-yellow-500 transition">
+            Admin Panel
+          </a>
         <?php endif; ?>
         <?php if (empty($_SESSION['username'])): ?>
-          <button id="loginBtn" class="btn btn-primary fw-semibold">Đăng nhập | Đăng ký</button>
+          <button id="loginBtn" class="bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 transition">
+            Đăng nhập | Đăng ký
+          </button>
         <?php endif; ?>
       </div>
     </div>
 
     <?php if (!empty($_SESSION['username'])): ?>
-      <nav class="nav justify-content-center py-2">
+      <nav class="flex justify-center py-2 flex-wrap gap-x-4 gap-y-2">
         <?php 
         $menuItems = [
           ['src/info_user.php', 'fas fa-user', 'Thông Tin'],
@@ -85,11 +91,11 @@ if (empty($_SESSION['csrf_token'])) {
 
           if ($href === 'src/search.php'):
         ?>
-          <a href="javascript:void(0);" onclick="openSearchModalWithId('search')" class="nav-link text-dark fw-semibold px-3">
+          <a href="javascript:void(0);" onclick="openSearchModalWithId('search')" class="text-gray-700 font-semibold px-3 py-1 hover:text-blue-600 transition">
             <i class="<?php echo $icon; ?>"></i> <?php echo $label; ?>
           </a>
         <?php else: ?>
-          <a href="<?php echo $href; ?>" class="nav-link text-dark fw-semibold px-3">
+          <a href="<?php echo $href; ?>" class="text-gray-700 font-semibold px-3 py-1 hover:text-blue-600 transition">
             <i class="<?php echo $icon; ?>"></i> <?php echo $label; ?>
           </a>
         <?php 
@@ -99,6 +105,7 @@ if (empty($_SESSION['csrf_token'])) {
     <?php endif; ?>
   </div>
 </header>
+
 
 <!-- Nếu có IFrame cần hiển thị -->
 <?php renderIFrame(); ?>
@@ -254,60 +261,72 @@ if (empty($_SESSION['csrf_token'])) {
 
 
 <!-- Phân Trang và hiển thị bài viết -->
-<div class="container my-4">
-  <?php renderPagination($current_section, $total_sections); ?>
-  <h2 class="mb-3">Các bài viết</h2>
+<div class="container my-5">
+  <div class="row mb-4">
+    <div class="col text-center">
+      <?php renderPagination($current_section, $total_sections); ?>
+    </div>
+  </div>
+  <h2 class="mb-4 text-center text-primary fw-bold text-uppercase">Các bài viết</h2>
   <?php if ($posts->num_rows > 0): ?>
-    <?php while ($post = $posts->fetch_assoc()): ?>
-      <div class="card mb-3">
-        <div class="card-body">
-        <h5 class="card-title" style="white-space: pre-wrap;"><?php echo nl2br(htmlspecialchars($post['content'])); ?></h5>
-        <p class="card-text" style="white-space: pre-wrap;"><?php echo nl2br(htmlspecialchars($post['description'])); ?></p>
-          <?php if (!empty($post['file'])): 
-              $filePath = 'uploads/' . basename($post['file']);
-              if (shouldDisplayInline($filePath)): ?>
-                <div class="mb-3">
-                  <?php if (isImage($filePath)): ?>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="updateModalImage('<?= $filePath ?>')">
-                      <img src="<?= $filePath ?>" class="img-fluid rounded" alt="Media">
-                    </a>
-                  <?php elseif (isVideo($filePath)): ?>
-                    <video controls class="w-100 rounded">
-                      <source src="<?= $filePath ?>" type="<?= mime_content_type($filePath) ?>">
-                    </video>
-                  <?php elseif (isAudio($filePath)): ?>
-                    <audio controls class="w-100">
-                      <source src="<?= $filePath ?>" type="<?= mime_content_type($filePath) ?>">
-                    </audio>
-                  <?php endif; ?>
-                </div>
-          <?php endif; endif; ?>
-          <?php 
-            $createdAt = DateTime::createFromFormat('Y-m-d H:i:s', $post['created_at']);
-            $formattedDate = $createdAt ? $createdAt->format('d/n/Y | H:i:s') : 'Ngày không hợp lệ';
-          ?>
-          <div class="d-flex justify-content-between align-items-center">
-            <small class="text-muted">
-              Đăng bởi: 
-              <a href="javascript:void(0);" onclick="openProfileModal('<?php echo urlencode($post['username']); ?>')" class="text-decoration-none">
-                <?php echo htmlspecialchars($post['username']); ?>
-              </a> vào <?php echo htmlspecialchars($formattedDate); ?>
-            </small>
-            <div>
-              <a href="javascript:void(0);" onclick="openSearchModalWithId(<?php echo intval($post['id']); ?>)" class="btn btn-link text-decoration-none">Xem thêm</a>
-              <?php if (isset($_SESSION['username']) && $post['username'] == $_SESSION['username']): ?>
-                <form method="get" action="index.php" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">
-                  <input type="hidden" name="delete" value="<?php echo intval($post['id']); ?>">
-                  <button type="submit" class="btn btn-danger btn-sm">Xóa bài viết</button>
-                </form>
-              <?php endif; ?>
+    <div class="row gy-4">
+      <?php while ($post = $posts->fetch_assoc()): ?>
+        <div class="col-12">
+        <div class="card shadow-lg border-0 rounded-4" style="background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);">
+    <div class="card-body">
+              <h5 class="card-title text-dark fw-bold" style="white-space: pre-wrap;"><?php echo nl2br(htmlspecialchars($post['content'])); ?></h5>
+              <p class="card-text text-muted fst-italic" style="white-space: pre-wrap;"><?php echo nl2br(htmlspecialchars($post['description'])); ?></p>
+              <?php if (!empty($post['file'])): 
+                  $filePath = 'uploads/' . basename($post['file']);
+                  if (shouldDisplayInline($filePath)): ?>
+                    <div class="mb-3">
+                      <?php if (isImage($filePath)): ?>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="updateModalImage('<?= $filePath ?>')">
+                          <img src="<?= $filePath ?>" class="img-fluid rounded border border-2 border-light" alt="Media">
+                        </a>
+                      <?php elseif (isVideo($filePath)): ?>
+                        <video controls class="w-100 rounded border border-2 border-light">
+                          <source src="<?= $filePath ?>" type="<?= mime_content_type($filePath) ?>">
+                        </video>
+                      <?php elseif (isAudio($filePath)): ?>
+                        <audio controls class="w-100">
+                          <source src="<?= $filePath ?>" type="<?= mime_content_type($filePath) ?>">
+                        </audio>
+                      <?php endif; ?>
+                    </div>
+              <?php endif; endif; ?>
+              <?php 
+                $createdAt = DateTime::createFromFormat('Y-m-d H:i:s', $post['created_at']);
+                $formattedDate = $createdAt ? $createdAt->format('d/m/Y | H:i:s') : 'Ngày không hợp lệ';
+              ?>
+            </div>
+            <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+              <small class="text-dark fw-semibold">
+                Đăng bởi: 
+                <a href="javascript:void(0);" onclick="openProfileModal('<?php echo urlencode($post['username']); ?>')" class="text-decoration-none text-primary">
+                  <?php echo htmlspecialchars($post['username']); ?>
+                </a> vào <?php echo htmlspecialchars($formattedDate); ?>
+              </small>
+              <div>
+                <a href="javascript:void(0);" onclick="openSearchModalWithId(<?php echo intval($post['id']); ?>)" class="btn btn-outline-light btn-sm me-2">
+                  Xem thêm
+                </a>
+                <?php if (isset($_SESSION['username']) && $post['username'] == $_SESSION['username']): ?>
+                  <form method="get" action="index.php" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này không?');">
+                    <input type="hidden" name="delete" value="<?php echo intval($post['id']); ?>">
+                    <button type="submit" class="btn btn-danger btn-sm">Xóa bài viết</button>
+                  </form>
+                <?php endif; ?>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    <?php endwhile; ?>
+      <?php endwhile; ?>
+    </div>
   <?php else: ?>
-    <p class="text-center">Chưa có bài viết nào.</p>
+    <div class="alert alert-info text-center" role="alert">
+      Chưa có bài viết nào.
+    </div>
   <?php endif; ?>
 </div>
 

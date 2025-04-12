@@ -28,6 +28,7 @@
 - **PHPMailer**: Thư viện gửi email qua SMTP.
 - **Spatie ( cụ thể là db-dumper )**: Bộ thư viện PHP hỗ trợ tính năng dump sql trong page backup của trang quản trị web.
 - **Bootstrap**: Framework CSS giúp thiết kế giao diện responsive.
+- **Tailwind**: Framework CSS utility-first, cho phép tuỳ chỉnh giao diện cực kỳ nhanh chóng và linh hoạt.
 - **jQuery**: Thư viện JavaScript giúp thao tác DOM dễ dàng hơn.
 - **Chart.js**: Thư viện vẽ biểu đồ trực quan.
 - **Turnstile**: Giải pháp CAPTCHA của Cloudflare để bảo vệ chống spam.
