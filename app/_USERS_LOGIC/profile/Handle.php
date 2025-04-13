@@ -1,6 +1,6 @@
 <?php
-// =================== GIỮ NGUYÊN CẤU TRÚC TRUY VẤN ===================
-// Lấy tên người dùng từ URL (hoặc có thể lấy từ session nếu đã đăng nhập)
+// =================== CẤU TRÚC TRUY VẤN ===================
+// Lấy tên người dùng từ URL
 $user = isset($_GET['username']) ? $_GET['username'] : '';
 
 // Truy vấn thông tin người dùng

@@ -9,16 +9,14 @@ function renderReactionButtons($postId, $totalLikes, $totalDislikes) {
 
     echo '
    <style>
-@media (max-width:768px){.reaction-container-wrapper{display:flex;flex-direction:column}
-.reaction-container{order:3;margin-top:12px}
-.reaction-form{flex-direction:column;align-items:center}
-.reaction-count{display:inline!important;font-size:14px;margin-top:4px}
-.reaction-button{pointer-events:auto}}@media (min-width:769px)
-{.reaction-container-wrapper{display:flex;justify-content:flex-end;align-items:center}
-.reaction-container{order:0;margin:0}.reaction-form{flex-direction:row;align-items:center}
-.reaction-button{pointer-events:auto;margin-left:10px}
-.reaction-count{display:none!important;font-size:14px;margin-left:8px}
-.reaction-container:hover .reaction-count{display:inline!important}}
+@media(max-width:768px){.reaction-container-wrapper{display:flex;flex-direction:column;}
+.reaction-container{order:3;margin-top:12px;}.reaction-form{flex-direction:column;align-items:center;}
+.reaction-count{display:inline!important;font-size:14px;margin-top:4px;}.reaction-button{pointer-events:auto;}}
+@media(min-width:769px){.reaction-container-wrapper{display:flex;justify-content:flex-end;align-items:center;}
+.reaction-container{order:0;margin:0;}
+.reaction-form{flex-direction:row;align-items:center;}
+.reaction-button{pointer-events:auto;margin-left:10px;}
+.reaction-count{display:none!important;font-size:14px;margin-left:8px;}}
 </style>
 
 

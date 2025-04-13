@@ -50,9 +50,11 @@ function renderIFrame() {
   }
 
   function openProfileModal(username) {
-    iframeEl.src = "/src/profile.php?username=" + encodeURIComponent(username);
-    bsModal.show();
-  }
+  const safeUsername = username.replace(/ /g, "+");
+  iframeEl.src = "/src/profile.php?username=" + safeUsername;
+  bsModal.show();
+}
+
 </script>
 HTML;
 }

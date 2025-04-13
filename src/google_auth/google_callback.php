@@ -169,7 +169,7 @@ if ($result->num_rows > 0) {
 $stmt->close();
 $conn->close();
 
-// 🚨 Kiểm tra state để biết có phải popup không
+// Kiểm tra state để biết có phải popup không
 if (isset($_GET['state']) && $_GET['state'] === 'popup') {
     ?>
     <!DOCTYPE html>

@@ -235,12 +235,14 @@ if (empty($_SESSION['csrf_token'])) {
     <h2 class="mb-3">Đăng bài viết</h2>
     
     <div class="mb-3">
+      <strong>Nội dung bài viết</strong>
       <div id="postContent" contenteditable="true" class="form-control" style="min-height:150px;" placeholder="Nội dung bài viết"></div>
       <input type="hidden" name="content" id="hiddenInput">
       <small id="charCount" class="text-muted">0/500</small>
     </div>
     
     <div class="mb-3">
+      <strong>Mô tả bài viết</strong>
       <div id="postDescription" contenteditable="true" class="form-control" style="min-height:80px;" placeholder="Mô tả ngắn"></div>
       <input type="hidden" name="description" id="hiddenDescription">
       <small id="descCharCount" class="text-muted">0/4096</small>
