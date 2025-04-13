@@ -16,6 +16,8 @@
 - Nếu bạn có role "owner" hoặc "admin", sau khi đăng nhập, bạn có thể truy cập trang `admin_tool/admin.php` để quản lý website.
 - Hãy chắc chắn rằng bạn đã bật 2FA tài khoản Google và đã tạo [App Password](https://myaccount.google.com/apppasswords)
 - Để lấy Secret Key và Cilent ID của Google OAuth 2.0 , các bạn vào [Google Cloud Console](https://console.cloud.google.com). Tạo project mới ( nếu chưa có) >> APIs & Services >> Credentials >> Tạo thông tin xác thực mới ( nhớ trỏ domain ở `Authorized redirect URIs` về dưới dạng : `[http://]<tên domain>/src/google_auth/google_callback.php`)
+- Hãy chắc chắn bạn đang dùng PHP phiên bản 8.1 trở lên 
+- Trong trường hợp xấu nhất , nếu không vào được setup.php ở giai đoạn pre-install thì buộc phải nhập tay bằng tay ( cụ thể là tạo file config.php >> import file db.sql vào MySQL)
 - Dự án này phát hành theo GPLv3, nghĩa là bạn có quyền phân phối, chỉnh sửa tùy ý nhưng phải giữ mã nguồn mở (open source) và ghi credit chủ sở hữu @NhinQuanhLanCuoi9999 trên GitHub.
 
 ### Thư viện & Phụ thuộc
