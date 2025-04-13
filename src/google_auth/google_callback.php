@@ -124,6 +124,16 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $_SESSION['username'] = $row['username'];
+
+    // Update last_login
+    $updateLoginStmt = $conn->prepare("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE username = ?");
+    if ($updateLoginStmt) {
+        $updateLoginStmt->bind_param("s", $row['username']);
+        $updateLoginStmt->execute();
+        $updateLoginStmt->close();
+    } else {
+        showErrorAndRedirect("Lỗi khi cập nhật last_login: " . $conn->error);
+    }
 } else {
     // Tạo user mới
     $originalName = $name;
@@ -161,13 +171,12 @@ if ($result->num_rows > 0) {
     $stmt->bind_param("sss", $newName, $email, $hashedPassword);
     if ($stmt->execute()) {
         $_SESSION['username'] = $newName;
+        // ✅ Mới tạo thì created_at & last_login auto set trong DB rồi
     } else {
         showErrorAndRedirect("Lỗi khi INSERT: " . $stmt->error);
     }
 }
 
-$stmt->close();
-$conn->close();
 
 // Kiểm tra state để biết có phải popup không
 if (isset($_GET['state']) && $_GET['state'] === 'popup') {
