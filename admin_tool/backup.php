@@ -104,7 +104,7 @@ However, if you redistribute the source code, you must retain this license.  */
 
   <?php if ($notAdmin) {die("Chỉ Owner mới có quyền vào trang này.");}?>
   <div class="container">
-    <h1 class="mb-4 text-center">Hệ thống Backup & Import Database [BETA]</h1>
+    <h1 class="mb-4 text-center">Hệ thống Backup & Import Database</h1>
     
     <!-- Thông báo kết quả -->
     <?php if (!empty($message)): ?>

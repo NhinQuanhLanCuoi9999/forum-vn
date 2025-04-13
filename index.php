@@ -110,82 +110,88 @@ if (empty($_SESSION['csrf_token'])) {
 <!-- Nếu có IFrame cần hiển thị -->
 <?php renderIFrame(); ?>
 
-<!-- Modal Authentication (Đăng nhập/Đăng ký) -->
 <?php if (!isset($_SESSION['username'])): ?>
 <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="authModalLabel">Xác thực</h5>
+    <div class="modal-content shadow-lg rounded-4">
+      <div class="modal-header border-0 pb-0">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <!-- Tab nav cho Login và Register -->
-        <ul class="nav nav-tabs mb-3" id="authTabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="tabLogin-tab" data-bs-toggle="tab" data-bs-target="#tabLogin" type="button" role="tab" aria-controls="tabLogin" aria-selected="true">Đăng nhập</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="tabRegister-tab" data-bs-toggle="tab" data-bs-target="#tabRegister" type="button" role="tab" aria-controls="tabRegister" aria-selected="false">Đăng ký</button>
-          </li>
-        </ul>
-        <div class="tab-content" id="authTabsContent">
-          <!-- Tab đăng nhập -->
-          <div class="tab-pane fade show active" id="tabLogin" role="tabpanel" aria-labelledby="tabLogin-tab">
-            <form id="login-form" method="post" action="index.php">
-              <div class="mb-3 text-center">
-                <h2>Đăng nhập</h2>
-              </div>
-              <div class="mb-3">
-                <input type="text" name="username" class="form-control" placeholder="Tên đăng nhập" required maxlength="50">
-              </div>
-              <div class="mb-3">
-                <input type="password" name="password" class="form-control" placeholder="Mật khẩu" required>
-              </div>
-              <div class="mb-3">
-              <a href="#" id="forgotPasswordBtn" class="link-primary">Quên mật khẩu?</a>
 
+      <div class="modal-body pt-0">
+        <!-- Tab nav cho Login và Register -->
+<ul class="nav nav-pills nav-justified mb-4 bg-light p-1 rounded-pill" id="authTabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active rounded-pill fw-semibold" id="tabLogin-tab"
+      data-bs-toggle="tab" data-bs-target="#tabLogin" type="button" role="tab"
+      aria-controls="tabLogin" aria-selected="true">
+      Đăng nhập
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link rounded-pill fw-semibold" id="tabRegister-tab"
+      data-bs-toggle="tab" data-bs-target="#tabRegister" type="button" role="tab"
+      aria-controls="tabRegister" aria-selected="false">
+      Đăng ký
+    </button>
+  </li>
+</ul>
+
+
+        <div class="tab-content" id="authTabsContent">
+          <!-- Tab Đăng nhập -->
+          <div class="tab-pane fade show active" id="tabLogin" role="tabpanel">
+            <form id="login-form" method="post" action="index.php">
+              <h5 class="text-center fw-bold mb-4">Đăng nhập tài khoản</h5>
+              
+              <input type="text" name="username" class="form-control mb-3 rounded-pill" placeholder="Tên đăng nhập" required maxlength="50">
+              <input type="password" name="password" class="form-control mb-3 rounded-pill" placeholder="Mật khẩu" required>
+
+              <div class="mb-3 text-end">
+                <a href="#" id="forgotPasswordBtn" class="text-decoration-none text-primary fw-medium">Quên mật khẩu?</a>
               </div>
-              <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-              <div class="d-grid gap-2">
-                <button type="submit" name="login" class="btn btn-primary">Đăng nhập</button>
-              </div>
-              <div class="my-3 text-center fw-bold">HOẶC</div>
-              <div class="d-grid gap-2">
-                <a href="#" id="googleLoginBtn" class="btn btn-danger">
-                  <img src="https://developers.google.com/identity/images/g-logo.png" width="20" class="me-2" alt="Google Logo">
-                  Đăng nhập với Google
+
+              <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+
+              <div class="d-grid gap-3">
+                <button type="submit" name="login" class="btn btn-primary btn-lg shadow-sm rounded-pill">
+                  Đăng nhập
+                </button>
+
+                <div class="text-center text-muted fw-bold position-relative my-2">
+                  <span class="bg-white px-2 position-relative z-1">HOẶC</span>
+                  <hr class="position-absolute top-50 start-0 w-100 translate-middle-y" style="z-index: 0; border-top: 1px solid #ccc;">
+                </div>
+
+                <a href="#" id="googleLoginBtn" class="btn btn-light border shadow-sm btn-lg rounded-pill d-flex align-items-center justify-content-center">
+                  <img src="/asset/image/g-logo.png" width="22" class="me-2" alt="Google Logo">
+                  <span class="fw-semibold text-dark">Đăng nhập với Google</span>
                 </a>
               </div>
             </form>
           </div>
-          <!-- Tab đăng ký -->
-          <div class="tab-pane fade" id="tabRegister" role="tabpanel" aria-labelledby="tabRegister-tab">
+
+          <!-- Tab Đăng ký -->
+          <div class="tab-pane fade" id="tabRegister" role="tabpanel">
             <form id="register-form" method="post" action="index.php">
-              <div class="mb-3 text-center">
-                <h2>Đăng ký</h2>
-              </div>
-              <div class="mb-3">
-                <input type="text" name="username" class="form-control" placeholder="Tên đăng nhập" required pattern="^[a-zA-Z0-9]{5,30}$" title="Chỉ được nhập chữ, số, không dấu & không khoảng trắng. Từ 5 đến 30 ký tự nhé!">
-              </div>
-              <div class="mb-3">
-                <input type="password" name="password" id="password" class="form-control" placeholder="Mật khẩu" required minlength="6" maxlength="30" pattern="^[a-zA-Z0-9]{6,30}$" title="Chỉ được nhập chữ, số, không dấu & không khoảng trắng. Từ 6 đến 30 ký tự nhé!">
-              </div>
-              <div class="mb-3">
-                <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Nhập lại mật khẩu" required>
-              </div>
-              <div class="mb-3">
-                <input type="email" name="gmail" class="form-control" placeholder="Email" required>
-              </div>
-              <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-              <div class="mb-3 form-check">
+              <h5 class="text-center fw-bold mb-4">Tạo tài khoản mới</h5>
+
+              <input type="text" name="username" class="form-control mb-3 rounded-pill" placeholder="Tên đăng nhập" required pattern="^[a-zA-Z0-9]{5,30}$" title="Không dấu, không khoảng trắng, 5-30 ký tự.">
+              <input type="password" name="password" class="form-control mb-3 rounded-pill" placeholder="Mật khẩu" required minlength="6" maxlength="30" pattern="^[a-zA-Z0-9]{6,30}$" title="Không dấu, không khoảng trắng, 6-30 ký tự.">
+              <input type="password" name="confirm_password" class="form-control mb-3 rounded-pill" placeholder="Nhập lại mật khẩu" required>
+              <input type="email" name="gmail" class="form-control mb-3 rounded-pill" placeholder="Email" required>
+
+              <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+
+              <div class="form-check mb-3">
                 <input type="checkbox" class="form-check-input" id="agreeCheckbox">
                 <label for="agreeCheckbox" class="form-check-label">
-                  Bằng cách nhấn vào nút này, bạn đồng ý <a href="/docs/tos.html" target="_blank"><strong>Điều khoản dịch vụ</strong></a>
+                  Đồng ý với <a href="/docs/tos.html" target="_blank"><strong>Điều khoản dịch vụ</strong></a>
                 </label>
               </div>
+
               <div class="d-grid">
-                <button type="submit" name="register" id="registerSubmit" class="btn btn-success" disabled>Đăng ký</button>
+                <button type="submit" name="register" id="registerSubmit" class="btn btn-success btn-lg rounded-pill" disabled>Đăng ký</button>
               </div>
             </form>
           </div>
@@ -194,17 +200,13 @@ if (empty($_SESSION['csrf_token'])) {
     </div>
   </div>
 </div>
+
 <script>
-  // Hiển thị modal khi bấm nút Đăng nhập | Đăng ký
-  document.getElementById('loginBtn')?.addEventListener('click', function() {
-    new bootstrap.Modal(document.getElementById('authModal')).show();
-  });
-  // Bật/tắt nút đăng ký dựa trên checkbox
-  document.getElementById('agreeCheckbox')?.addEventListener('change', function(){
-    document.getElementById('registerSubmit').disabled = !this.checked;
-  });
+  document.getElementById('loginBtn')?.addEventListener('click', function () {new bootstrap.Modal(document.getElementById('authModal')).show();});
+  document.getElementById('agreeCheckbox')?.addEventListener('change', function () {document.getElementById('registerSubmit').disabled = !this.checked;});
 </script>
 <?php endif; ?>
+
 
 <!-- Modal Thông báo (Alert) -->
 <?php if (!empty($misc_name)) : ?>
@@ -271,9 +273,9 @@ if (empty($_SESSION['csrf_token'])) {
   <?php if ($posts->num_rows > 0): ?>
     <div class="row gy-4">
       <?php while ($post = $posts->fetch_assoc()): ?>
-        <div class="col-12">
-        <div class="card shadow-lg border-0 rounded-4" style="background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);">
-    <div class="card-body">
+        <div class="col-12 mb-1">
+          <div class="card shadow-lg border-0 rounded-4" style="background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);">
+            <div class="card-body">
               <h5 class="card-title text-dark fw-bold" style="white-space: pre-wrap;"><?php echo nl2br(htmlspecialchars($post['content'])); ?></h5>
               <p class="card-text text-muted fst-italic" style="white-space: pre-wrap;"><?php echo nl2br(htmlspecialchars($post['description'])); ?></p>
               <?php if (!empty($post['file'])): 
@@ -315,8 +317,8 @@ if (empty($_SESSION['csrf_token'])) {
                       <input type="hidden" name="delete" value="<?php echo intval($post['id']); ?>">
                       <button type="submit" class="btn btn-danger btn-sm">Xóa bài viết</button>
                     </form>
+                  <?php endif; ?>
                 </div>
-                <?php endif; ?>
               </div>
             </div>
           </div>
