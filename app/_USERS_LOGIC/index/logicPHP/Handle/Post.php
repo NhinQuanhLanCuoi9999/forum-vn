@@ -11,13 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['CONTENT_LENGTH'])) 
     }
 }
 
-  
 // Kiểm tra CSRF token
 $hasError = false; // Biến kiểm tra có lỗi không
 $errorMessages = []; // Mảng lưu lỗi
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post'])) {
-    if (!isset($_POST['csrf_token2']) || $_POST['csrf_token2'] !== $_SESSION['csrf_token2']) {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         $errorMessages[] = "❌ Yêu cầu không hợp lệ.";
         $hasError = true;
     }
@@ -54,46 +53,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['post'])) {
         }
     }
 
+    // Kiểm tra nếu có file được upload
+    $newFileName = null; // Khởi tạo biến cho tên tệp mới
+    if (isset($_FILES['file']) && $_FILES['file']['error'] !== UPLOAD_ERR_NO_FILE) {
+        $file = $_FILES['file'];
+        $fileName = pathinfo($file['name'], PATHINFO_FILENAME); // Lấy tên file gốc (không có đuôi)
+        $fileTmpName = $file['tmp_name'];
+        $fileSize = $file['size'];
+        $fileError = $file['error'];
+        $fileExt = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-  // Kiểm tra nếu có file được upload
-$newFileName = null; // Khởi tạo biến cho tên tệp mới
-if (isset($_FILES['file']) && $_FILES['file']['error'] !== UPLOAD_ERR_NO_FILE) {
-    $file = $_FILES['file'];
-    $fileName = pathinfo($file['name'], PATHINFO_FILENAME); // Lấy tên file gốc (không có đuôi)
-    $fileTmpName = $file['tmp_name'];
-    $fileSize = $file['size'];
-    $fileError = $file['error'];
-    $fileExt = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-
-    // Cho phép upload mọi loại file ngoại trừ .php và .exe
-    if (in_array($fileExt, ['php', 'exe'])) {
-        $errorMessages[] = "❌ Bạn không thể tải lên loại tệp này.";
-        $hasError = true;
-    }
-     elseif ($fileError !== 0) {
-        $errorMessages[] = "❌ Có lỗi khi tải tệp: $fileError.";
-        $hasError = true;
-    } else {
-        // Tạo mã random gồm 10 ký tự a-z, A-Z
-        $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 10);
-
-        // Đổi tên file theo format: <tên gốc>_<mã random>.<đuôi file>
-        $newFileName = $fileName . '_' . $randomString . '.' . $fileExt;
-        $fileDestination = 'uploads/' . $newFileName;
-
-        // Di chuyển tệp đến thư mục uploads
-        if (!move_uploaded_file($fileTmpName, $fileDestination)) {
-            $errorMessages[] = "❌ Đã xảy ra lỗi khi tải tệp lên.";
+        // Cho phép upload mọi loại file ngoại trừ .php và .exe
+        if (in_array($fileExt, ['php', 'exe'])) {
+            $errorMessages[] = "❌ Bạn không thể tải lên loại tệp này.";
             $hasError = true;
         }
+        elseif ($fileError !== 0) {
+            $errorMessages[] = "❌ Có lỗi khi tải tệp: $fileError.";
+            $hasError = true;
+        } else {
+            // Tạo mã random gồm 10 ký tự a-z, A-Z
+            $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 10);
+
+            // Đổi tên file theo format: <tên gốc>_<mã random>.<đuôi file>
+            $newFileName = $fileName . '_' . $randomString . '.' . $fileExt;
+            $fileDestination = 'uploads/' . $newFileName;
+
+            // Di chuyển tệp đến thư mục uploads
+            if (!move_uploaded_file($fileTmpName, $fileDestination)) {
+                $errorMessages[] = "❌ Đã xảy ra lỗi khi tải tệp lên.";
+                $hasError = true;
+            }
+        }
     }
-}
 
     // Nếu có lỗi, in lỗi ra màn hình và không thực thi tiếp
     if ($hasError) {
+        echo "<div class='alert alert-danger fw-bold' role='alert'>";
         foreach ($errorMessages as $error) {
-            echo "<p style='color: red; font-weight: bold;'>$error</p>";
+            echo "<div class='mb-1'><i class='bi bi-exclamation-triangle-fill me-2'></i>$error</div>";
         }
+        echo "</div>";
     } else {
         // Nếu không có lỗi thì lưu vào database
         $stmt = $conn->prepare("INSERT INTO posts (content, description, file, username) VALUES (?, ?, ?, ?)");
@@ -105,15 +105,15 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] !== UPLOAD_ERR_NO_FILE) {
             // Đặt cooldown 10 phút
             $_SESSION['post_cooldown'] = time() + 600; 
 
-            echo "<p style='color: green; font-weight: bold;'>✅ Bài viết đã được đăng thành công.</p>";
+            echo "<div class='alert alert-success fw-bold d-flex align-items-center' role='alert'><i class='bi bi-check-circle-fill me-2'></i>✅ Bài viết đã được đăng thành công.</div>";
         } else {
-            echo "<p style='color: red; font-weight: bold;'>❌ Có lỗi xảy ra khi lưu bài viết.</p>";
+            echo "<div class='alert alert-danger fw-bold d-flex align-items-center' role='alert'><i class='bi bi-exclamation-triangle-fill me-2'></i>❌ Có lỗi xảy ra khi lưu bài viết.</div>";
         }
     }
 }
 
 // Tạo CSRF token nếu chưa có
-if (!isset($_SESSION['csrf_token2'])) {
-    $_SESSION['csrf_token2'] = bin2hex(random_bytes(32));
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 ?>

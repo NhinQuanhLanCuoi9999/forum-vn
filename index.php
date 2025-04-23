@@ -11,9 +11,7 @@ include('app/_USERS_LOGIC/index/php.php');
 #                                                            #
 ##############################################################
 */
-if (empty($_SESSION['csrf_token'])) {
-  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+if (empty($_SESSION['csrf_token'])) {$_SESSION['csrf_token'] = bin2hex(random_bytes(32));}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,8 +48,10 @@ if (empty($_SESSION['csrf_token'])) {
     <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
   <?php endif; ?>
   <?php if (isset($_SESSION['success'])): ?>
-    <div class="alert alert-success"><?php echo htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></div>
-  <?php endif; ?>
+  <div class="alert alert-danger bg-success text-white border-0">
+    <?php echo htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?>
+  </div>
+<?php endif; ?>
 </div>
 
 <!-- Header + Menu (Tailwind ver.) -->
@@ -186,7 +186,7 @@ if (empty($_SESSION['csrf_token'])) {
               <div class="form-check mb-3">
                 <input type="checkbox" class="form-check-input" id="agreeCheckbox">
                 <label for="agreeCheckbox" class="form-check-label">
-                  Đồng ý với <a href="/docs/tos.html" target="_blank"><strong>Điều khoản dịch vụ</strong></a>
+                  Bằng cách nhấn vào nút này, bạn đồng ý với <a href="/docs/tos.html" target="_blank"><strong>Điều khoản dịch vụ</strong></a>
                 </label>
               </div>
 
@@ -253,7 +253,7 @@ if (empty($_SESSION['csrf_token'])) {
       <input type="file" name="file" id="file" class="form-control">
     </div>
     
-    <input type="hidden" name="csrf_token2" value="<?php echo $_SESSION['csrf_token2']; ?>">
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
     
     <div class="d-grid">
       <button type="submit" name="post" class="btn btn-primary">Đăng bài</button>

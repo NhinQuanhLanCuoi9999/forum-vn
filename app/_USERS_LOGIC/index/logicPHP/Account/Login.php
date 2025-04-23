@@ -1,9 +1,13 @@
 <?php
 // Đăng nhập
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
-    // Kiểm tra CSRF token
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("Invalid CSRF token.");
+     // Kiểm tra CSRF token
+     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        echo "<script>
+                alert('Invalid CSRF Token');
+                window.location.href='/';
+              </script>";
+        exit();
     }
 
     // Kiểm tra và làm sạch dữ liệu đầu vào
@@ -69,6 +73,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     }
 }
 
-// Tạo và lưu CSRF token cho form
-$_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Tạo token ngẫu nhiên
 ?>

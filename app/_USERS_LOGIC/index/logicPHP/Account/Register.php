@@ -8,9 +8,13 @@ if (!isset($_SESSION['csrf_token'])) {
 
 // Kiểm tra CSRF token khi nhận dữ liệu POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
-    // Kiểm tra token CSRF
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("Invalid CSRF token.");
+     // Kiểm tra CSRF token
+     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        echo "<script>
+                alert('Invalid CSRF Token');
+                window.location.href='/';
+              </script>";
+        exit();
     }
 
     // Lấy dữ liệu từ form
