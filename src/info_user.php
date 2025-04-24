@@ -1,240 +1,166 @@
 <?php
-session_start(); // Bắt đầu phiên
+session_start();
 include '../config.php';
 include '../app/_USERS_LOGIC/info/php.php';
 include('../app/_USERS_LOGIC/profile/TimeFormat.php');
 date_default_timezone_set('Asia/Ho_Chi_Minh');
-/*
-##############################################################
-#                                                            #
-# This is the LICENSE file of Forum VN                       #
-# Copyright belongs to Forum VN, Original Author:            #
-# NhinQuanhLanCuoi9999                                       #
-#                                                            #
-##############################################################
 
-Copyright © 2025 Forum VN  
-Original Author: NhinQuanhLanCuoi9999  
-License: GNU General Public License v3.0  
-
-You are free to use, modify, and distribute this software under the terms of the GPL v3.  
-However, if you redistribute the source code, you must retain this license.
-*/
 ?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CSS -->
-    <link href="/asset/css/Bootstrap.min.css" rel="stylesheet">
-    <link href="/app/_USERS_LOGIC/info/styles.css" rel="stylesheet">
-    <!-- Font Poppins -->
-    <link rel="stylesheet" href="../asset/css/Poppins.css">
-    <script src="/app/_USERS_LOGIC/info/gmail_and_desc.js"></script>
-    <title>Thông tin tài khoản</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link href="/asset/css/Bootstrap.min.css" rel="stylesheet">
+  <!-- Font Poppins -->
+  <link href="/asset/css/Poppins.css" rel="stylesheet">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Thông tin tài khoản</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
 </head>
-<body>
-  <div class="container my-5">
-    <div class="custom-card">
-      <h1 class="card-title mb-4">THÔNG TIN TÀI KHOẢN</h1>
-      
-      <!-- Tên người dùng -->
-      <div class="info-group row">
-        <div class="col-6">Tên người dùng:</div>
-        <div class="col-6 text-end">
-          <strong><?php echo htmlspecialchars($username); ?></strong>
+<body class="bg-gradient-to-br from-[#fdfcfb] to-[#e2d1c3] min-h-screen py-10">
+  <div class="container">
+  <?php
+  // Hiện thông báo thành công/thất bại 
+if (isset($_SESSION['success'])) {showAlert($_SESSION['success'], 'success');unset($_SESSION['success']);}
+if (isset($_SESSION['error'])) {showAlert($_SESSION['error'], 'error');unset($_SESSION['error']);}
+?>
+    <!-- Card 1: Thông tin cơ bản -->
+    <div class="card mb-4 shadow-sm rounded-2xl border-0 bg-gradient-to-br from-white to-gray-100">
+      <div class="card-header font-semibold bg-gradient-to-r from-blue-100 to-blue-200 text-gray-800 border-0">
+        Thông tin cơ bản
+      </div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-6 text-gray-500">Tên người dùng</div>
+          <div class="col-6 text-end font-bold"><?=htmlspecialchars($username)?></div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-6 text-gray-500">ID</div>
+          <div class="col-6 text-end font-bold"><?=$row['id']?></div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-6 text-gray-500">Ngày tạo</div>
+          <div class="col-6 text-end font-bold"><?=date('d-m-Y H:i:s', strtotime($createdAt))?></div>
+        </div>
+        <div class="row">
+          <div class="col-6 text-gray-500">Vai trò</div>
+          <div class="col-6 text-end font-bold"><?=htmlspecialchars($userRole)?></div>
         </div>
       </div>
-      <hr>
+    </div>
 
-      <!-- ID -->
-      <div class="info-group row">
-        <div class="col-6">ID:</div>
-        <div class="col-6 text-end">
-          <strong><?php echo $row['id']; ?></strong>
+    <!-- Card 2: Mạng & Thiết bị -->
+    <div class="card mb-4 shadow-sm rounded-2xl border-0 bg-gradient-to-br from-white to-gray-100">
+      <div class="card-header font-semibold bg-gradient-to-r from-purple-100 to-pink-100 text-gray-800 border-0">
+        Mạng & Thiết bị
+      </div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-6 text-gray-500">IPv4</div>
+          <div class="col-6 text-end font-bold"><?=htmlspecialchars($_SERVER['REMOTE_ADDR'])?></div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-6 text-gray-500">IPv6</div>
+          <div class="col-6 text-end font-bold"><?=htmlspecialchars($ipv6)?></div>
+        </div>
+        <div class="row">
+          <div class="col-6 text-gray-500">User Agent</div>
+          <div class="col-6 text-end font-bold"><?=htmlspecialchars($_SERVER['HTTP_USER_AGENT'])?></div>
         </div>
       </div>
-      <hr>
+    </div>
 
-      <!-- Ngày tạo -->
-      <div class="info-group row">
-        <div class="col-6">Ngày tạo:</div>
-        <div class="col-6 text-end">
-          <strong><?php echo htmlspecialchars(date('d-m-Y H:i:s', strtotime($createdAt))); ?></strong>
-        </div>
+    <!-- Card 3: Email & Mô tả -->
+    <div class="card mb-4 shadow-sm rounded-2xl border-0 bg-gradient-to-br from-white to-gray-100">
+      <div class="card-header font-semibold bg-gradient-to-r from-green-100 to-teal-100 text-gray-800 border-0">
+        Email & Mô tả
       </div>
-      <hr>
-
-      <!-- Vai trò -->
-      <div class="info-group row">
-        <div class="col-6">Vai trò:</div>
-        <div class="col-6 text-end">
-          <strong><?php echo htmlspecialchars($userRole); ?></strong>
+      <div class="card-body">
+        <div class="row align-items-center mb-3">
+          <div class="col-6 text-gray-500">Gmail hiện tại</div>
+          <div class="col-6 text-end">
+            <strong id="gmailText"><?=htmlspecialchars($currentGmail ?: 'Chưa có Gmail')?></strong>
+            <button id="editGmailBtn" class="btn btn-outline-primary btn-sm ms-2 rounded-full px-3"
+              <?=isset($_SESSION['error'])?'style="display:none;"':''?>>Chỉnh sửa</button>
+          </div>
         </div>
-      </div>
-      <hr>
-
-      <!-- IPv4 -->
-      <div class="info-group row">
-        <div class="col-6">IPv4:</div>
-        <div class="col-6 text-end">
-          <strong>
-            <?php
-              $ip = $_SERVER['REMOTE_ADDR'];
-              echo htmlspecialchars($ip);
-            ?>
-          </strong>
-        </div>
-      </div>
-      <hr>
-
-      <!-- IPv6 -->
-      <div class="info-group row">
-        <div class="col-6">IPv6:</div>
-        <div class="col-6 text-end">
-          <strong><?php echo htmlspecialchars($ipv6); ?></strong>
-        </div>
-      </div>
-      <hr>
-
-      <!-- User Agent -->
-      <div class="info-group row">
-        <div class="col-6">User Agent:</div>
-        <div class="col-6 text-end">
-          <strong>
-            <?php
-              $agent = $_SERVER['HTTP_USER_AGENT'];
-              echo htmlspecialchars($agent);
-            ?>
-          </strong>
-        </div>
-      </div>
-      <hr>
-
-      <!-- Mô tả bản thân -->
-      <div class="info-group row align-items-center">
-        <div class="col-6">Mô tả bản thân:</div>
-        <div class="col-6 text-end">
-          <strong><?php echo htmlspecialchars($userDesc ?: 'Chưa có mô tả.'); ?></strong>
-          <button class="btn btn-primary ms-2" onclick="toggleDescForm()">Cập nhật mô tả</button>
-        </div>
-      </div>
-      <hr>
-
-      <!-- Gmail hiện tại -->
-      <div class="info-group row align-items-center">
-        <div class="col-6">Gmail hiện tại:</div>
-        <div class="col-6 text-end">
-          <strong id="gmailText"><?php echo htmlspecialchars($currentGmail ?: 'Chưa có Gmail'); ?></strong>
-          <!-- Ẩn nút "Chỉnh sửa" nếu có lỗi để hiển thị form luôn -->
-          <button id="editGmailBtn" class="btn btn-primary ms-2" <?php echo isset($_SESSION['error']) ? 'style="display:none;"' : ''; ?>>Chỉnh sửa</button>
-        </div>
-      </div>
-
-      <!-- Trạng thái Gmail -->
-      <div class="info-group row">
-        <div class="col-6">Trạng thái Gmail:</div>
-        <div class="col-6 text-end">
-          <strong><?php echo $isActive == '1' ? 'Đã kích hoạt' : 'Chưa kích hoạt'; ?></strong>
-        </div>
-      </div>
-
-      <!-- Form sửa Gmail (bao gồm thông báo lỗi) -->
-      <div class="row mt-2" id="gmailForm" <?php echo isset($_SESSION['error']) ? 'style="display: block;"' : 'style="display: none;"'; ?>>
-        <div class="col-12">
-          <?php if(isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger">
-              <?php 
-                echo htmlspecialchars($_SESSION['error']); 
-                unset($_SESSION['error']);
-              ?>
+        <?php if(isset($_SESSION['error'])): ?>
+          <div class="alert alert-danger"><?=htmlspecialchars($_SESSION['error']); unset($_SESSION['error']);?></div>
+        <?php endif; ?>
+        <div id="gmailForm" class="mb-4" style="display: <?=isset($_SESSION['error'])?'block':'none'?>;">
+          <form method="POST" action="">
+            <div class="input-group mb-2">
+              <input type="email" name="gmail" class="form-control" placeholder="Nhập Gmail mới"
+                     value="<?=htmlspecialchars($currentGmail)?>" required>
+              <button class="btn btn-success rounded-full" type="submit">Lưu</button>
+              <button type="button" id="cancelEdit" class="btn btn-secondary rounded-full">Hủy</button>
             </div>
+          </form>
+        </div>
+
+        <div class="row align-items-center mb-3">
+          <div class="col-6 text-gray-500">Mô tả bản thân</div>
+          <div class="col-6 text-end">
+            <strong><?=htmlspecialchars($userDesc ?: 'Chưa có mô tả.')?></strong>
+            <button class="btn btn-outline-primary btn-sm ms-2 rounded-full px-3" onclick="toggleDescForm()">Cập nhật</button>
+          </div>
+        </div>
+        <div id="update-desc-form" class="mb-3" style="display:none;">
+          <form method="POST" action="">
+            <div class="mb-2">
+              <textarea name="desc" rows="3" class="form-control" maxlength="255"
+                        placeholder="Nhập mô tả..."><?=htmlspecialchars($userDesc)?></textarea>
+            </div>
+            <button class="btn btn-success rounded-full" type="submit">Lưu thay đổi</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Bảo mật -->
+    <div class="card mb-4 shadow-sm rounded-2xl border-0 bg-gradient-to-br from-white to-gray-100">
+      <div class="card-header font-semibold bg-gradient-to-r from-yellow-100 to-orange-100 text-gray-800 border-0">
+        Bảo mật
+      </div>
+      <div class="card-body">
+        <form method="post" class="mb-3">
+          <div class="form-check form-switch d-flex justify-content-between align-items-center">
+            <label class="form-check-label text-gray-500" for="switch2fa">Kích hoạt 2FA</label>
+            <input class="form-check-input" type="checkbox" id="switch2fa" name="switch2fa" value="1"
+                   onchange="this.form.submit()" <?=($user['2fa']==1?'checked':'')?> <?=(!$isVerified?'disabled':'')?>>
+          </div>
+          <?php if(!$isVerified): ?>
+            <small class="text-danger">Xác minh tài khoản trước khi bật 2FA: <a href="verify.php">ở đây</a></small>
           <?php endif; ?>
-          <form method="POST" action="">
-            <div class="mb-2">
-              <label for="gmail" class="form-label">Cập nhật Gmail:</label>
-              <input type="email" class="form-control" id="gmail" name="gmail" 
-                     value="<?php echo htmlspecialchars($currentGmail ?: ''); ?>" required>
-            </div>
-            <div>
-              <button type="submit" class="btn btn-success">Lưu</button>
-              <button type="button" id="cancelEdit" class="btn btn-secondary">Hủy</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <hr>
+        </form>
 
-      <!-- Form sửa mô tả -->
-      <div class="row mt-3" id="update-desc-form" style="display: none;">
-        <div class="col-12">
-          <form method="POST" action="">
-            <div class="mb-2">
-              <label for="desc" class="form-label">Cập nhật mô tả bản thân:</label>
-              <textarea id="desc" name="desc" rows="4" class="form-control"
-                        placeholder="Nhập mô tả của bạn..." maxlength="255"><?php echo htmlspecialchars($userDesc); ?></textarea>
-            </div>
-            <button type="submit" class="btn btn-success">Lưu thay đổi</button>
-          </form>
+        <div class="row mb-3">
+          <div class="col-6 text-gray-500">Lần cuối đăng nhập</div>
+          <div class="col-6 text-end font-bold"><?=!empty($lastLogin)?formatTimeDiff($lastLogin):'Không xác định'?></div>
         </div>
-      </div>
-      <hr>
 
-
-<!-- Kích hoạt 2FA -->
-<div class="info-group row align-items-center">
-  <div class="col-6">
-    <form method="post">
-      <div class="d-flex align-items-center" style="gap: 10px;">
-        <label for="switch2fa" style="margin-bottom: 0;">Kích hoạt 2FA:</label>
-        <div class="form-check form-switch" style="margin-bottom: 0;">
-          <input class="form-check-input" type="checkbox" id="switch2fa"
-                 name="switch2fa" value="1" onchange="this.form.submit()"
-                 <?php echo ($user['2fa'] == 1 ? 'checked' : ''); ?>
-                 <?php echo (!$isVerified ? 'disabled' : ''); ?>>
-        </div>
-      </div>
-      <?php if (!$isVerified): ?>
-        <small class="text-danger">Bạn cần xác minh tài khoản trước khi bật 2FA.Hãy xác thực <a href="verify.php">tại đây</a> </small>
-      <?php endif; ?>
-    </form>
-  </div>
+        <div class="text-center">
+  <a href="change_password.php" class="btn btn-danger rounded-full px-4">Đổi mật khẩu</a>
 </div>
-<hr>
 
-
-
-
-<!-- Trạng thái -->
-<div class="info-group row">
-    <div class="col-6">Lần cuối đăng nhập:</div>
-    <div class="col-6 text-end">
-        <strong>
-            <?= !empty($lastLogin) ? formatTimeDiff($lastLogin) : 'Không xác định' ?>
-        </strong>
-    </div>
-</div>
-<hr>
-
-      <!-- Đổi mật khẩu -->
-<div class="info-group row align-items-center">
-  <div class="col-6">Đổi mật khẩu:</div>
-  <div class="col-6 text-end">
-    <button id="changePasswordBtn" class="btn btn-danger">Click vào đây</button>
-  </div>
-</div>
-<hr>
-
-
-      <!-- Về trang chủ -->
-      <div class="row">
-        <div class="col text-center">
-          <button class="btn btn-primary" onclick="window.location.href='index.php'">Trang chủ</button>
-        </div>
       </div>
     </div>
+
+    <!-- Nút về trang chủ -->
+    <div class="text-center">
+      <button class="btn btn-primary rounded-full px-4" onclick="location.href='index.php'">Trang chủ</button>
+    </div>
   </div>
+
+  <!-- JS -->
+  <script src="/asset/js/bootstrap.bundle.min.js"></script>
+  <script src="/app/_USERS_LOGIC/info/gmail_and_desc.js"></script>
 </body>
-<script src="/app/_USERS_LOGIC/index/js/SubWindows.js"></script>
 </html>

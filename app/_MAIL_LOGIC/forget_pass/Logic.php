@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $error = "Tài khoản của bạn chưa được kích hoạt. Vui lòng kích hoạt tài khoản.";
                 } else {
                     $_SESSION['old_password_hash'] = $user['password'];
-                    $_SESSION['otp'] = strtoupper(bin2hex(random_bytes(8)));
+                    $_SESSION['otp'] = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
                     $_SESSION['reset_email'] = $gmail;
                     $_SESSION['otp_expiry']  = time() + 300;
                     

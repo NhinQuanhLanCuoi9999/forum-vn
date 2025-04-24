@@ -8,8 +8,8 @@ $userId = null;
 $createdAt = null;
 $userDesc = '';
 $userRole = 'Không xác định';
-$lastLogin = null; // Khởi tạo biến last_login
-$isVerified = false; // Thêm biến này
+$lastLogin = null; 
+$isVerified = false;
 
 if ($username) {
     $query = "SELECT id, created_at, role, description, last_login, is_active FROM users WHERE username = ?";
