@@ -328,9 +328,12 @@ if (empty($_SESSION['csrf_token'])) {$_SESSION['csrf_token'] = bin2hex(random_by
       <?php endwhile; ?>
     </div>
   <?php else: ?>
-    <div class="alert alert-info text-center" role="alert">
-      Chưa có bài viết nào.
-    </div>
+    <div class="alert alert-info text-center p-5 rounded" role="alert" style="background-color: #e9f7fe;">
+  <div style="font-size: 50px; margin-bottom: 10px;">📭</div>
+  <h4 class="mb-2">Không có bài viết nào ở đây...</h4>
+  <p>Hãy tạo một bài viết mới để bắt đầu nhé!</p>
+</div>
+
   <?php endif; ?>
 </div>
 
