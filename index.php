@@ -78,7 +78,7 @@ if (empty($_SESSION['csrf_token'])) {$_SESSION['csrf_token'] = bin2hex(random_by
         <?php 
         $menuItems = [
           ['src/info_user.php', 'fas fa-user', 'Thông Tin'],
-          ['src/network-config.php', 'fas fa-network-wired', 'Cấu Hình IP'],
+          ['src/server_info.php', 'fas fa-network-wired', 'Thông tin cấu hình web'],
           ['/docs/tos.html', 'fas fa-file-contract', 'Điều khoản dịch vụ'],
           ['src/search.php', 'fas fa-search', 'Tìm kiếm'],
           ['index.php?logout=true', 'fas fa-sign-out-alt', 'Đăng xuất']
