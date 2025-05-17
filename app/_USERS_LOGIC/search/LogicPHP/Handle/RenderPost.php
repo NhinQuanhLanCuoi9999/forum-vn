@@ -9,8 +9,6 @@ function renderPosts($result) {
             echo " <a href='src/view.php?id=" . htmlspecialchars($row['id']) . "' class='view-more'>Xem thêm</a>";
             echo "</div>";
         }
-    } else {
-        echo "<p>Không tìm thấy bài đăng nào.</p>";
     }
 }
 ?>
