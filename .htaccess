@@ -25,3 +25,6 @@ RewriteRule ^.*$ /404.php [L]
 RewriteCond %{REQUEST_URI} ^/app
 RewriteCond %{REQUEST_URI} !\.(css|js|jpg|jpeg|png|gif|bmp|tiff|svg|ico|woff|woff2|eot|ttf|otf|webp|dat)$ [NC]
 RewriteRule ^ /404.php [L]
+
+# Chặn truy cập file db.sql
+RewriteRule ^db\.sql$ - [F,L]
