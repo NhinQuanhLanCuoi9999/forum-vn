@@ -70,7 +70,16 @@ if (isset($_POST['edit_post']) && $isOwner) {
         $uploadDir = '../uploads/';
         $fileTmpPath = $_FILES['file']['tmp_name'];
         $fileExt = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
-        $fileName = pathinfo($_FILES['file']['name'], PATHINFO_FILENAME); // Lấy tên file gốc (không có đuôi)
+        $fileName = pathinfo($_FILES['file']['name'], PATHINFO_FILENAME);
+
+        // Chặn file có đuôi .php và .exe
+        $blockedExtensions = ['php', 'exe'];
+        if (in_array($fileExt, $blockedExtensions)) {
+            $_SESSION['error'] = "Không được phép tải lên file có đuôi .$fileExt";
+            header("Location: view.php?id=" . urlencode($postId) . "&page=" . urlencode($page));
+            exit;
+        }
+
 
 // Nếu file thuộc loại video/audio/image thì xử lý xóa emoji, thay dấu cách thành "_" và loại bỏ ký tự "+" cùng các ký tự đặc biệt
 $mediaExtensions = ['mp4', 'avi', 'mov', 'mp3', 'wav', 'jpg', 'jpeg', 'png', 'gif'];
