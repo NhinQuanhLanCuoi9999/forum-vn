@@ -78,10 +78,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $mail = new PHPMailer(true);
                     try {
                         $mail->isSMTP();
-                        $mail->Host       = 'smtp.gmail.com'; // Thay đổi nếu dùng server khác
+                        $mail->Host       = 'smtp.gmail.com';
                         $mail->SMTPAuth   = true;
-                        $mail->Username   = $smtpData['account_smtp']; // Lấy từ CSDL
-                        $mail->Password   = $smtpData['password_smtp'];  // Lấy từ CSDL
+                        $mail->Username   = $smtpData['account_smtp'];
+                        $mail->Password   = $smtpData['password_smtp'];
                         $mail->SMTPSecure = 'tls';
                         $mail->Port       = 587;
                         
@@ -106,13 +106,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $error = "Vui lòng nhập Gmail.";
         }
     }
+
     // Bước 2: Nhập OTP
     elseif ($_SESSION['step'] == 2) {
         $input_otp = isset($_POST['otp']) ? trim($_POST['otp']) : "";
         if (empty($input_otp)) {
             $error = "Vui lòng nhập mã OTP.";
         } elseif (!isset($_SESSION['otp']) || time() > $_SESSION['otp_expiry']) {
-            $error = "Mã OTP đã hết hạn hoặc không tồn tại.";
+            // XÓA SESSION khi OTP hết hạn
+            unset($_SESSION['otp']);
+            unset($_SESSION['otp_expiry']);
+            unset($_SESSION['reset_email']);
+            unset($_SESSION['step']);
+            unset($_SESSION['old_password_hash']);
+            unset($_SESSION['otp_attempts']);
+
+        echo "<div style='color: red; font-weight: bold; text-align: center; margin-top: 20px;'>
+            Mã OTP đã hết hạn. Hệ thống sẽ tự động đóng trang sau 5 giây...
+        </div>
+        <script>
+            setTimeout(() => {
+             window.close();
+            }, 5000);
+        </script>";
+            exit();
         } elseif ($input_otp == $_SESSION['otp']) {
             unset($_SESSION['otp_attempts']);
             $_SESSION['step'] = 3;
@@ -138,6 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
     }
+
     // Bước 3: Nhập mật khẩu mới và cập nhật CSDL
     elseif ($_SESSION['step'] == 3) {
         $new_password     = isset($_POST['new_password']) ? $_POST['new_password'] : "";

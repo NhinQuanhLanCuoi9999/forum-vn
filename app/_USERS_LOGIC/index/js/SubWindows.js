@@ -74,7 +74,7 @@ function openPopup(url, width = 500, height = 600, onMessage = null, allowFallba
   // Forgot Password
   document.getElementById('forgotPasswordBtn')?.addEventListener('click', function(e) {
     e.preventDefault();
-    openPopup('/src/forget_pass.php?popup=true', 500, 400, null, false);
+    openPopup('/src/forgot_pass.php?popup=true', 500, 400, null, false);
   });
   
   // Đổi mật khẩu
