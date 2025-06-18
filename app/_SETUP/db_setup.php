@@ -1,14 +1,24 @@
 <?php
 function setupDatabase($host, $user, $pass, $db) {
+    // Validate tên database trước khi dùng
+    if (!preg_match('/^[a-zA-Z0-9_]+$/', $db)) {
+        throw new Exception("Tên database không hợp lệ. Chỉ được dùng chữ cái, số và dấu gạch dưới.");
+    }
+
     $conn = new mysqli($host, $user, $pass);
     if ($conn->connect_error) {
-       throw new Exception("Kết nối thất bại: " . $conn->connect_error);
+        throw new Exception("Kết nối thất bại: " . $conn->connect_error);
     }
-    if ($conn->query("CREATE DATABASE IF NOT EXISTS $db") === TRUE) {
-         $conn->select_db($db);
+
+    // ✅ Escape tên DB bằng backtick để bảo vệ thêm 1 lớp
+    $escapedDb = "`" . $conn->real_escape_string($db) . "`";
+
+    if ($conn->query("CREATE DATABASE IF NOT EXISTS $escapedDb") === TRUE) {
+        $conn->select_db($db);
     } else {
-         throw new Exception("Không thể tạo cơ sở dữ liệu: " . $conn->error);
+        throw new Exception("Không thể tạo cơ sở dữ liệu: " . $conn->error);
     }
+
     return $conn;
 }
 
@@ -16,12 +26,12 @@ function setupSQL($conn, $sqlFile) {
     if (file_exists($sqlFile)) {
         $sql = file_get_contents($sqlFile);
         if (!$conn->multi_query($sql)) {
-           throw new Exception("Lỗi khi chạy SQL: " . $conn->error);
+            throw new Exception("Lỗi khi chạy SQL: " . $conn->error);
         }
         // Xử lý kết quả trả về của multi_query
         do {
             if ($result = $conn->store_result()) {
-               $result->free();
+                $result->free();
             }
         } while ($conn->more_results() && $conn->next_result());
     }
@@ -49,5 +59,4 @@ function setupMisc($conn, $data) {
     $stmt->execute();
     $stmt->close();
 }
-
 ?>
