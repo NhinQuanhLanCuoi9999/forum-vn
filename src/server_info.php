@@ -31,7 +31,14 @@ include('../app/_USERS_LOGIC/server/FetchInfo.php');
       </div>
       <div class="bg-white rounded-lg shadow p-4 text-center">
         <p class="text-sm text-gray-500">Bài viết mới nhất</p>
-        <a href="/src/view.php?id=<?= $latestPost['id'] ?>" class="text-blue-500 hover:underline block truncate"><?= htmlspecialchars($latestPost['content']) ?></a>
+          <?php if ($latestPost && isset($latestPost['id'], $latestPost['content'])): ?>
+            <a href="/src/view.php?id=<?= $latestPost['id'] ?>" class="text-blue-500 hover:underline block truncate">
+                <?= htmlspecialchars($latestPost['content']) ?>
+           </a>
+          <?php else: ?>
+            <p class="text-gray-500 italic">Chưa có bài viết</p>
+          <?php endif; ?>
+
       </div>
       <div class="bg-white rounded-lg shadow p-4 text-center">
         <p class="text-sm text-gray-500">Tổng số bài đăng</p>
