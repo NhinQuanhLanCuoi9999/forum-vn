@@ -1,4 +1,10 @@
 <?php
+// Nếu chưa đăng nhập thì về trang chủ
+if (!isset($_SESSION['username'])) {
+    header('Location: /');
+    exit();
+}
+
 // Kiểm tra nếu đã có thời gian truy cập lần trước
 if (isset($_SESSION['last_access_time'])) {
     $lastAccessTime = $_SESSION['last_access_time'];
