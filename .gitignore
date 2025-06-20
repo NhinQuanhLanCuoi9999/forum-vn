@@ -1,5 +1,6 @@
-# Chặn file config.php trong thư mục gốc
+# Chặn file config.php và .env trong thư mục gốc
 /config.php
+/.env
 
 # Chặn toàn bộ file trong các thư mục này
 /uploads/*

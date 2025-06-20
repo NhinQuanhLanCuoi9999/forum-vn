@@ -29,3 +29,7 @@ RewriteRule ^ /404.php [L]
 # Chặn truy cập file db.sql và thư mục /backup, chuyển về 404.php
 RewriteCond %{REQUEST_URI} ^/(db\.sql|backup(/|$)) [NC]
 RewriteRule ^.*$ /404.php [L]
+
+# Chặn truy cập các file và thư mục nhạy cảm: .env, .git, .gitignore
+RewriteCond %{REQUEST_URI} ^/(\.env|\.git|\.gitignore) [NC]
+RewriteRule ^.*$ /404.php [L]
