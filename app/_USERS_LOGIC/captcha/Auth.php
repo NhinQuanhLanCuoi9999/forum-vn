@@ -1,28 +1,41 @@
 <?php
-
 ob_start();
 include '../config.php';
 session_start();
 
-// Kiểm tra nếu config.php không tồn tại
+// Check nếu chưa setup
 if (!file_exists('../config.php')) {
     header("Location: ../setup.php");
     exit();
 }
 
-// Truy vấn lấy API Key từ DB
+// ✅ GỌI FILE GIẢI MÃ + ENV KEY
+require_once $_SERVER['DOCUMENT_ROOT'] . '/app/_CRYPTO/AES_env.php';        // Thêm file này
+require_once $_SERVER['DOCUMENT_ROOT'] . '/app/_CRYPTO/DecryptAES.php';
+
+// ✅ Lấy AES Key
+$key = getAESKey();
+
+// Truy vấn lấy API Key đã mã hóa
 $query = "SELECT turnstile_api_key, turnstile_site_key FROM misc LIMIT 1";
 $result = $conn->query($query);
 
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
-    $turnstile_api_key = $row['turnstile_api_key'];
-    $sitekey = $row['turnstile_site_key'];
+
+    // GIẢI MÃ trước khi dùng
+    $turnstile_api_key = decryptDataAES($row['turnstile_api_key']);
+    $sitekey = decryptDataAES($row['turnstile_site_key']);
+
+
+    if (!$turnstile_api_key || !$sitekey) {
+        die("Không thể giải mã thông tin Turnstile.");
+    }
 } else {
     die("Không tìm thấy thông tin Turnstile trong cơ sở dữ liệu.");
 }
 
-// Nếu session captcha_verified đã tồn tại, chuyển hướng ngay
+// Nếu đã verify captcha → chuyển hướng
 if (isset($_SESSION['captcha_verified'])) {
     header("Location: index.php");
     exit();

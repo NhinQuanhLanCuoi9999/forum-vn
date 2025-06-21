@@ -5,30 +5,35 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require $_SERVER['DOCUMENT_ROOT'] . '/app/vendor/autoload.php';
-
+require_once $_SERVER['DOCUMENT_ROOT'] . '/app/_CRYPTO/DecryptAES.php';
 if (!function_exists('sendOTP')) {
-  // Hàm gửi OTP bằng PHPMailer với nội dung email "xịn xò"
-  function sendOTP($to, $otp, $misc) {
-      $mail = new PHPMailer(true);
-      try {
-          // Fix lỗi font Tiếng Việt
-          $mail->CharSet = 'UTF-8';
-          $mail->Encoding = 'base64';
+    function sendOTP($to, $otp, $misc) {
+        global $key;
+        $mail = new PHPMailer(true);
 
-          // Cấu hình SMTP với thông tin từ DB và giá trị mặc định cho host & port
-          $mail->isSMTP();
-          $mail->Host       = 'smtp.gmail.com';               // Host mặc định (thay đổi nếu cần)
-          $mail->SMTPAuth   = true;
-          $mail->Username   = $misc['account_smtp'];            // Lấy từ DB
-          $mail->Password   = $misc['password_smtp'];           // Lấy từ DB
-          $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-          $mail->Port       = 587;                              // Port mặc định (của Gmail)
+        try {
+            // Fix tiếng Việt
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
 
-          // Người gửi và người nhận
-          $mail->setFrom($misc['account_smtp'], 'Mail Server');
-          $mail->addAddress($to);
+            // Giải mã thông tin SMTP
+            $smtp_from     = decryptDataAES($smtpData['account_smtp']);
+            $smtp_password = decryptDataAES($smtpData['password_smtp']);
 
-          // Nội dung email với giao diện HTML "chất"
+
+            // Cấu hình SMTP
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = $smtpEmail;
+            $mail->Password   = $smtpPass;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
+
+            // Thông tin gửi
+            $mail->setFrom($smtpEmail, 'Mail Server');
+            $mail->addAddress($to);
+
           $mail->isHTML(true);
           $mail->Subject = "Mã OTP xác thực 2FA";
 
@@ -61,9 +66,11 @@ if (!function_exists('sendOTP')) {
           $mail->send();
           return true;
       } catch (Exception $e) {
-          error_log("Lỗi gửi mail: " . $mail->ErrorInfo);
-          return false;
-      }
+    error_log("[PHPMailer ERROR] ❌ " . $mail->ErrorInfo);
+    error_log("[Exception] 🧨 " . $e->getMessage());
+    return false;
+}
+
   }
 }
 

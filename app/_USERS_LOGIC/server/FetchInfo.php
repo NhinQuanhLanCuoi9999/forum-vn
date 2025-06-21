@@ -1,8 +1,15 @@
 <?php
-// Lấy API key
+require_once $_SERVER['DOCUMENT_ROOT'] . '/app/_CRYPTO/DecryptAES.php';
+
+// Lấy & giải mã API key
 $query = "SELECT ipinfo_api_key FROM misc LIMIT 1";
 $result = $conn->query($query);
-$apiKey = ($result->num_rows > 0) ? $result->fetch_assoc()['ipinfo_api_key'] : null;
+$apiKey = null;
+
+if ($result && $result->num_rows > 0) {
+    $encryptedKey = $result->fetch_assoc()['ipinfo_api_key'];
+    $apiKey = decryptDataAES($encryptedKey);
+}
 
 // Lấy thống kê
 $totalUsers = $conn->query("SELECT COUNT(*) AS total FROM users")->fetch_assoc()['total'];

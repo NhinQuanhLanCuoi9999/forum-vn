@@ -1,6 +1,6 @@
 <?php
-require '../app/vendor/autoload.php'; // Đảm bảo đã cài PHPMailer qua Composer
-
+require '../app/vendor/autoload.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/app/_CRYPTO/DecryptAES.php'; 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -19,8 +19,14 @@ if (!isset($_SESSION['step'])) {
 $stmtSMTP = $conn->prepare("SELECT account_smtp, password_smtp FROM misc WHERE id = 1");
 $stmtSMTP->execute();
 $resultSMTP = $stmtSMTP->get_result();
+
 if ($resultSMTP->num_rows > 0) {
     $smtpData = $resultSMTP->fetch_assoc();
+
+    // Giải mã dữ liệu dùng key từ DecryptAES.php
+    $smtp_from     = decryptDataAES($smtpData['account_smtp']);
+    $smtp_password = decryptDataAES($smtpData['password_smtp']);
+
 } else {
     die("Không tìm thấy cấu hình SMTP trong CSDL.");
 }
@@ -34,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bind_param("s", $gmail);
             $stmt->execute();
             $result = $stmt->get_result();
-            
+            $to      = $gmail;
             if ($result->num_rows > 0) {
                 $user = $result->fetch_assoc();
                 if ($user['is_active'] != 1) {
@@ -77,21 +83,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // Sử dụng PHPMailer để gửi mail OTP
                     $mail = new PHPMailer(true);
                     try {
-                        $mail->isSMTP();
-                        $mail->Host       = 'smtp.gmail.com';
-                        $mail->SMTPAuth   = true;
-                        $mail->Username   = $smtpData['account_smtp'];
-                        $mail->Password   = $smtpData['password_smtp'];
-                        $mail->SMTPSecure = 'tls';
-                        $mail->Port       = 587;
-                        
-                        $mail->setFrom('no-reply@gmail.com', 'No Reply');
-                        $mail->addAddress($gmail);
-                        
-                        $mail->isHTML(true);
-                        $mail->CharSet = 'UTF-8';
-                        $mail->Subject = $subject;
-                        $mail->Body    = $message;
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = $smtp_from;        // Email người gửi
+    $mail->Password   = $smtp_password;    // Mật khẩu SMTP hoặc App Password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = 587;
+
+    // Đảm bảo sử dụng UTF-8 để tránh lỗi font
+    $mail->CharSet    = 'UTF-8';
+    $mail->Encoding   = 'base64';
+
+    // Cấu hình người gửi & người nhận
+    $mail->setFrom($smtp_from, 'Mail Server');
+    $mail->addAddress($to);
+
+    // Cấu hình nội dung email
+    $mail->isHTML(true);
+    // Mã hóa tiêu đề email theo UTF-8 với base64
+    $mail->Subject  = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+    $mail->Body     = $message;
+    $mail->AltBody  = strip_tags($message);
+
                         
                         $mail->send();
                         $_SESSION['step'] = 2;

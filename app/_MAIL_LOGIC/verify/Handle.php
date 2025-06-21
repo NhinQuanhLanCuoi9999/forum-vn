@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require $_SERVER['DOCUMENT_ROOT'] . '/app/vendor/autoload.php';
-
+require $_SERVER['DOCUMENT_ROOT'] . '/app/_CRYPTO/DecryptAES.php'; 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify'])) {
     if (empty($gmail)) {
         die("Không tìm thấy địa chỉ email của người dùng.");
@@ -27,14 +27,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify'])) {
     $current_path = strtok($_SERVER["REQUEST_URI"], '?');
     $active_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $current_path . "?code=" . $verification_code;
 
-    // Lấy thông tin SMTP từ bảng misc (giả sử có account_smtp và password_smtp)
-    $misc_query = $conn->query("SELECT account_smtp, password_smtp FROM misc WHERE id = 1 LIMIT 1");
-    if ($misc_query && $misc_query->num_rows > 0) {
-        $misc = $misc_query->fetch_assoc();
-        $smtp_from     = $misc['account_smtp'];
-        $smtp_password = $misc['password_smtp'];
+    // Lấy cấu hình SMTP từ bảng misc
+    $stmtSMTP = $conn->prepare("SELECT account_smtp, password_smtp FROM misc WHERE id = 1");
+    $stmtSMTP->execute();
+    $resultSMTP = $stmtSMTP->get_result();
+
+    if ($resultSMTP->num_rows > 0) {
+        $smtpData = $resultSMTP->fetch_assoc();
+
+        // Giải mã bằng key đã có từ DecryptAES.php
+        $smtp_from     = decryptDataAES($smtpData['account_smtp']);
+        $smtp_password = decryptDataAES($smtpData['password_smtp']);
+
     } else {
-        die("Không tìm thấy thông tin SMTP.");
+        die("Không tìm thấy cấu hình SMTP trong CSDL.");
     }
 
     // Chuẩn bị nội dung email xác minh (định dạng HTML)
@@ -72,11 +78,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify'])) {
 $mail = new PHPMailer(true);
 try {
     $mail->isSMTP();
-    // Cấu hình SMTP server (ví dụ: smtp.gmail.com)
+    // Cấu hình SMTP server
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = $smtp_from;        // Email người gửi
-    $mail->Password   = $smtp_password;    // Mật khẩu SMTP hoặc App Password
+    $mail->Username   = $smtp_from;
+    $mail->Password   = $smtp_password;  
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
 

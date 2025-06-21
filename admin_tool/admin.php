@@ -70,38 +70,39 @@ However, if you redistribute the source code, you must retain this license.  */
     <h2>Cấu hình hệ thống</h2>
 
 
-    <form method="POST" action="admin.php?section=system_config">
-    <div class="form-table">
-        <div class="form-row">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($system_config['title']); ?>" required>
-        </div>
-        <div class="form-row">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($system_config['name']); ?>" required>
-        </div>
-        <div class="form-row">
-            <label for="info">Nội dung thông báo:</label>
-            <input type="text" id="info" name="info" value="<?php echo htmlspecialchars((string)($system_config['info'] ?? 'Không có nội dung'), ENT_QUOTES, 'UTF-8'); ?>">
-        </div>
-        <div class="form-row">
-            <label for="turnstile_site_key">Turnstile Site Key:</label>
-            <input type="password" id="turnstile_site_key" name="turnstile_site_key" value="<?php echo htmlspecialchars($system_config['turnstile_site_key'] ?? ''); ?>" required>
-        </div>
-        <div class="form-row">
-            <label for="turnstile_api_key">Turnstile API Key:</label>
-            <input type="password" id="turnstile_api_key" name="turnstile_api_key" value="<?php echo htmlspecialchars($system_config['turnstile_api_key'] ?? ''); ?>" required>
-        </div>
-        <div class="form-row">
-            <label for="ipinfo_api_key">IPInfo API Key:</label>
-            <input type="password" id="ipinfo_api_key" name="ipinfo_api_key" value="<?php echo htmlspecialchars($system_config['ipinfo_api_key']); ?>" required>
-        </div>
-        <div class="form-row">
-            <button type="submit">Lưu thay đổi</button>
-        </div>
-
+<form method="POST" action="admin.php?section=system_config">
+  <div class="form-table">
+    <div class="form-row">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" value="<?= htmlspecialchars($system_config['title'] ?? '') ?>" required>
     </div>
+    <div class="form-row">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" value="<?= htmlspecialchars($system_config['name'] ?? '') ?>" required>
+    </div>
+    <div class="form-row">
+      <label for="info">Nội dung thông báo:</label>
+      <input type="text" id="info" name="info" value="<?= htmlspecialchars($system_config['info'] ?? '') ?>">
+    </div>
+    <div class="form-row">
+      <label for="turnstile_site_key">Turnstile Site Key:</label>
+      <input type="password" id="turnstile_site_key" name="turnstile_site_key" value="<?= htmlspecialchars($system_config['turnstile_site_key'] ?? '') ?>" required>
+    </div>
+    <div class="form-row">
+      <label for="turnstile_api_key">Turnstile API Key:</label>
+      <input type="password" id="turnstile_api_key" name="turnstile_api_key" value="<?= htmlspecialchars($system_config['turnstile_api_key'] ?? '') ?>" required>
+    </div>
+    <div class="form-row">
+      <label for="ipinfo_api_key">IPInfo API Key:</label>
+      <input type="password" id="ipinfo_api_key" name="ipinfo_api_key" value="<?= htmlspecialchars($system_config['ipinfo_api_key'] ?? '') ?>" required>
+    </div>
+    <div class="form-row">
+      <button type="submit">Lưu thay đổi</button>
+    </div>
+  </div>
 </form>
+
+
 
 
 <strong><a href="advanced_config.php">Click vào đây </a> để cấu hình nâng cao.</strong> <br>

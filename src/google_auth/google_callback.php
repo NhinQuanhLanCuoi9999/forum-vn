@@ -2,13 +2,14 @@
 session_start();
 require $_SERVER['DOCUMENT_ROOT'] . '/app/vendor/autoload.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/app/_CRYPTO/DecryptAES.php';
 
 use Google\Auth\OAuth2;
 use Google\Auth\HttpHandler\Guzzle6HttpHandler;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
 
-function showErrorAndRedirect($message, $info = 'Hệ thống đang gặp lỗi xác thực , vui lòng quay lại sau',  $code = 'unknown_error', $rawError = null) {
+function showErrorAndRedirect($message, $info = 'Hệ thống đang gặp lỗi xác thực , vui lòng quay lại sau', $code = 'unknown_error', $rawError = null) {
     header('Content-Type: text/html; charset=UTF-8');
 
     $errorPayload = [
@@ -52,36 +53,33 @@ HTML;
     exit();
 }
 
-
-
-// Lấy Client ID + Secret
+// Lấy từ DB & GIẢI MÃ
 $sql = "SELECT google_client_id, google_client_secret FROM misc WHERE id = 1 LIMIT 1";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
-    $googleClientId = $row['google_client_id'];
-    $googleClientSecret = $row['google_client_secret'];
+    $googleClientId = decryptDataAES($row['google_client_id']);
+    $googleClientSecret = decryptDataAES($row['google_client_secret']); 
 } else {
     showErrorAndRedirect("Lỗi: Không tìm thấy thông tin Google OAuth trong DB");
 }
 
-// Tạo redirect URI đúng chuẩn
+// Tạo redirectUri chính xác
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
 $host = $_SERVER['HTTP_HOST'];
 $scriptPath = dirname($_SERVER['SCRIPT_NAME']);
 $redirectUri = rtrim($protocol . "://" . $host . $scriptPath, '/') . "/google_callback.php";
 
-// Cấu hình OAuth2
+// OAuth2 config
 $oauth2 = new OAuth2([
-    'clientId'         => $googleClientId,
-    'clientSecret'     => $googleClientSecret,
-    'redirectUri'      => $redirectUri,
-    'authorizationUri' => 'https://accounts.google.com/o/oauth2/auth',
+    'clientId'           => $googleClientId,
+    'clientSecret'       => $googleClientSecret,
+    'redirectUri'        => $redirectUri,
+    'authorizationUri'   => 'https://accounts.google.com/o/oauth2/auth',
     'tokenCredentialUri' => 'https://oauth2.googleapis.com/token',
-    'scope'            => ['email', 'profile']
+    'scope'              => ['email', 'profile']
 ]);
 
-// Phải có mã `code` mới chơi được
 if (!isset($_GET['code'])) {
     showErrorAndRedirect("Google login failed!");
 }
@@ -95,7 +93,7 @@ try {
         showErrorAndRedirect("Không lấy được access token");
     }
 
-    // Lấy info người dùng
+    // Lấy thông tin người dùng
     $httpClient = new GuzzleClient([
         'headers' => ['Authorization' => 'Bearer ' . $accessToken['access_token']]
     ]);
@@ -114,7 +112,7 @@ if (!$email || !$name) {
     showErrorAndRedirect("Không lấy được info người dùng");
 }
 
-// Kiểm tra user đã tồn tại chưa
+// Check user
 $sql = "SELECT username FROM users WHERE gmail=? LIMIT 1";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $email);
@@ -125,7 +123,6 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $_SESSION['username'] = $row['username'];
 
-    // Update last_login
     $updateLoginStmt = $conn->prepare("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE username = ?");
     if ($updateLoginStmt) {
         $updateLoginStmt->bind_param("s", $row['username']);
@@ -135,7 +132,7 @@ if ($result->num_rows > 0) {
         showErrorAndRedirect("Lỗi khi cập nhật last_login: " . $conn->error);
     }
 } else {
-    // Tạo user mới
+    // Tạo mới
     $originalName = $name;
     $newName = $originalName;
 
@@ -157,7 +154,6 @@ if ($result->num_rows > 0) {
             break;
         }
     } while (true);
-
     $checkStmt->close();
 
     $randomPassword = bin2hex(random_bytes(16));
@@ -171,14 +167,12 @@ if ($result->num_rows > 0) {
     $stmt->bind_param("sss", $newName, $email, $hashedPassword);
     if ($stmt->execute()) {
         $_SESSION['username'] = $newName;
-        // ✅ Mới tạo thì created_at & last_login auto set trong DB rồi
     } else {
         showErrorAndRedirect("Lỗi khi INSERT: " . $stmt->error);
     }
 }
 
-
-// Kiểm tra state để biết có phải popup không
+// State === popup
 if (isset($_GET['state']) && $_GET['state'] === 'popup') {
     ?>
     <!DOCTYPE html>
