@@ -7,7 +7,6 @@ if (!apiKey) {
     let isExtraInfoVisible = false;
     let countdown = 90; // Thời gian đếm ngược
     const timerElement = document.getElementById('time');
-    const loggedIPs = JSON.parse(localStorage.getItem('loggedIPs')) || {};
 
     // Hàm để ẩn/hiện thông tin thêm với hiệu ứng
     function toggleExtraInfo() {
@@ -43,42 +42,19 @@ if (!apiKey) {
     // Bắt đầu đồng hồ đếm ngược
     const countdownInterval = setInterval(updateCountdown, 1000);
 
-    // Ghi log IP
-    function logIP(ip) {
-        const currentTime = new Date().getTime();
-        const lastLoggedTime = loggedIPs[ip] ? loggedIPs[ip].lastLogged : 0;
-
-        if (currentTime - lastLoggedTime > 15 * 60 * 1000) { // 15 phút
-            // Ghi log vào tệp
-            fetch('log.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ ip: ip })
-            });
-
-            // Cập nhật thời gian ghi log
-            loggedIPs[ip] = { lastLogged: currentTime };
-            localStorage.setItem('loggedIPs', JSON.stringify(loggedIPs));
-        }
-    }
-
     // Lấy API Key từ PHP và thực hiện các thao tác tiếp theo
     fetch('https://api64.ipify.org?format=json') // Lấy địa chỉ IPv6
         .then(response => response.json())
         .then(data => {
             const ipv6 = data.ip;
-            document.getElementById('ipv6').textContent = ipv6; // Gán IPv6
-            logIP(ipv6); // Ghi log IP
+            document.getElementById('ipv6').textContent = ipv6;
 
             return fetch(`https://api.ipify.org?format=json`); // Lấy địa chỉ IPv4
         })
         .then(response => response.json())
         .then(ipv4Data => {
             const ipv4 = ipv4Data.ip;
-            document.getElementById('ipv4').textContent = ipv4; // Gán IPv4
-            logIP(ipv4); // Ghi log IP
+            document.getElementById('ipv4').textContent = ipv4;
 
             return fetch(`https://ipinfo.io/${ipv4}/json?token=${apiKey}`); // Lấy thông tin vị trí
         })
