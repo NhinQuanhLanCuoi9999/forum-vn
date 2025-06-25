@@ -4,106 +4,117 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tài liệu API</title>
-  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="../asset/css/Bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/app/_DOCS/api_docs/styles.css">
 </head>
 <body>
 
-  <!-- Header Section -->
   <div class="header">
     <h1>Tài liệu API</h1>
     <p>Hướng dẫn chi tiết về cách sử dụng API</p>
   </div>
 
-  <!-- Thông báo chỉ có ADMIN sử dụng -->
   <div class="alert alert-info text-center" role="alert">
     Chỉ có <strong>ADMIN</strong> mới có quyền sử dụng API, nếu bạn muốn sử dụng vui lòng liên hệ <strong>ADMIN</strong> để cấp API Key.
   </div>
 
-  <!-- Phần Users -->
   <div class="container">
+
+    <!-- Users API -->
     <div class="section-title">API Users</div>
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Endpoint</h5>
-        <p class="card-text"><span class="code-block">GET /api/User.php</span></p>
+        <pre><code>GET /api/User.php</code></pre>
 
-        <h5 class="card-title">Các tham số</h5>
+        <h5 class="card-title">Xác thực</h5>
+        <p>Dùng header:
+        <pre><code>Authorization: Bearer YOUR_API_KEY</code></pre></p>
+
+        <h5 class="card-title">Tham số</h5>
         <ul>
-          <li><strong>api</strong> (Bắt buộc): API key để xác thực. <br> Ví dụ: <span class="code-block">?api=your_api_key</span></li>
-          <li><strong>username</strong> (Tùy chọn): Lọc theo tên người dùng. <br> Ví dụ: <span class="code-block">&username=johndoe</span></li>
-          <li><strong>desc</strong> (Tùy chọn): Lọc theo mô tả người dùng. <br> Ví dụ: <span class="code-block">&desc=developer</span></li>
-          <li><strong>sort</strong> (Tùy chọn): Sắp xếp kết quả theo cột và thứ tự (asc hoặc desc). <br> Ví dụ: <span class="code-block">&sort=username:asc</span> hoặc <span class="code-block">&sort=created_at:desc</span></li>
+          <li><strong>username</strong> (Tùy chọn): Lọc theo tên người dùng.</li>
+          <li><strong>desc</strong> (Tùy chọn): Lọc theo mô tả.</li>
+          <li><strong>sort</strong> (Tùy chọn): <code>sort=username:asc</code></li>
         </ul>
 
-        <h5 class="card-title">Ví dụ sử dụng đầy đủ</h5>
-        <p class="example"><span class="code-block">https://example.com/api/User.php?api=your_api_key&username=johndoe&desc=developer&sort=username:asc</span></p>
+        <h5 class="card-title">Ví dụ sử dụng</h5>
+        <pre><code class="language-bash">curl -H "Authorization: Bearer YOUR_API_KEY" "https://example.com/api/User.php?username=johndoe&desc=developer&sort=username:asc"
+</code></pre>
       </div>
     </div>
 
-    <!-- Phần Bans -->
+    <!-- Bans API -->
     <div class="section-title">API Bans</div>
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Endpoint</h5>
-        <p class="card-text"><span class="code-block">GET /api/Bans.php</span></p>
+        <pre><code>GET /api/Bans.php</code></pre>
 
-        <h5 class="card-title">Các tham số</h5>
+        <h5 class="card-title">Xác thực</h5>
+        <pre><code>Authorization: Bearer YOUR_API_KEY</code></pre>
+
+        <h5 class="card-title">Tham số</h5>
         <ul>
-          <li><strong>api</strong> (Bắt buộc): API key để xác thực. <br> Ví dụ: <span class="code-block">?api=your_api_key</span></li>
-          <li><strong>username</strong> (Tùy chọn): Lọc theo tên người dùng. <br> Ví dụ: <span class="code-block">&username=johndoe</span></li>
-          <li><strong>ip</strong> (Tùy chọn): Lọc theo địa chỉ IP. <br> Ví dụ: <span class="code-block">&ip=192.168.1.1</span></li>
-          <li><strong>sort</strong> (Tùy chọn): Sắp xếp kết quả theo cột và thứ tự (asc hoặc desc). <br> Ví dụ: <span class="code-block">&sort=ban_start:desc</span></li>
+          <li><strong>username</strong> (Tùy chọn): Lọc theo tên người dùng.</li>
+          <li><strong>ip</strong> (Tùy chọn): Lọc theo địa chỉ IP.</li>
+          <li><strong>sort</strong> (Tùy chọn): <code>sort=ban_start:desc</code></li>
         </ul>
 
-        <h5 class="card-title">Ví dụ sử dụng đầy đủ</h5>
-        <p class="example"><span class="code-block">https://example.com/api/Bans.php?api=your_api_key&username=johndoe&ip=192.168.1.1&sort=ban_start:desc</span></p>
+        <h5 class="card-title">Ví dụ sử dụng</h5>
+        <pre><code class="language-bash">curl -H "Authorization: Bearer YOUR_API_KEY" "https://example.com/api/Bans.php?username=johndoe&ip=192.168.1.1&sort=ban_start:desc"
+</code></pre>
       </div>
     </div>
 
-    <!-- Phần Comment -->
+    <!-- Comment API -->
     <div class="section-title">API Comment</div>
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Endpoint</h5>
-        <p class="card-text"><span class="code-block">GET /api/Comment.php</span></p>
+        <pre><code>GET /api/Comment.php</code></pre>
 
-        <h5 class="card-title">Các tham số</h5>
+        <h5 class="card-title">Xác thực</h5>
+        <pre><code>Authorization: Bearer YOUR_API_KEY</code></pre>
+
+        <h5 class="card-title">Tham số</h5>
         <ul>
-          <li><strong>api</strong> (Bắt buộc): API key để xác thực. <br> Ví dụ: <span class="code-block">?api=your_api_key</span></li>
-          <li><strong>username</strong> (Tùy chọn): Lọc theo tên người dùng. <br> Ví dụ: <span class="code-block">&username=johndoe</span></li>
-          <li><strong>sort</strong> (Tùy chọn): Sắp xếp kết quả theo cột và thứ tự (asc hoặc desc). <br> Ví dụ: <span class="code-block">&sort=created_at:desc</span></li>
-          <li><strong>content</strong> (Tùy chọn): Lọc theo nội dung bình luận <br> Ví dụ: <span class="code-block">&content=hello</span></li>
+          <li><strong>username</strong> (Tùy chọn): Lọc theo tên người dùng.</li>
+          <li><strong>content</strong> (Tùy chọn): Lọc theo nội dung.</li>
+          <li><strong>sort</strong> (Tùy chọn): <code>sort=created_at:desc</code></li>
         </ul>
 
-        <h5 class="card-title">Ví dụ sử dụng đầy đủ</h5>
-        <p class="example"><span class="code-block">https://example.com/api/Comment.php?api=your_api_key&username=johndoe&sort=created_at:desc</span></p>
+        <h5 class="card-title">Ví dụ sử dụng</h5>
+        <pre><code class="language-bash">curl -H "Authorization: Bearer YOUR_API_KEY" "https://example.com/api/Comment.php?username=johndoe&content=hello&sort=created_at:desc"
+</code></pre>
       </div>
     </div>
 
-    <!-- Phần Post -->
+    <!-- Post API -->
     <div class="section-title">API Post</div>
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Endpoint</h5>
-        <p class="card-text"><span class="code-block">GET /api/Post.php</span></p>
+        <pre><code>GET /api/Post.php</code></pre>
 
-        <h5 class="card-title">Các tham số</h5>
+        <h5 class="card-title">Xác thực</h5>
+        <pre><code>Authorization: Bearer YOUR_API_KEY</code></pre>
+
+        <h5 class="card-title">Tham số</h5>
         <ul>
-          <li><strong>api</strong> (Bắt buộc): API key để xác thực. <br> Ví dụ: <span class="code-block">?api=your_api_key</span></li>
-          <li><strong>username</strong> (Tùy chọn): Lọc theo tên người dùng. <br> Ví dụ: <span class="code-block">&username=johndoe</span></li>
-          <li><strong>description</strong> (Tùy chọn): Lọc bài viết theo mô tả. <br> Ví dụ: <span class="code-block">&description=error</span></li>
-          <li><strong>sort</strong> (Tùy chọn): Sắp xếp kết quả theo cột và thứ tự (asc hoặc desc). <br> Ví dụ: <span class="code-block">&sort=created_at:desc</span></li>
+          <li><strong>username</strong> (Tùy chọn): Lọc theo tên người dùng.</li>
+          <li><strong>description</strong> (Tùy chọn): Lọc theo mô tả.</li>
+          <li><strong>sort</strong> (Tùy chọn): <code>sort=created_at:desc</code></li>
         </ul>
 
-        <h5 class="card-title">Ví dụ sử dụng đầy đủ</h5>
-        <p class="example"><span class="code-block">https://example.com/api/Post.php?api=your_api_key&username=johndoe&description=error&sort=created_at:desc</span></p>
+        <h5 class="card-title">Ví dụ sử dụng</h5>
+        <pre><code class="language-bash">curl -H "Authorization: Bearer YOUR_API_KEY" "https://example.com/api/Post.php?username=johndoe&description=error&sort=created_at:desc"
+</code></pre>
       </div>
     </div>
+
   </div>
 
-  <!-- Bootstrap JS và phụ thuộc -->
   <script src="/asset/js/popper.min.js"></script>
   <script src="/asset/js/Bootstrap.bundle.min.js"></script>
 </body>
