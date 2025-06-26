@@ -66,4 +66,3 @@ class PostApi extends core\BaseApi {
         return $posts;
     }
 }
-?>

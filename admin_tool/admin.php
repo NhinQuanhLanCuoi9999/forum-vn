@@ -226,22 +226,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="list-group">
                     <a id="post-api" href="#" class="list-group-item list-group-item-action">
                         <i class="fa-solid fa-newspaper"></i> <strong>Các bài viết:</strong>  
-                        <br><span class="text-muted">/api/Post.php?api=[api key]</span>
+                        <br><span class="text-muted">/api/Post.php</span>
                     </a>
                     
                     <a id="comments-api" href="#" class="list-group-item list-group-item-action">
                         <i class="fa-solid fa-comments"></i> <strong>Các bình luận:</strong>  
-                        <br><span class="text-muted">/api/Comment.php?api=[api key]</span>
+                        <br><span class="text-muted">/api/Comment.php</span>
                     </a>
                     
                     <a id="user-api" href="#" class="list-group-item list-group-item-action">
                         <i class="fa-solid fa-users"></i> <strong>Các người dùng:</strong>  
-                        <br><span class="text-muted">/api/User.php?api=[api key]</span>
+                        <br><span class="text-muted">/api/User.php</span>
                     </a>
                     
                     <a id="bans-api" href="#" class="list-group-item list-group-item-action">
                         <i class="fa-solid fa-ban"></i> <strong>Các người dùng / IP đang bị cấm:</strong>  
-                        <br><span class="text-muted">/api/Bans.php?api=[api key]</span>
+                        <br><span class="text-muted">/api/Bans.php</span>
                     </a>
                 </div>
             </div>
