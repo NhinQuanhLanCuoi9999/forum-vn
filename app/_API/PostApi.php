@@ -2,6 +2,7 @@
 namespace App\_API;
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/app/_API/core/BaseApi.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/app/_API/core/QueryHelper.php';
 
 class PostApi extends core\BaseApi {
     public function getPosts($username = null, $description = null, $content = null, $sort = 'id:desc') {
@@ -9,32 +10,15 @@ class PostApi extends core\BaseApi {
         $params = [];
         $param_types = '';
 
-        if (!is_null($username)) {
-            $sql .= " AND username = ?";
-            $param_types .= 's';
-            $params[] = $username;
-        }
-
-        if (!is_null($description)) {
-            $sql .= " AND description LIKE ?";
-            $param_types .= 's';
-            $params[] = "%" . $description . "%";
-        }
-
-        if (!is_null($content)) {
-            $sql .= " AND content LIKE ?";
-            $param_types .= 's';
-            $params[] = "%" . $content . "%";
-        }
+        \App\_API\core\QueryHelper::addWhereConditions($sql, $params, $param_types, [
+            ['username', 's', $username],
+            ['description', 's', $description, true],
+            ['content', 's', $content, true],
+        ]);
 
         $allowed_sort_columns = ['id', 'view', 'created_at'];
-        $sort_parts = explode(':', $sort);
-        $sort_column = in_array($sort_parts[0], $allowed_sort_columns) ? $sort_parts[0] : 'id';
-        $sort_order = (isset($sort_parts[1]) && strtolower($sort_parts[1]) === 'desc') ? 'DESC' : 'ASC';
-
-        $sql .= " ORDER BY $sort_column $sort_order";
+        \App\_API\core\QueryHelper::addOrderBy($sql, $sort, $allowed_sort_columns, 'id');
         $sql .= " LIMIT ?";
-
         $param_types .= 'i';
         $params[] = $this->limit;
 
@@ -58,11 +42,9 @@ class PostApi extends core\BaseApi {
 
         $result = $stmt->get_result();
         $posts = [];
-
         while ($row = $result->fetch_assoc()) {
             $posts[] = $row;
         }
-
         return $posts;
     }
 }

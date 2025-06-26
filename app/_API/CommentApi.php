@@ -2,6 +2,7 @@
 namespace App\_API;
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/app/_API/core/BaseApi.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/app/_API/core/QueryHelper.php';
 
 class CommentApi extends core\BaseApi {
     public function getComments($post_id = null, $username = null, $content = null, $sort = 'id:desc') {
@@ -9,31 +10,14 @@ class CommentApi extends core\BaseApi {
         $params = [];
         $param_types = '';
 
-        if (!is_null($post_id)) {
-            $sql .= " AND post_id = ?";
-            $param_types .= 'i';
-            $params[] = &$post_id;
-        }
-
-        if (!is_null($username)) {
-            $sql .= " AND username = ?";
-            $param_types .= 's';
-            $params[] = &$username;
-        }
-
-        if (!is_null($content)) {
-            $like = "%" . $content . "%";
-            $sql .= " AND content LIKE ?";
-            $param_types .= 's';
-            $params[] = &$like;
-        }
+        \App\_API\core\QueryHelper::addWhereConditions($sql, $params, $param_types, [
+            ['post_id', 'i', $post_id],
+            ['username', 's', $username],
+            ['content', 's', $content, true],
+        ]);
 
         $allowed_sort_columns = ['id', 'created_at'];
-        $sort_parts = explode(':', $sort);
-        $sort_column = in_array($sort_parts[0], $allowed_sort_columns) ? $sort_parts[0] : 'id';
-        $sort_order = (isset($sort_parts[1]) && strtolower($sort_parts[1]) === 'desc') ? 'DESC' : 'ASC';
-        $sql .= " ORDER BY $sort_column $sort_order";
-
+        \App\_API\core\QueryHelper::addOrderBy($sql, $sort, $allowed_sort_columns, 'id');
         $sql .= " LIMIT ?";
         $param_types .= 'i';
         $params[] = &$this->limit;
